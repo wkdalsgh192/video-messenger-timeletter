@@ -37,3 +37,31 @@
 
 **Sequence Diagrams**
 
+- 로그인
+
+![erd](docs/assets/Sequence_로그인.png)
+
+
+
+- 회원가입
+
+![erd](docs/assets/Sequence_회원가입.png)
+
+
+
+- ID/PW 찾기
+
+![erd](docs/assets/Sequence_ID,비밀번호찾기.png)
+
+
+
+- 캡슐생성 및 조회
+
+![erd](docs/assets/Sequence_캡슐생성 및 조회.png)
+
+
+
+- 그룹관리
+
+![erd](docs/assets/Sequence_그룹관리.png)
+
