@@ -31,7 +31,7 @@
 
 **Entitiy Relationship Diagram**
 
-![erd](C:\Users\multicampus\Desktop\erd.png)
+![erd](https://lab.ssafy.com/s04-final/s04p31d105/blob/develop/docs/assets/erd.png)
 
 
 
