@@ -1,0 +1,10 @@
+.container {
+    display: flex;
+    /* flex-direction: row; */
+    background-color: coral;
+    /* place-items: center end; */
+    justify-content: flex-end;
+}
+.item {
+    margin-left: 1rem;
+}

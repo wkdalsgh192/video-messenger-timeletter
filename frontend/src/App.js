@@ -7,7 +7,7 @@ import * as All from './pages';
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <UpperBar></UpperBar>
       <Switch>
         <Route path="/" exact={true} component={All.Main} />
