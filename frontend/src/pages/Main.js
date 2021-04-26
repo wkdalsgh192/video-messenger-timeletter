@@ -1,11 +1,11 @@
 import React from 'react'
 
-function Navbar() {
+function Main() {
     return (
         <div>
-            내브바
+            메인페이지
         </div>
     )
 }
 
-export default Navbar
+export default Main
