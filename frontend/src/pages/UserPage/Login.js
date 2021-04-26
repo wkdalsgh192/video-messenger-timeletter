@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState } from 'react'
 
 import "./Login.css";
 
 function Login() {
+
+  const [Email,setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+
+  const onEmailHandler = (event) => {
+    setEmail(event.currentTarget.value);
+  }
+
+  const onPasswordHandler = (event) => {
+    setPassword(event.currentTarget.value);
+  }
+
+
+
+
+
   return (
     <div class="login-wrap">
       <div class="login-html">
@@ -18,13 +34,13 @@ function Login() {
           <label for="user" class="label">
             E-mail
           </label>
-          <input id="user" type="text" class="input-form"></input>
+          <input id="user" type="text" class="input-form" onChange={onEmailHandler}></input>
         </div>
         <div class="group">
           <label for="pass" class="label">
             Password
           </label>
-          <input id="pass" type="password" class="input-form" data-type="password"></input>
+          <input id="pass" type="password" class="input-form" data-type="password" onChange={onPasswordHandler}></input>
         </div>
 
         <div class="group">
