@@ -19,7 +19,7 @@ function GroupCreate() {
     return (
         <div>
             <div>
-                그룹이름 
+                그룹이름
                 <input placeholder="이름" onChange={onNameHandler}/>
             </div>
 
