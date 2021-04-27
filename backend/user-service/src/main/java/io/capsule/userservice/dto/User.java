@@ -1,19 +1,25 @@
 package io.capsule.userservice.dto;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 public class User {
 
+	@Id
 	@ApiParam(value= "User No", required=false)
-	private int uId;
+	private int uid;
 	@ApiParam(value= "User Email", required=true)
 	private String email;
 	@ApiParam(value= "User Password", required=true)
