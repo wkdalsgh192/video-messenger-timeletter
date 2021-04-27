@@ -1,9 +1,9 @@
 import React from 'react';
 import { HiUserGroup } from 'react-icons/hi';
 import { AiTwotoneHome } from 'react-icons/ai';
-import {RiMailAddFill} from 'react-icons/ri';
-import {HiOutlineMailOpen} from 'react-icons/hi';
-import {Link} from 'react-router-dom';
+import { RiMailAddFill } from 'react-icons/ri';
+import { HiOutlineMailOpen } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 import './BottomBar.css'
 function BottomBar() {
     return (
