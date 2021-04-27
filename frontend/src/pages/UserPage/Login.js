@@ -2,6 +2,19 @@ import React, { useState } from 'react'
 
 import "./Login.css";
 
+import { Container } from '@material-ui/core'
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Avatar from '@material-ui/core/Avatar';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+
+import { Link } from 'react-router-dom';
+
+
+
 function Login() {
 
   const [Email,setEmail] = useState("");
@@ -17,37 +30,73 @@ function Login() {
 
 
 
-
-
   return (
-    <div class="login-wrap">
-      <div class="login-html">
-        <input id="tab-1" type="radio" name="tab" class="sign-in" checked></input>
-        <label for="tab-1" class="tab login-bt">
-          Sign In
-        </label>
-        <input id="tab-2" type="radio" name="tab" class="sign-up"></input>
-            <label for="tab-2" class="tab">
-            Sign Up</label>
+    <Container component="main" maxWidth="xs">
+       <CssBaseline />
+       <div>
+       <Avatar>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
 
-        <div class="group">
-          <label for="user" class="label">
-            E-mail
-          </label>
-          <input id="user" type="text" class="input-form" onChange={onEmailHandler}></input>
-        </div>
-        <div class="group">
-          <label for="pass" class="label">
-            Password
-          </label>
-          <input id="pass" type="password" class="input-form" data-type="password" onChange={onPasswordHandler}></input>
-        </div>
+        <form noValidate>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            type="email"
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+          >
+            Login In
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link to="/signup">{"회원가입"}</Link>
+            </Grid>
+          </Grid>
+          </form>
+          
 
-        <div class="group">
-          <input type="submit" class="button input-form" value="Sign In"></input>
-        </div>
-      </div>
-    </div>
+
+       </div>
+
+
+
+
+
+
+
+    </Container>
+    
   );
 }
 
