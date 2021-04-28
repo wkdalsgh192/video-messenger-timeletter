@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 	private UserRepo userRepo;
 
 	@Override
-	public int insertUser(User user) throws Exception {
+	public boolean insertUser(User user) throws Exception {
 		// 1. 가입할 회원의 고유 salt 생성 및 저장
 		String salt = SaltSHA256.generateSalt();
 		user.setSalt(salt);
@@ -34,12 +34,60 @@ public class UserServiceImpl implements UserService {
 			userRepo.save(user);
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
-			return 0;
+			return false;
 		}
 		
-		return 1;
+		return true;
 //		return userMapper.insertUser(user);
 	}
+
+	@Override
+	public boolean updateUser(User user) throws Exception {
+		// TODO Auto-generated method stub
+		String email = user.getEmail();
+		String salt = userRepo.findSalt(email);
+		String password = SaltSHA256.getEncrypt(user.getPassword(), salt);
+		
+		try {
+			userRepo.updateUser(email, password);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
 	
+	@Override
+	public boolean deleteUser(String email) throws Exception {
+		
+		try {
+			userRepo.delete(email);
+		} catch(IllegalArgumentException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public boolean loginUser(User user) throws Exception {
+		
+		String email = user.getEmail();
+		String salt = userRepo.findSalt(email);
+		String password = user.getPassword();
+		
+		password = SaltSHA256.getEncrypt(password, salt);
+		
+		try {
+			userRepo.findUser(user.getEmail(), password);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
 	
 }
