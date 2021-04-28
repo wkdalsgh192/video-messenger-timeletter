@@ -9,19 +9,32 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 
+
+import "./Login.css";
+import "./Signup.css"
+
 // import { Link } from "react-router-dom";
 
 function Signup() {
   return (
-    <Container component="main" maxWidth="xs">
+    <div className="signupwrap">
+    <div className="signup-html">
+  
+    <Container  maxWidth="xs" className="">
       <CssBaseline />
       <div>
+      <Grid container justify="center" className="paperinner">
         <Avatar>
           <LockOutlinedIcon />
         </Avatar>
+        </Grid>
+
+        <Grid container justify="center" className="paperinner2">
+
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign up
         </Typography>
+        </Grid>
 
         <form noValidate>
           <Grid container spacing={2}>
@@ -40,12 +53,15 @@ function Signup() {
 
           <TextField autoComplete="fname" margin="normal" name="Name" variant="outlined" required fullWidth id="Name" label="Name" autoFocus />
           <TextField autoComplete="fname" margin="normal" name="" variant="outlined" required fullWidth id="" label="Phone Number" autoFocus />
-          <Button type="submit" fullWidth variant="contained" color="primary">
-            sign in
+          <Button type="submit" fullWidth variant="contained" color="primary" style={{marginTop:"20px"}}>
+            sign up
           </Button>
         </form>
       </div>
     </Container>
+    </div>
+    </div>
+
   );
 }
 
