@@ -1,13 +1,15 @@
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import UpperBar from './components/bar/UpperBar';
 import BottomBar from './components/bar/BottomBar';
 import * as All from './pages';
 
 const theme = createMuiTheme({
   typography: {
-    fontFamily: 'Cute+Font'
+    // fontFamily: 'Cute+Font'
+    fontFamily: 'Jua'
   }
 })
 
@@ -15,6 +17,7 @@ function App() {
   return (
     <div className='app'>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <UpperBar></UpperBar>
         <Switch>
           <Route path="/" exact={true} component={All.Main} />
