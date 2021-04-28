@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 
 import { Link } from 'react-router-dom';
 
@@ -31,15 +32,26 @@ function Login() {
 
 
   return (
+    <div className="login-wrap"> 
+
+    <Paper className="papercs">
+  
     <Container component="main" maxWidth="xs">
+
        <CssBaseline />
        <div>
+      <Grid container justify="center" className="paperinner">
        <Avatar>
           <LockOutlinedIcon />
         </Avatar>
+        </Grid>
+        <Grid container justify="center" className="paperinner2">
         <Typography component="h1" variant="h5">
-          Sign in
+          Login
         </Typography>
+        </Grid>
+      
+
 
         <form noValidate>
           <TextField
@@ -70,10 +82,11 @@ function Login() {
             fullWidth
             variant="contained"
             color="primary"
+            style={{marginTop:"20px"}}
           >
-            Login In
+            Login
           </Button>
-          <Grid container>
+          <Grid container style={{marginTop:"20px"}}>
             <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
@@ -88,15 +101,11 @@ function Login() {
 
 
        </div>
-
-
-
-
-
-
+ 
 
     </Container>
-    
+    </Paper>
+    </div>
   );
 }
 

@@ -9,19 +9,28 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 
+import "./Login.css";
+
 // import { Link } from "react-router-dom";
 
 function Signup() {
   return (
-    <Container component="main" maxWidth="xs">
+
+    <Container component="main" maxWidth="xs" className="">
       <CssBaseline />
       <div>
+      <Grid container justify="center" className="paperinner">
         <Avatar>
           <LockOutlinedIcon />
         </Avatar>
+        </Grid>
+
+        <Grid container justify="center" className="paperinner2">
+
         <Typography component="h1" variant="h5">
-          Sign in
+          Sign up
         </Typography>
+        </Grid>
 
         <form noValidate>
           <Grid container spacing={2}>
@@ -46,6 +55,7 @@ function Signup() {
         </form>
       </div>
     </Container>
+
   );
 }
 

@@ -1,3 +1,23 @@
+.papercs {
+  margin-top: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+  width:90%;
+  height:80%;
+  position:absolute;
+
+}
+
+.paperinner {
+  margin-top: 40px;
+}
+
+.paperinner2 {
+  margin-bottom: 40px;
+}
+
+
+
 /* 로그인 배경 */
 .login-wrap{
   width:100%;
@@ -5,8 +25,8 @@
   max-width:360px;
   min-height:640px;
   position:relative;
-  /* background:url("./images/우주1.jpg") no-repeat center; */
-  box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+  background:url("./images/우주1.jpg") repeat center;
+  /* box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19); */
 }
 
 .login-html{
