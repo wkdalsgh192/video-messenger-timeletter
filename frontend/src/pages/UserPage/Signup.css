@@ -1,8 +1,8 @@
 .signupwrap {
-    width:100%;
+  width:100%;
   margin:auto;
   max-width:360px;
-  min-height:700px;
+  min-height:750px;
   position:relative;
   
   }
@@ -14,3 +14,4 @@
     position:absolute;
 
 }
+
