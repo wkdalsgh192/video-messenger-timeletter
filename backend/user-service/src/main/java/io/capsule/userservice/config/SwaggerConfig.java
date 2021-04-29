@@ -27,7 +27,8 @@ public class SwaggerConfig {
 	}
 	
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("Time Letter")
+		return new ApiInfoBuilder()
+				.title("Time Letter")
 				.description("추억 저장 플랫폼")
 				.termsOfServiceUrl("")
 				.license("Time Letter, 캐터피")

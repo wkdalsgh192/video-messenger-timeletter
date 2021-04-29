@@ -1,6 +1,8 @@
 package io.capsule.userservice.dto;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
@@ -18,17 +20,18 @@ import lombok.Setter;
 public class User {
 
 	@Id
-	@ApiParam(value= "User No", required=false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@ApiParam(value= "User No", required=false)
 	private int uid;
-	@ApiParam(value= "User Email", required=true)
+//	@ApiParam(value= "User Email", required=true)
 	private String email;
-	@ApiParam(value= "User Password", required=true)
+//	@ApiParam(value= "User Password", required=true)
 	private String password;
-	@ApiParam(value= "User Name", required=true)
+//	@ApiParam(value= "User Name", required=true)
 	private String name;
-	@ApiParam(value= "User Phone Number", required=true)
+//	@ApiParam(value= "User Phone Number", required=true)
 	private String phone;
-	@ApiParam(value= "User Salt", required=true)
+//	@ApiParam(value= "User Salt", required=true)
 	private String salt;
 		
 }
