@@ -1,12 +1,12 @@
-package io.capsule.userservice.service;
+package io.capsule.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.capsule.userservice.controller.SaltSHA256;
-import io.capsule.userservice.dto.User;
-import io.capsule.userservice.repository.UserRepo;
-import io.capsule.userservice.repository.mapper.UserMapper;
+import io.capsule.user.controller.SaltSHA256;
+import io.capsule.user.dto.User;
+import io.capsule.user.repository.UserRepo;
+import io.capsule.user.repository.mapper.UserMapper;
 
 @Service
 public class UserServiceImpl implements UserService {

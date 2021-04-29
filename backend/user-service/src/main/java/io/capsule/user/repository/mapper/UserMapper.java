@@ -1,8 +1,8 @@
-package io.capsule.userservice.repository.mapper;
+package io.capsule.user.repository.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import io.capsule.userservice.dto.User;
+import io.capsule.user.dto.User;
 
 @Mapper
 public interface UserMapper {

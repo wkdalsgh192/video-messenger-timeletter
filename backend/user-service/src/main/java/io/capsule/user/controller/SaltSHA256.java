@@ -1,4 +1,4 @@
-package io.capsule.userservice.controller;
+package io.capsule.user.controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
