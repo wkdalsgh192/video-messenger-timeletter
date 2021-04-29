@@ -1,4 +1,4 @@
-package io.capsule.userservice.config;
+package io.capsule.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
