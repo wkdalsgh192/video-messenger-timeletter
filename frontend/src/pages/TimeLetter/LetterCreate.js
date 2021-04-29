@@ -18,9 +18,13 @@ import {
   ButtonGroup,
 } from '@material-ui/core';
 import TitleRoundedIcon from '@material-ui/icons/TitleRounded';
+import GeocodeClick from '../../components/lettercreate/GeocodeClick'
 
 // 스타일
 const useStyles = makeStyles((theme) => ({
+  container: {
+    marginBottom: '80px',
+  },
   title: {
     marginTop: '16px',
   },
@@ -30,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     backgroundColor: '#e8eaf6',
     padding: theme.spacing(0, 2),
-    paddingBottom: theme.spacing(10),
   },
   form: {
     width: '100%',
@@ -72,14 +75,39 @@ const LetterCreate = () => {
 
   const [target, setTarget] = useState('0')
   // 0은 나에게, 1은 타인에게, 2는 그룹에게
-  console.log(target)
+  // console.log(target)
+
+  const [files, setFiles] = useState([])
+  // console.log(files)
+
+  const [memo, setMemo] = useState('')
+  console.log(memo)
+
+  // submit
+  const onSubmit = (e) => {
+    e.preventDefault()
+
+    let formData = new FormData()
+    for (let i =0; i < files.length; i++) {
+      formData.append(`file[${i}]`, files[i])
+    }
+
+    // for (let key of formData.keys()) {
+    //   console.log(key);
+    // }
+
+    // for (let value of formData.values()) {
+    //   console.log(value);
+    // }
+    
+  }
 
   return (
-    <Container maxWidth="xs">
+    <Container className={classes.container} maxWidth="xs">
       <Typography className={classes.title} variant="h6">캡슐생성</Typography>
       {/* 캡슐 정보 */}
       <div className={classes.paper}>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={onSubmit}>
           <Grid container direction="column">
 
             {/* 캡슐 이름 */}
@@ -103,16 +131,35 @@ const LetterCreate = () => {
               </FormControl>
             </Grid>
 
+            {/* 메모 */}
+            <Grid item>
+              <FormControl className={classes.field}>
+                <TextField
+                  onChange={(e) => setMemo(e.target.value)}
+                  id="memo"
+                  label="메모"
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  defaultValue={memo}
+                  placeholder="해당 캡슐에 대한 메모를 남겨보세요"
+                />
+              </FormControl>
+            </Grid>
+
             {/* 파일 업로드 */}
             <Grid item>
               <FormControl className={classes.field}>
                 <FormLabel>업로드</FormLabel>
-                <Input
+                <input 
+                  onChange={(e) => setFiles(e.target.files)}
                   type="file"
                   id="upload-file"
                   required
                   variant="outlined"
                   style={{marginTop: '4px'}}
+                  name="files"
+                  multiple
                 />
               </FormControl>
             </Grid>
@@ -148,6 +195,13 @@ const LetterCreate = () => {
               </FormControl>
             </Grid>
 
+            {/* 지도 */}
+            <Grid item>
+              <FormControl className={classes.field}>
+                <GeocodeClick />
+              </FormControl>
+            </Grid>
+            
             {/* 알림 설정 */}
             <Grid item>
               <FormControl className={classes.field}>
