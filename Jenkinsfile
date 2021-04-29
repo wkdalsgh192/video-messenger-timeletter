@@ -32,11 +32,11 @@ pipeline {
             agent any
             steps {
                 sh 'docker ps -f name=latest_user_service -q \
-| xargs --no-run-if-empty docker container stop'
+                    | xargs --no-run-if-empty docker container stop'
                 sh 'docker container ls -a -f name=latest_user_service -q \
-                | xargs -r docker container rm'
+                    | xargs -r docker container rm'
                 sh 'docker images -f dangling=true && \
-docker rmi $(docker images -f "dangling=true" -q)'
+                    docker rmi $(docker images -f "dangling=true" -q)' 
                 sh 'docker run -d --name latest_user_service \
                     -p 80:80 \
                     -p 443:443 \
