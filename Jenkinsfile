@@ -19,7 +19,7 @@ pipeline {
             }
             options {skipDefaultCheckout(false)}
             steps {
-                sh 'mvn -B -DskipTests -f /var/jenkins_home/workspace/caterpie/backend/user-service/pom.xml clean package'
+                sh 'mvn -B -DskipTests -e -f /var/jenkins_home/workspace/caterpie/backend/user-service/pom.xml clean package'
             }
         }
         stage('Docker build') {
