@@ -5,7 +5,6 @@ pipeline {
     // gitlab 소스를 jenkins 디렉토리로 내려받는 경우
     // true인 경우 내려받는 프로세스 스킵
     // false인 경우 gitlab 소스 체크
-    options {}
     // stage 모음
     stages {
         // 실제 작업이 수행되는 블록
