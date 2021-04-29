@@ -13,7 +13,7 @@ pipeline {
             // docker image에 명시된 image를 활용하여 steps 수행
             agent {
                 docker {
-                    image 'maven:3-alpine'
+                    image 'maven:3.8.1-jdk-11'
                     args '-v /root/.m2:/root/.m2'
                 }
             }
