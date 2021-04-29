@@ -9,6 +9,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActions from "@material-ui/core/CardActions";
+import { Container } from "@material-ui/core";
 
 import "./Mypage.css";
 
@@ -17,6 +18,7 @@ import LetterCardlist from "../../components/mypage/LetterCardlist";
 function Mypage() {
   return (
     <div>
+      <Container  maxWidth="xs" className="">
       <h2>mypage</h2>
       <Card style={{marginTop:"80px"}}>
        
@@ -60,6 +62,7 @@ function Mypage() {
       <Divider variant="middle" /> */}
       <h3>나의 전체 레터 조회</h3>
       <LetterCardlist></LetterCardlist>
+      </Container>
     </div>
   );
 }
