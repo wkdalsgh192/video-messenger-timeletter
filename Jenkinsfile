@@ -19,7 +19,8 @@ pipeline {
             }
             options {skipDefaultCheckout(false)}
             steps {
-                sh 'mvn -B -DskipTests -e -f /var/jenkins_home/workspace/caterpie/backend/user-service/pom.xml clean package'
+                sh 'mvn -B -DskipTests -e -f /var/jenkins_home/workspace/caterpie/backend/user-service/pom.xml \
+                clean package'
             }
         }
         stage('Docker build') {
@@ -38,9 +39,6 @@ pipeline {
                 sh 'docker images -f dangling=true && \
                     docker rmi $(docker images -f "dangling=true" -q)' 
                 sh 'docker run -d --name latest_user_service \
-                    -p 80:80 \
-                    -p 443:443 \
-                    -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/caterpie/sslkey/ \
                     --network caterpie \
                     latest_user_service:latest'
             }
