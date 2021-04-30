@@ -39,6 +39,7 @@ pipeline {
                 sh 'docker images -f dangling=true && \
                     docker rmi $(docker images -f "dangling=true" -q)' 
                 sh 'docker run -d --name latest_user_service \
+                    -p 8080:8080 \
                     --network caterpie \
                     latest_user_service:latest'
             }
