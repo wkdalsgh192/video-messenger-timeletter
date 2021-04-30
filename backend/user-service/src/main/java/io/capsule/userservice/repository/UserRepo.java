@@ -2,19 +2,19 @@ package io.capsule.userservice.repository;
 
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import io.capsule.userservice.dto.User;
 
-public interface UserRepo extends CrudRepository<User, Integer> {
+public interface UserRepo extends JpaRepository<User, Integer> {
 
 	@Query(value="select * from user where email=:email and password=:password", nativeQuery=true)
 	User findUser(String email, String password);
-	
-	@Query(value="select salt from user where email=:email", nativeQuery=true)
-	String findSalt(String email);
+	//User findByEmailAndPassword(String email, String password);
+	//@Query(value="select salt from user where email=:email", nativeQuery=true)
+	User findByEmail(String email);
 
 	@Transactional
 	@Modifying
@@ -23,6 +23,6 @@ public interface UserRepo extends CrudRepository<User, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(value="delete from user where email=:email", nativeQuery=true)
-	void delete(String email);
+//	@Query(value="delete from user where email=:email", nativeQuery=true)
+	void deleteByEmail(String email);
 }
