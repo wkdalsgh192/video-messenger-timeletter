@@ -14,6 +14,7 @@ const useStyles = makeStyles({
     position: 'fixed',
     bottom: 0,
     width: '100%',
+    zIndex: '1',
     backgroundColor: '#3f51b5',
   },
   action: {
