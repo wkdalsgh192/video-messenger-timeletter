@@ -29,6 +29,10 @@ function Login() {
     setPassword(event.currentTarget.value);
   }
 
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+  }
+
 
 
   return (
@@ -65,6 +69,7 @@ function Login() {
             autoComplete="email"
             autoFocus
             type="email"
+            onChange={onEmailHandler}
           />
           <TextField
             variant="outlined"
@@ -76,6 +81,7 @@ function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={onPasswordHandler}
           />
           <Button
             type="submit"
