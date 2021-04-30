@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 	public boolean updateUser(User user) throws Exception {
 		// TODO Auto-generated method stub
 		String email = user.getEmail();
-		String salt = userRepo.findSalt(email);
+		String salt = userRepo.findByEmail(email).getSalt();
 		String password = SaltSHA256.getEncrypt(user.getPassword(), salt);
 		
 		try {
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	public boolean deleteUser(String email) throws Exception {
 		
 		try {
-			userRepo.delete(email);
+			userRepo.deleteByEmail(email);
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 			return false;
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 	public boolean loginUser(User user) throws Exception {
 		
 		String email = user.getEmail();
-		String salt = userRepo.findSalt(email);
+		String salt = userRepo.findByEmail(email).getEmail();
 		String password = user.getPassword();
 		
 		password = SaltSHA256.getEncrypt(password, salt);
