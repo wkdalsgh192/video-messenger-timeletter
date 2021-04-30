@@ -1,4 +1,4 @@
-package io.capsule.userservice.controller;
+package io.capsule.user.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.capsule.userservice.dto.User;
-import io.capsule.userservice.service.UserService;
+import io.capsule.user.dto.User;
+import io.capsule.user.service.UserService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController

@@ -1,6 +1,6 @@
-package io.capsule.userservice.service;
+package io.capsule.user.service;
 
-import io.capsule.userservice.dto.User;
+import io.capsule.user.dto.User;
 
 public interface UserService {
 	/* C :: 회원 가입 */

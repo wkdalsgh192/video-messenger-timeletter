@@ -1,4 +1,4 @@
-package io.capsule.userservice.dto;
+package io.capsule.user.dto;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

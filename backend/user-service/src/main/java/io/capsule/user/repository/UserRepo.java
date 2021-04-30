@@ -1,4 +1,4 @@
-package io.capsule.userservice.repository;
+package io.capsule.user.repository;
 
 import javax.transaction.Transactional;
 
@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import io.capsule.userservice.dto.User;
+import io.capsule.user.dto.User;
 
 public interface UserRepo extends JpaRepository<User, Integer> {
 
