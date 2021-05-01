@@ -14,3 +14,5 @@ const store = configureStore({
 });
 
 module.exports = store;
+
+export default store;
