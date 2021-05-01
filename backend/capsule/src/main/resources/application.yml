@@ -1,18 +1,0 @@
-server:
-    port : 8081
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8
-    username: root
-    password: ssafy
-  jpa:
-    hibernate:
-      ddl-auto: none
-#    show-sql: true
-    properties:
-      hibernate:
-        format_sql: false
-        
-logging:  level:
-    org.hibernate.SQL: debug
