@@ -27,6 +27,7 @@ pipeline {
             agent any
             steps {
                 sh 'docker build -t latest_user_service:latest /var/jenkins_home/workspace/caterpie/backend/user-service'
+                sh 'docker build -t latest_club_service:latest /var/jenkins_home/workspace/caterpie/backend/capsule'
             }
         }
         stage('Docker run') {
@@ -34,7 +35,11 @@ pipeline {
             steps {
                 sh 'docker ps -f name=latest_user_service -q \
                     | xargs --no-run-if-empty docker container stop'
+                sh 'docker ps -f name=latest_club_service -q \
+                    | xargs --no-run-if-empty docker container stop'
                 sh 'docker container ls -a -f name=latest_user_service -q \
+                    | xargs -r docker container rm'
+                sh 'docker container ls -a -f name=latest_club_service -q \
                     | xargs -r docker container rm'
                 sh 'docker images -f dangling=true && \
                     docker rmi $(docker images -f "dangling=true" -q)' 
@@ -42,6 +47,10 @@ pipeline {
                     -p 8080:8080 \
                     --network caterpie \
                     latest_user_service:latest'
+                sh 'docker run -d --name latest_club_service \
+                    -p 8081:8081 \
+                    --network caterpie \
+                    latest_club_service:latest'
             }
         }
     }
