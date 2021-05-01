@@ -6,9 +6,10 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json /app/package.json
 
 RUN npm install
-RUN npm run build
 
 COPY . /app
+RUN npm run build
+
 CMD ["npm", "start"]
 
 # FROM nginx:stable-alpine as production-stage
