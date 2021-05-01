@@ -13,6 +13,6 @@ const store = configureStore({
   middleware: [firstMiddleware, ...getDefaultMiddleware()]
 });
 
-module.exports = store;
+// module.exports = store;
 
 export default store;
