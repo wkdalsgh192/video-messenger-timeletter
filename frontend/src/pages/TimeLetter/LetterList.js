@@ -8,7 +8,11 @@ import {
   CardMedia,
   CardContent,
 } from '@material-ui/core';
-import letter from "../../static/images/letter.png"
+import { useHistory } from 'react-router-dom';
+import Carousel from 'react-material-ui-carousel'
+import openLetter from "../../static/images/openLetter2.png"
+import notOpenLetter from "../../static/images/notOpenLetter.png"
+import GeocodeList from "../../components/timeletter/GeocodeList"
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,71 +28,124 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#e8eaf6',
     padding: theme.spacing(0, 2),
   },
+  category: {
+    marginBottom: '10px',
+  },
   media: {
-    height: 80,
+    height: 200,
+    width: '70%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
 }))
 
 // 함수형 컴포넌트
 const LetterList = () => {
   const classes = useStyles()
-
+  const history = useHistory()
   const openCapsules = [
     {
-      title: 'letter1'
+      id: 1,
+      title: 'letter1',
     },
     {
-      title: 'letter2'
+      id: 2,
+      title: 'letter2',
     },
     {
+      id: 3,
       title: 'letter3'
+    },
+    {
+      id: 4,
+      title: 'letter4'
+    },
+    {
+      id: 5,
+      title: 'letter5'
+    },
+    {
+      id: 6,
+      title: 'letter6'
     },
   ]
 
   const notOpenCapsules = [
     {
-      title: 'letter1'
+      id: 7,
+      title: 'letter7',
+      lat: 33.450705,
+      lng: 126.570677,
     },
     {
-      title: 'letter2'
+      id: 8,
+      title: 'letter8',
+      lat: 33.450105,
+      lng: 126.570223,
     },
     {
-      title: 'letter3'
+      id: 9,
+      title: 'letter9',
+      lat: 33.450465,
+      lng: 126.570452,
+    },
+    {
+      id: 10,
+      title: 'letter10',
+      lat: 33.450103,
+      lng: 126.570546,
+    },
+    {
+      id: 11,
+      title: 'letter11',
+      lat: 33.450456,
+      lng: 126.570987,
+    },
+    {
+      id: 12,
+      title: 'letter12',
+      lat: 33.450453,
+      lng: 126.570741,
     },
   ]
 
   return (
     <Container className={classes.container} maxWidth="xs">
-      <Typography className={classes.title} variant="h6">캡슐조회</Typography>
+      <Typography className={classes.title} variant="h6">레터 조회</Typography>
       <div className={classes.paper}>
-        <Typography className={classes.title} variant="subtitle1">오픈 캡슐</Typography>
-          <Grid container spacing={4} justify="center">
+
+        {/* 오픈 레터 */}
+        <div className={classes.category}>
+          <Typography className={classes.title} variant="subtitle1">오픈 레터</Typography>
+          <Carousel autoPlay={false}>
             {openCapsules.map(openCapsule => (
-              <Grid item>
-                <Card>
-                  <CardMedia
-                    className={classes.media}
-                    image={letter}
-                  />
-                  <CardContent>{openCapsule.title}</CardContent>
-                </Card>
-              </Grid>
+              <Card key={openCapsule.id} onClick={() => history.push('detail/' + openCapsule.id)}>
+                <CardMedia
+                  className={classes.media}
+                  image={openLetter}
+                />
+                <CardContent style={{textAlign: 'center'}}>{openCapsule.title}</CardContent>
+              </Card>
             ))}
-          </Grid>
-        <Typography className={classes.title} variant="subtitle1">비오픈 캡슐</Typography>
-          <Grid container spacing={4} justify="center">
+          </Carousel>
+        </div>
+
+        {/* 비오픈 레터 */}
+        <div className={classes.category}>
+          <Typography className={classes.title} variant="subtitle1">비오픈 레터</Typography>
+          <GeocodeList capsules={notOpenCapsules} />
+          <Carousel autoPlay={false}>
             {notOpenCapsules.map(notOpenCapsule => (
-                <Grid item>
-                  <Card>
-                    <CardMedia
-                      className={classes.media}
-                      image={letter}
-                    />
-                    <CardContent>{notOpenCapsule.title}</CardContent>
-                  </Card>
-                </Grid>
-              ))}
-          </Grid>
+              <Card key={notOpenCapsule.id} onClick={() => history.push('detail/' + notOpenCapsule.id)}>
+                <CardMedia
+                  className={classes.media}
+                  image={notOpenLetter}
+                />
+                <CardContent style={{textAlign: 'center'}}>{notOpenCapsule.title}</CardContent>
+              </Card>
+            ))}
+          </Carousel>
+        </div>
       </div>
     </Container>
   )

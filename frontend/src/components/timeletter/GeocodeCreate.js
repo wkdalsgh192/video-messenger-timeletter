@@ -5,7 +5,7 @@ const { kakao } = window
 let map = null
 let marker = null
 
-const GeocodeClick = (props) => {
+const GeocodeCreate = (props) => {
   // console.log('GeocodeClick')
   const [lat, setLat] = useState(36.10716908475293)
   const [lng, setLng] = useState(128.4162241001512)
@@ -69,4 +69,4 @@ const GeocodeClick = (props) => {
   );
 };
 
-export default GeocodeClick;
+export default GeocodeCreate;
