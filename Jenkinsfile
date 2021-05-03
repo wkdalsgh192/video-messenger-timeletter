@@ -19,7 +19,7 @@ pipeline {
             }
             options {skipDefaultCheckout(false)}
             steps {
-                sh 'gradle -b ./backend/build.gradle clean package'
+                sh 'gradle -b ./backend/build.gradle'
             }
         }
         stage('Docker build') {
