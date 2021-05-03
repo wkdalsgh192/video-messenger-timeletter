@@ -19,8 +19,7 @@ pipeline {
             }
             options {skipDefaultCheckout(false)}
             steps {
-                sh 'gradle -B -DskipTests -e -f /var/jenkins_home/workspace/caterpie/backend/build.gradle \
-                clean package'
+                sh 'gradle -b ./backend/build.gradle clean package'
             }
         }
         stage('Docker build') {
