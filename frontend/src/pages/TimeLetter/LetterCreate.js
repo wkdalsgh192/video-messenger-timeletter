@@ -83,6 +83,9 @@ const LetterCreate = () => {
   const [memo, setMemo] = useState('')
   console.log(memo)
 
+  const [lat, setLat] = useState()
+  const [lng, setLng] = useState()
+
   // submit
   const onSubmit = (e) => {
     e.preventDefault()
@@ -120,7 +123,6 @@ const LetterCreate = () => {
                   placeholder="이름을 입력해주세요"
                   fullWidth
                   required
-                  autoFocus
                   startAdornment={
                     <InputAdornment position="start">
                       <TitleRoundedIcon />
@@ -198,7 +200,10 @@ const LetterCreate = () => {
             {/* 지도 */}
             <Grid item>
               <FormControl className={classes.field}>
-                <GeocodeClick />
+                <GeocodeClick
+                  onChangeLat = {(lat) => setLat(lat)}
+                  onChangeLng = {(lng) => setLng(lng)}
+                />
               </FormControl>
             </Grid>
             
