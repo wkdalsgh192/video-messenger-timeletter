@@ -7,17 +7,19 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import { Container } from "@material-ui/core";
 import SearchModal from "../components/mainpage/SearchModal";
-
+import img1 from './UserPage/images/종이비행기.gif'
+import img2 from './UserPage/images/우체통.jfif'
+import img3 from './UserPage/images/letter.gif'
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
 function Main() {
   return (
-    <div>
-      <Container maxWidth="xs" className="" >
-        <SearchModal ></SearchModal>
-      </Container>
-    </div>
+    <Container maxWidth="xs" className="">
+      <img src={img1}></img>
+      <SearchModal ></SearchModal>
+      {/* <img src={img2}></img> */}
+    </Container>
   );
 }
 

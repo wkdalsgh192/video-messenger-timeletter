@@ -19,7 +19,7 @@ function SearchModal() {
     setOpen(false);
   };
   return (
-    <div style={{marginTop:"200px"}}>
+    <div style={{marginTop:"", marginBottom:"20px"}}>
       <Paper component="form" className="" style={{display:"flex",justifyContent:"space-around",paddingLeft:"10px"}} >
         <InputBase className="" placeholder="레터 번호를 입력하세요." />
         <IconButton className="" type="button" aria-label="search" onClick={handleOpen}>

@@ -8,3 +8,11 @@
 .item {
     margin-left: 1rem;
 }
+
+.MuiAppBar-colorPrimary {
+    color: pink !important;
+    background-color: unset !important;
+}
+.MuiPaper-elevation4 {
+    box-shadow: unset !important;
+}

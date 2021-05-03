@@ -8,3 +8,6 @@
     bottom: 0;
     /* display: flex; */
 }
+.makeStyles-nav-2 {
+    background-color: pink !important;
+}
