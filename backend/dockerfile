@@ -20,6 +20,6 @@ FROM adoptopenjdk/openjdk11:ubi
 COPY --from=builder build/libs/*.jar app.jar 
 # builder 이미지에서 build/libs/*.jar 파일을 app.jar로 복사
 
-EXPOSE 8081
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app.jar"] 
 # jar 파일 생성
