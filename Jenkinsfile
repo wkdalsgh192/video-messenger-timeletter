@@ -19,7 +19,7 @@ pipeline {
             }
             options {skipDefaultCheckout(false)}
             steps {
-                sh 'gradle -b ./backend/build.gradle clean package'
+                sh 'gradle -b ./backend/build.gradle'
             }
         }
         stage('Docker build') {
@@ -45,7 +45,7 @@ pipeline {
                 sh 'docker run -d --name latest_backend \
                     -p 8080:8080 \
                     --network caterpie \
-                    latest_user_service:latest'
+                    latest_backend:latest'
                 sh 'docker run -d --name latest_frontend \
                     -p 3000:3000 \
                     --network caterpie \
