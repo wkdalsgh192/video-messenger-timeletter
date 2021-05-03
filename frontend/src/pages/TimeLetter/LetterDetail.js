@@ -1,11 +1,11 @@
 import React from 'react'
 
-function LetterDetail() {
-    return (
-        <div>
-            타임레터 상세페이지
-        </div>
-    )
+const LetterDetail = () => {
+  return (
+    <div>
+        캡슐 디테일 페이지
+    </div>
+  )
 }
 
 export default LetterDetail

@@ -5,8 +5,8 @@ const { kakao } = window
 let map = null
 let marker = null
 
-const Geocode = () => {
-  // console.log('Geocode')
+const GeocodeClick = (props) => {
+  // console.log('GeocodeClick')
   const [lat, setLat] = useState(36.10716908475293)
   const [lng, setLng] = useState(128.4162241001512)
   
@@ -46,6 +46,8 @@ const Geocode = () => {
       
       // 마커 위치를 클릭한 위치로 옮깁니다
       marker.setPosition(latlng);
+
+      // 위경도를 갱신
       setLat(latlng.getLat())
       setLng(latlng.getLng())
     });
@@ -55,9 +57,16 @@ const Geocode = () => {
     <div>
       <div>위도 : {lat}</div>
       <div>경도 : {lng}</div>
-      <div id="map" style={{width: '100%', height: '300px'}}></div>
+      <div 
+        id="map" 
+        style={{width: '100%', height: '300px'}}
+        onClick={() => {
+          props.onChangeLat(lat)
+          props.onChangeLng(lng)
+        }}
+      ></div>
     </div>
   );
 };
 
-export default Geocode;
+export default GeocodeClick;
