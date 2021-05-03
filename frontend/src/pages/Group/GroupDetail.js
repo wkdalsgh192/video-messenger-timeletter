@@ -1,11 +1,31 @@
-import React from 'react'
-
+import React from "react";
+import './GroupDetail.css';
+import GroupCapsule from '../../components/group/GroupCapsule';
+import GroupMember from '../../components/group/GroupMember';
+import { Container, Typography } from '@material-ui/core';
 function GroupDetail() {
-    return (
-        <div>
-            그룹 디테일 페이지
+
+  return (
+    <Container className="GroupDetail">
+      <div>
+        <div className="GroupMember">
+          <Typography className="GroupMember-title">그룹상세보기</Typography>
+          <button onClick={()=>alert('멤버관리')}>멤버관리</button>
+          <button onClick={()=>alert('그룹삭제')}>그룹삭제</button>
         </div>
-    )
+        <GroupMember></GroupMember>
+
+      </div>
+      <div>
+        <Typography>오픈된 캡슐</Typography>
+        <GroupCapsule></GroupCapsule>
+      </div>
+      <div>
+        <Typography>비오픈 캡슐</Typography>
+        <GroupCapsule></GroupCapsule>
+      </div>
+    </Container>
+  );
 }
 
-export default GroupDetail
+export default GroupDetail;

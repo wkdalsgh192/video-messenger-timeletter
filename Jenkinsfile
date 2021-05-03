@@ -5,7 +5,6 @@ pipeline {
     // gitlab 소스를 jenkins 디렉토리로 내려받는 경우
     // true인 경우 내려받는 프로세스 스킵
     // false인 경우 gitlab 소스 체크
-    options {}
     // stage 모음
     stages {
         // 실제 작업이 수행되는 블록
@@ -14,36 +13,55 @@ pipeline {
             // docker image에 명시된 image를 활용하여 steps 수행
             agent {
                 docker {
-                    image 'maven:3-alpine'
-                    agrs '-v /root/.m2:/root/.m2'
+                    image 'maven:3.8.1-jdk-11'
+                    args '-v /root/.m2:/root/.m2'
                 }
             }
             options {skipDefaultCheckout(false)}
             steps {
-                sh 'mvn -B -DskipTests -f /var/jenkins_home/workspace/caterpie/backend clean package'
+                sh 'mvn -B -DskipTests -e -f /var/jenkins_home/workspace/caterpie/backend/user-service/pom.xml \
+                clean package'
+                sh 'gradle -B -DskipTests -e -f /var/jenkins_home/workspace/caterpie/backend/capsule/build.gradle \
+                clean package'
             }
         }
         stage('Docker build') {
             agent any
             steps {
-                sh 'docker build -t latest_user_service:latest /var/jenkins_home/workspace/caterpie/backend/user'
+                sh 'docker build -t latest_user_service:latest /var/jenkins_home/workspace/caterpie/backend/user-service'
+                sh 'docker build -t latest_club_service:latest /var/jenkins_home/workspace/caterpie/backend/capsule'
+                sh 'docker build -t latest_frontend:latest /var/jenkins_home/workspace/caterpie/frontend'
             }
         }
         stage('Docker run') {
             agent any
             steps {
                 sh 'docker ps -f name=latest_user_service -q \
-| xargs --no-run-if-empty docker container stop'
+                    | xargs --no-run-if-empty docker container stop'
+                sh 'docker ps -f name=latest_club_service -q \
+                    | xargs --no-run-if-empty docker container stop'
+                sh 'docker ps -f name=latest_frontend -q \
+                    | xargs --no-run-if-empty docker container stop'
                 sh 'docker container ls -a -f name=latest_user_service -q \
-                | xargs -r docker container rm'
+                    | xargs -r docker container rm'
+                sh 'docker container ls -a -f name=latest_club_service -q \
+                    | xargs -r docker container rm'
+                sh 'docker container ls -a -f name=latest_frontend -q \
+                    | xargs -r docker container rm'
                 sh 'docker images -f dangling=true && \
-docker rmi $(docker images -f "dangling=true" -q)'
+                    docker rmi $(docker images -f "dangling=true" -q)' 
                 sh 'docker run -d --name latest_user_service \
-                    -p 80:80 \
-                    -p 443:443 \
-                    -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/caterpie/sslkey/ \
+                    -p 8080:8080 \
                     --network caterpie \
                     latest_user_service:latest'
+                sh 'docker run -d --name latest_club_service \
+                    -p 8081:8081 \
+                    --network caterpie \
+                    latest_club_service:latest'
+                sh 'docker run -d --name latest_frontend \
+                    -p 3000:3000 \
+                    --network caterpie \
+                    latest_frontend:latest'
             }
         }
     }
