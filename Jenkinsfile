@@ -47,7 +47,7 @@ pipeline {
                     --network caterpie \
                     latest_backend:latest'
                 sh 'docker run -d --name latest_frontend \
-                    -p 3000:3000 \
+                    -p 80:80 \
                     --network caterpie \
                     latest_frontend:latest'
             }
