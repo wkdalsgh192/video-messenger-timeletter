@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { 
   Container,
@@ -18,7 +18,7 @@ import {
   ButtonGroup,
 } from '@material-ui/core';
 import TitleRoundedIcon from '@material-ui/icons/TitleRounded';
-import GeocodeClick from '../../components/timeletter/GeocodeCreate'
+import MapCreate from '../../components/timeletter/MapCreate'
 
 // 스타일
 const useStyles = makeStyles((theme) => ({
@@ -48,8 +48,19 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+// if (navigator.geolocation) {
+//   navigator.geolocation.getCurrentPosition(function(position) {
+//     console.log('현 위치 확인')
+//     console.log(position.coords.latitude)
+//     console.log(position.coords.longitude)
+//   })
+// } else {
+//   console.log('위치 확인 불가')
+// }
+
 // 컴포넌트
 const LetterCreate = () => {
+  // console.log('letter-create')
   const classes = useStyles()
   const [letterName, setLetterName] = useState('')
   // console.log(letterName)
@@ -81,10 +92,15 @@ const LetterCreate = () => {
   // console.log(files)
 
   const [memo, setMemo] = useState('')
-  console.log(memo)
+  // console.log(memo)
 
-  const [lat, setLat] = useState()
-  const [lng, setLng] = useState()
+  // 위경도
+  const [lat, setLat] = useState(36.10716908475293)
+  const [lng, setLng] = useState(128.4162241001512)
+
+  useEffect(() => {
+
+  }, [])
 
   // submit
   const onSubmit = (e) => {
@@ -200,7 +216,9 @@ const LetterCreate = () => {
             {/* 지도 */}
             <Grid item>
               <FormControl className={classes.field}>
-                <GeocodeClick
+                <MapCreate
+                  lat = {lat}
+                  lng = {lng}
                   onChangeLat = {(lat) => setLat(lat)}
                   onChangeLng = {(lng) => setLng(lng)}
                 />

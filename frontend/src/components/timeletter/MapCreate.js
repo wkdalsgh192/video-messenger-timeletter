@@ -5,20 +5,35 @@ const { kakao } = window
 let map = null
 let marker = null
 
-const GeocodeCreate = (props) => {
-  // console.log('GeocodeClick')
-  const [lat, setLat] = useState(36.10716908475293)
-  const [lng, setLng] = useState(128.4162241001512)
+const MapCreate = (props) => {
+  // console.log('map-create')
   
-  useEffect(() => {
-    console.log('create map')
+  const [lat, setLat] = useState()
+  const [lng, setLng] = useState()
+  const [isCurLoc, setIsCurLoc] = useState(false)
+
+  // 현재 위치 확인
+  const getCurLoc = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        setLat(position.coords.latitude)
+        setLng(position.coords.longitude)
+        setIsCurLoc(true)
+      })
+    } else {
+      console.log('위치 확인 불가')
+    }
+  }
+
+  // 지도 생성
+  const createMap = () => {
     //지도를 담을 영역의 DOM 레퍼런스
     const container = document.getElementById('map'); 
 
     //지도를 생성할 때 필요한 기본 옵션
     const options = { 
       center: new kakao.maps.LatLng(lat, lng), //지도의 중심좌표.
-      level: 3 //지도의 레벨(확대, 축소 정도)
+      level: 5 //지도의 레벨(확대, 축소 정도)
     };
 
     //지도 생성 및 객체 리턴
@@ -28,20 +43,20 @@ const GeocodeCreate = (props) => {
     marker = new kakao.maps.Marker({ 
       // 지도 중심좌표에 마커를 생성합니다 
       position: map.getCenter() 
-    }); 
+    });
+  }
 
+  // 마커 표시 및 클릭이벤트 등록
+  const showMarker = () => {
     // 지도에 마커를 표시합니다
     marker.setMap(map);
-  }, [])
 
-  useEffect(() => {
-    console.log('click')
     // 지도에 클릭 이벤트를 등록합니다
     // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
     kakao.maps.event.addListener(map, 'click', function(mouseEvent) {        
         
       // 클릭한 위도, 경도 정보를 가져옵니다 
-      var latlng = mouseEvent.latLng; 
+      let latlng = mouseEvent.latLng; 
       // console.log(latlng)
       
       // 마커 위치를 클릭한 위치로 옮깁니다
@@ -50,7 +65,17 @@ const GeocodeCreate = (props) => {
       // 위경도를 갱신
       setLat(latlng.getLat())
       setLng(latlng.getLng())
-    });
+    })
+  }
+
+  useEffect(() => {
+    getCurLoc()
+    createMap()
+    showMarker()
+  }, [isCurLoc])
+
+  useEffect(() => {
+    showMarker()
   }, [lat])
 
   return (
@@ -69,4 +94,4 @@ const GeocodeCreate = (props) => {
   );
 };
 
-export default GeocodeCreate;
+export default MapCreate;
