@@ -18,7 +18,7 @@ import {
   ButtonGroup,
 } from '@material-ui/core';
 import TitleRoundedIcon from '@material-ui/icons/TitleRounded';
-import GeocodeClick from '../../components/lettercreate/GeocodeClick'
+import GeocodeClick from '../../components/timeletter/GeocodeCreate'
 
 // 스타일
 const useStyles = makeStyles((theme) => ({
@@ -51,8 +51,8 @@ const useStyles = makeStyles((theme) => ({
 // 컴포넌트
 const LetterCreate = () => {
   const classes = useStyles()
-  const [capsuleName, setCapsuleName] = useState('')
-  // console.log(capsuleName)
+  const [letterName, setLetterName] = useState('')
+  // console.log(letterName)
 
   const [isPublic, setIsPublic] = useState('1')
   // console.log(isPublic)
@@ -83,6 +83,9 @@ const LetterCreate = () => {
   const [memo, setMemo] = useState('')
   console.log(memo)
 
+  const [lat, setLat] = useState()
+  const [lng, setLng] = useState()
+
   // submit
   const onSubmit = (e) => {
     e.preventDefault()
@@ -104,7 +107,7 @@ const LetterCreate = () => {
 
   return (
     <Container className={classes.container} maxWidth="xs">
-      <Typography className={classes.title} variant="h6">캡슐생성</Typography>
+      <Typography className={classes.title} variant="h6">레터생성</Typography>
       {/* 캡슐 정보 */}
       <div className={classes.paper}>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
@@ -113,14 +116,13 @@ const LetterCreate = () => {
             {/* 캡슐 이름 */}
             <Grid item>
               <FormControl className={classes.field}>
-                <FormLabel>캡슐이름</FormLabel>
+                <FormLabel>레터이름</FormLabel>
                 <Input
-                  onChange={(e) => setCapsuleName(e.target.value)}
+                  onChange={(e) => setLetterName(e.target.value)}
                   id="capsule-name"
                   placeholder="이름을 입력해주세요"
                   fullWidth
                   required
-                  autoFocus
                   startAdornment={
                     <InputAdornment position="start">
                       <TitleRoundedIcon />
@@ -198,7 +200,10 @@ const LetterCreate = () => {
             {/* 지도 */}
             <Grid item>
               <FormControl className={classes.field}>
-                <GeocodeClick />
+                <GeocodeClick
+                  onChangeLat = {(lat) => setLat(lat)}
+                  onChangeLng = {(lng) => setLng(lng)}
+                />
               </FormControl>
             </Grid>
             

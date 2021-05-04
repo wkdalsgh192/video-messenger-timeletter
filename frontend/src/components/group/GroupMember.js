@@ -8,7 +8,7 @@ function GroupMember() {
     }
     const member = groupMembers.map((groupMember) => (
         <div className="item">
-            <Chip onDelete={handleDelete} label={groupMember} />
+            <Chip className="member-chip" onDelete={handleDelete} label={groupMember} />
 
         </div>
     ))
