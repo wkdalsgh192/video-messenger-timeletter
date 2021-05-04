@@ -1,6 +1,7 @@
 package com.caterpie.timeletter.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.caterpie.timeletter.dto.User;
+import com.caterpie.timeletter.repository.UserRepository;
 import com.caterpie.timeletter.service.UserService;
 import io.swagger.annotations.ApiOperation;
 
@@ -27,9 +29,19 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private UserRepository userRepository;
 	/**
 	 * @apiNote 회원가입
 	 */
+	@ApiOperation(value= "Get User Detail", notes="상세 조회")
+	@GetMapping("/findAll")
+	public List<User> FindAll() throws Exception {
+		
+		return userRepository.findAll();	
+	}
+	
+	
 	@Transactional()
 	@ApiOperation(value = "Insert User Info", notes = "회원가입")
 	@PostMapping("/join")
