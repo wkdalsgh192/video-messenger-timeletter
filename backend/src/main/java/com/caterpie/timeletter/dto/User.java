@@ -3,18 +3,12 @@ package com.caterpie.timeletter.dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Data
@@ -35,9 +29,18 @@ public class User {
 	private String phone;
 	private String salt;
 	
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="user_id")
-	private Club club;
+//	@OneToOne(fetch=FetchType.LAZY)
+//	@JoinColumn(name="user_id")
+//	private Club club;
 	
+	
+	@Builder
+	public User( String email, String name, String password, String phone, String salt) {
+		this.email = email;
+		this.name = name;
+		this.password = password;
+		this.phone = phone;
+		this.salt = salt;
+	}
 }
 

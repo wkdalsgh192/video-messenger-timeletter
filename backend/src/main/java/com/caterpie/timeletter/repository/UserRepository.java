@@ -10,22 +10,21 @@ import com.caterpie.timeletter.dto.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
-	@Query(value="select * from user where email=:email and password=:password", nativeQuery=true)
-	User findUser(String email, String password);
-	//User findByEmailAndPassword(String email, String password);
-	//@Query(value="select salt from user where email=:email", nativeQuery=true)
+	
+//	@Query(value="select * from user where email=:email and password=:password", nativeQuery=true)
+//	User findUser(String email, String password);
+	
 	User findByEmail(String email);
 	
-	User findByPassword(String password);
+	User findByEmailAndPassword(String email, String password);
 
 	@Transactional
 	@Modifying
-	@Query(value="update user set password = ?, salt = ? where user_id = ?", nativeQuery=true)
-	void updateUser(String password, String salt, int userId);
+	@Query(value="update user set  name= ?, password = ?, salt = ?, phone =? where user_id = ?", nativeQuery=true)
+	void updateUser(String name, String password, String salt, String phone, int userId);
 	
 	@Transactional
 	@Modifying
-//	@Query(value="delete from user where email=:email", nativeQuery=true)
 	void deleteByEmail(String email);
 }
 
