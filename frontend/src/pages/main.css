@@ -1,0 +1,17 @@
+/* .main div {
+} */
+.first-section {
+    height:584px;
+    width:100%;
+    background-color: olive;    
+}
+.second-section {
+    height:640px;
+    width:100%;
+    background-color: darkblue;    
+}
+.third-section {
+    height:640px;
+    width:100%;
+    background-color: red;    
+}
