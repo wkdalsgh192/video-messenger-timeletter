@@ -1,8 +1,8 @@
 const { createSlice } = require('@reduxjs/toolkit');
-const { logIn } = require('../_actions/user');
+const { signUp } = require('../_actions/user');
 
 const initialState = {
-  isLoggingIn: false,
+  isSignUp: false,
   data: null,
 };
 
@@ -15,17 +15,18 @@ const userSlice = createSlice({
     }
   },
   extraReducers: (builder) => builder
-    .addCase(logIn.pending, (state, action) => {
+    .addCase(signUp.pending, (state, action) => {
       state.data = null;
-      state.isLoggingIn = true;
+      state.isSignUp = true;
     })
-    .addCase(logIn.fulfilled, (state, action) => {
+    .addCase(signUp.fulfilled, (state, action) => {
       state.data = action.payload;
-      state.isLoggingIn = false;
+      state.isSignUp = false;
     })
-    .addCase(logIn.rejected, (state, action) => {
+    .addCase(signUp.rejected, (state, action) => {
       state.error = action.payload;
     })
 })
+
 
 module.exports = userSlice;
