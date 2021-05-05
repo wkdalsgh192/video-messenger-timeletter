@@ -12,8 +12,8 @@ import Grid from "@material-ui/core/Grid";
 
 import swal from "sweetalert";
 
-import "./Login.css";
-import "./Signup.css";
+import "./css/Login.css";
+import "./css/Signup.css";
 
 // import { Link } from "react-router-dom";
 const { signUp } = require("../../_actions/user");

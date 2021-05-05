@@ -5,7 +5,6 @@ import {
   Container,
   Typography,
   Card,
-  CardMedia,
   CardContent,
 } from '@material-ui/core';
 import MapDetail from "../../components/timeletter/MapDetail"

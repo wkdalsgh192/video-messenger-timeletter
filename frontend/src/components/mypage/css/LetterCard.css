@@ -1,0 +1,52 @@
+/* 레터 이미지 가운데 정렬 */
+
+.letimgmd {
+    margin-top: 30px;
+}
+
+/* 이미지 좌우로 움직이기 */
+
+.tossing{
+	animation-name: tossing;
+	-webkit-animation-name: tossing;	
+
+	animation-duration: 2.5s;	
+	-webkit-animation-duration: 2.5s;
+
+	animation-iteration-count: infinite;
+	-webkit-animation-iteration-count: infinite;
+}
+
+@keyframes tossing {
+	0% {
+		transform: rotate(-6deg);	
+	}
+	50% {
+		transform: rotate(6deg);
+	}
+	100% {
+		transform: rotate(-6deg);	
+	}						
+}
+
+@-webkit-keyframes tossing {
+	0% {
+		-webkit-transform: rotate(-6deg);	
+	}
+	50% {
+		-webkit-transform: rotate(6deg);
+	}
+	100% {
+		-webkit-transform: rotate(-6deg);	
+	}				
+}
+
+.letterbox {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+.letterbox .lettercontent {
+    margin-right:auto;
+	width: 240px;
+}
