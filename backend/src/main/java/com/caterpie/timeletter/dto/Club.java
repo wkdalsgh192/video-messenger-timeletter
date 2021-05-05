@@ -1,15 +1,18 @@
 package com.caterpie.timeletter.dto;
 
+
+import java.util.Collection;
+import java.util.List;
+import com.caterpie.timeletter.dto.User;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-//import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.ColumnDefault;
 
 
 //import io.swagger.annotations.ApiParam;
@@ -24,8 +27,9 @@ public class Club {
 	private int clubId;
 	@Column(length=10,nullable =false)
 	private String clubName;
-	private int userId;
+	private int user_id;
+	
+
 	
 	
-//	@JoinColumn
 }

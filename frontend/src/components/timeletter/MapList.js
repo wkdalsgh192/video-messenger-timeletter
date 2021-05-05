@@ -5,10 +5,14 @@ const { kakao } = window
 
 let map = null
 
-const GeocodeList = (props) => {
+// let mapLevel = 3
+
+const MapList = (props) => {
 
   const history = useHistory()
   // console.log(props.capsules)
+
+  const [mapLevel, setMapLevel] = useState()
 
   // *********** 왜 moveDetail이 정의되지 않았다고 나올까요??????? ****************
   const moveDetail = (id) => {
@@ -40,7 +44,7 @@ const GeocodeList = (props) => {
     //지도를 생성할 때 필요한 기본 옵션
     const options = { 
       center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-      level: 3 //지도의 레벨(확대, 축소 정도)
+      level: mapLevel //지도의 레벨(확대, 축소 정도)
     };
 
     //지도 생성 및 객체 리턴
@@ -115,6 +119,13 @@ const GeocodeList = (props) => {
     }
   }, [])
 
+  // useEffect(() => {
+  //   const level = map.getLevel()
+  //   console.log(level)
+  //   setMapLevel(level)
+  //   console.log(mapLevel)
+  // }, [mapLevel])
+
   return (
     <div
       id="map"
@@ -123,4 +134,4 @@ const GeocodeList = (props) => {
   );
 };
 
-export default GeocodeList;
+export default MapList;

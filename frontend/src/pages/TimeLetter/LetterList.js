@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { 
   Container,
   Typography,
-  Grid,
   Card,
   CardMedia,
   CardContent,
@@ -12,7 +11,7 @@ import { useHistory } from 'react-router-dom';
 import Carousel from 'react-material-ui-carousel'
 import openLetter from "../../static/images/openLetter2.png"
 import notOpenLetter from "../../static/images/notOpenLetter.png"
-import GeocodeList from "../../components/timeletter/GeocodeList"
+import MapList from "../../components/timeletter/MapList"
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -133,7 +132,7 @@ const LetterList = () => {
         {/* 비오픈 레터 */}
         <div className={classes.category}>
           <Typography className={classes.title} variant="subtitle1">비오픈 레터</Typography>
-          <GeocodeList capsules={notOpenCapsules} />
+          <MapList capsules={notOpenCapsules} />
           <Carousel autoPlay={false}>
             {notOpenCapsules.map(notOpenCapsule => (
               <Card key={notOpenCapsule.id} onClick={() => history.push('detail/' + notOpenCapsule.id)}>
