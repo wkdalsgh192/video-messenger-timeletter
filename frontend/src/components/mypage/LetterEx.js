@@ -12,12 +12,12 @@ import FaceIcon from "@material-ui/icons/Face";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import closeletter from "./images/close.png";
+import closeletter from "./images/open.png";
 
 import "./css/letter.scss";
 import "./css/LetterCard.css";
 
-function LetterCard() {
+function LetterEx() {
   return (
     //     <div class="letter-image">
     // 	<div class="animated-mail">
@@ -38,24 +38,24 @@ function LetterCard() {
     // </div>
     <Link to="/letter/detail">
     <Card>
-      <Grid container alignItems="center" className="letterbox">
-        <Grid item className="lettercontent">
+      <Grid container alignItems="center">
+        <Grid item sm={9} md={9} square spacing={8}>
           <CardContent>
             <Typography variant="subtitle1" color="textSecondary">
               캡슐 이름
             </Typography>
             <Typography component="h5" variant="h5">
-              오픈시각 d-day
+              오픈시각
             </Typography>
           </CardContent>
         </Grid>
-        <Grid item style={{marginRight:"15px"}} >
-          <img src={closeletter} style={{ height: "70px", width: "70px" }} className="tossing" />
+        <Grid>
+          <img src={closeletter} style={{ height: "70px", width: "110px" }}/>
         </Grid>
-        <Grid item className="lettercontent" style={{marginLeft:"10px"}}>
+        <Grid item xs={9} style={{ marginLeft: "10px" }}>
           <Chip variant="outlined" size="small" icon={<FaceIcon />} label="From.조현섭" color="secondary" />
-          {/* <Chip variant="outlined" size="small" icon={<FaceIcon />} label="To.조현섭" color="secondary" />
-          <Chip variant="outlined" size="small" icon={<FaceIcon />} label="With.캐터피" color="secondary" /> */}
+          <Chip variant="outlined" size="small" icon={<FaceIcon />} label="To.조현섭" color="secondary" />
+          <Chip variant="outlined" size="small" icon={<FaceIcon />} label="With.캐터피" color="secondary" />
         </Grid>
         <Grid item>
           <IconButton aria-label="delete">
@@ -68,4 +68,4 @@ function LetterCard() {
   );
 }
 
-export default LetterCard;
+export default LetterEx;

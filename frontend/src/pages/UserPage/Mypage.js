@@ -10,13 +10,13 @@ import CardActions from "@material-ui/core/CardActions";
 import { Container } from "@material-ui/core";
 import { Link } from 'react-router-dom';
 
-import "./Mypage.css";
+import "./css/Mypage.css";
 
 import LetterCardlist from "../../components/mypage/LetterCardlist";
 
 function Mypage() {
   return (
-    <div>
+    <div style={{marginBottom:"100px"}}>
       <Container  maxWidth="xs" className="">
       <h2>mypage</h2>
       <Card style={{marginTop:"80px"}}>
