@@ -42,7 +42,7 @@ function LetterEx() {
         <Grid item sm={9} md={9} square spacing={8}>
           <CardContent>
             <Typography variant="subtitle1" color="textSecondary">
-              캡슐 이름
+              캡슐 이름 (열린레터 예시)
             </Typography>
             <Typography component="h5" variant="h5">
               오픈시각
@@ -58,7 +58,7 @@ function LetterEx() {
           <Chip variant="outlined" size="small" icon={<FaceIcon />} label="With.캐터피" color="secondary" />
         </Grid>
         <Grid item>
-          <IconButton aria-label="delete">
+          <IconButton aria-label="delete" className="groupletter">
             <DeleteIcon />
           </IconButton>
         </Grid>

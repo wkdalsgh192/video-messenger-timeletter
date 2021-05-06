@@ -1,6 +1,6 @@
-.GroupDetail div {
+/* .GroupDetail div {
     margin-top: 8px;
-}
+} */
 .GroupMember {
     display: flex;
     justify-content: flex-end;
@@ -14,5 +14,9 @@
 }
 .GroupDetail {
     margin-bottom: 80px;
-    
+}
+
+.trashnone .groupletter {
+    display: none !important;
+
 }
