@@ -9,9 +9,11 @@ import javax.persistence.OneToOne;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class User {
 	
 	@Id
@@ -29,9 +31,9 @@ public class User {
 	private String phone;
 	private String salt;
 	
-//	@OneToOne(fetch=FetchType.LAZY)
-//	@JoinColumn(name="user_id")
-//	private Club club;
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="user_id")
+	private Club club;
 	
 	
 	@Builder
@@ -42,5 +44,6 @@ public class User {
 		this.phone = phone;
 		this.salt = salt;
 	}
+	
 }
 

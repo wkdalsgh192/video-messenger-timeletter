@@ -3,6 +3,7 @@ package com.caterpie.timeletter.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -62,15 +63,12 @@ public class UserController {
 	
 	/**
 	 * @apiNote 회원 정보 상세 조회
-	 * @return Map
+	 * @return User
 	 */
 	@ApiOperation(value= "Get User Detail", notes="상세 조회")
 	@GetMapping("/detail")
-	public ResponseEntity<Map<String,Object>> detailUser(String email) throws Exception {
-		HttpStatus status = null;
-		Map<String,Object> map = new HashMap<>();
-		
-		return new ResponseEntity<Map<String,Object>> (map,status);	
+	public Optional<User> detailUser(int userId) throws Exception {
+		return  userRepository.findById(userId);	
 	}
 	
 	

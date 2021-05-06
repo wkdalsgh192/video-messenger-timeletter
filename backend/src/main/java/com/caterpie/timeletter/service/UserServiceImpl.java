@@ -30,9 +30,7 @@ public class UserServiceImpl implements UserService {
 				.email(joinReq.getEmail())
 				.salt(salt)
 				.build();
-		
-		System.out.println(user.toString());
-		// 4. 유저 정보 DB에 삽입
+
 		userRepo.save(user);
 	}
 
@@ -42,7 +40,6 @@ public class UserServiceImpl implements UserService {
 		int userId = modReq.getUserId();
 		String salt = SaltSHA256.generateSalt();
 		String password = SaltSHA256.getEncrypt(modReq.getPassword(), salt);
-		
 		userRepo.updateUser(modReq.getName(), password, salt, modReq.getPhone(), userId);
 		
 	}
@@ -55,16 +52,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int loginUser(LoginRequest loginReq) {
 		String email = loginReq.getId();	//입력한 id
-		System.out.println("sadf1111");
-		System.out.println(userRepo.findByEmail(email).toString());
-		System.out.println("sadf2222");
 		String salt = userRepo.findByEmail(email).getSalt();
 		String password = loginReq.getPw(); //입력한 pw
 		password = SaltSHA256.getEncrypt(password, salt);	//암호화된 pw
-		System.out.println("sadf333");
 		User user = userRepo.findByEmailAndPassword(email, password);
-		System.out.println(user.toString());
-		System.out.println("sadf4444");
 		if(user != null)
 			return user.getUserId();
 		else 

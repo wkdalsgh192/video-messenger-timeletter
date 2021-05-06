@@ -9,10 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import com.caterpie.timeletter.dto.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-
-	
-//	@Query(value="select * from user where email=:email and password=:password", nativeQuery=true)
-//	User findUser(String email, String password);
 	
 	User findByEmail(String email);
 	
@@ -25,6 +21,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	@Transactional
 	@Modifying
-	void deleteByEmail(String email);
+	void deleteById(int userId);
 }
 

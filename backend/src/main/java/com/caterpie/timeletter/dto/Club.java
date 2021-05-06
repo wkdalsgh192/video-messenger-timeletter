@@ -14,7 +14,6 @@ import lombok.Data;
 @Data
 public class Club {
 
-	//@ApiParam(value= "Master No", required=true)
 	@Id
 	private int clubId;
 	@Column(length=10,nullable =false)
