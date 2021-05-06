@@ -14,7 +14,7 @@ import img1 from "./UserPage/images/종이비행기.gif";
 // import {FaArrowDown} from 'react-icons/fa'
 import { IoIosArrowDown } from "react-icons/all";
 // import Grid from '@material-ui/core/Grid';
-
+import { Link } from "react-router-dom";
 import "./main.css";
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
@@ -29,9 +29,10 @@ function Main() {
     <div className="main-wrap">
       <div className='main-html'>
         <div className="section section-1">
-          {/* <div><p>로그인하러가기</p>
-            <p>캡슐 찾으러가기</p>
-          </div> */}
+          <div>
+            <Link to="/login"><div style={{color:"white", paddingTop:"200px", fontSize:"3rem"}}>로그인하러가기</div></Link>
+            <div style={{color:"white", fontSize:"3rem"}} onClick={()=>window.scrollTo({top:"680",behavior:"smooth"})}>캡슐 찾으러가기</div>
+          </div>
           
           <div className="arrowstyle" onClick={scrolling}>
             <div>사이트 이용법 보기</div>
@@ -55,36 +56,3 @@ function Main() {
 }
 
 export default Main;
-
-// const user = useSelector((state) => state.user);
-// const { list } = useSelector((state) => state.post);
-// const dispatch = useDispatch();
-
-// const onClick = useCallback(() => {
-//   dispatch(
-//     logIn({
-//       id: "zerocho",
-//       password: "비밀번호",
-//     })
-//   );
-//   // dispatch(logIn());
-// }, []);
-
-// const onLogout = useCallback(() => {
-//   dispatch(userSlice.actions.logOut());
-// }, []);
-
-{
-  /* {user.isLoggingIn ? (
-      <div>로그인 중</div>
-    ) : user.data ? (
-      <div>{user.data.nickname}</div>
-    ) : (
-      "로그인 해주세요."
-    )}
-    {!user.data ? (
-      <button onClick={onClick}>로그인</button>
-    ) : (
-      <button onClick={onLogout}>로그아웃</button>
-    )} */
-}

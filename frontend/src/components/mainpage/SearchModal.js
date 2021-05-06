@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-
 import { Link } from 'react-router-dom';
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
