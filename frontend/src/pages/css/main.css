@@ -64,6 +64,7 @@
 }
 .section-1 {
   /* color:aliceblue; */
+  margin-top: -15px;
   background: linear-gradient(
     to bottom,
     rgba(87, 33, 102, 0) 10%,
@@ -72,7 +73,7 @@
     rgba(87, 33, 102, 0.75) 75%,
     rgba(127, 48, 149, 1) 100%
   ),
-  url("./images/sky2.jpg") repeat center;
+  url("../images/sky2.jpg") repeat center;
   background-size: cover;
   background-size: 400px 640px;
   width: 100%;

@@ -15,7 +15,7 @@ import img1 from "./UserPage/images/종이비행기.gif";
 import { IoIosArrowDown } from "react-icons/all";
 // import Grid from '@material-ui/core/Grid';
 
-import "./main.css";
+import "./css/main.css";
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
@@ -27,12 +27,15 @@ function Main() {
   }
   return (
     <div className="main-wrap">
-      <div className='main-html'>
+      <div className="main-html">
         <div className="section section-1">
-          {/* <div><p>로그인하러가기</p>
+          <div><p>로그인하러가기</p>
             <p>캡슐 찾으러가기</p>
-          </div> */}
-          
+            <p>로그인하러가기</p>
+            <p>캡슐 찾으러가기</p>
+          </div>
+  
+
           <div className="arrowstyle" onClick={scrolling}>
             <div>사이트 이용법 보기</div>
             <IoIosArrowDown className="floating" />

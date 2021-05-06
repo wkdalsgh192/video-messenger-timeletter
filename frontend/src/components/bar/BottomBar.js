@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     bottom: 0,
     width: '100%',
     zIndex: '1',
-    backgroundColor: 'pink',
+    backgroundColor: '#F29492',
   },
   action: {
     color: '#ffffff !important'

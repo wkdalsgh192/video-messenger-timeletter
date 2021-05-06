@@ -1,7 +1,7 @@
 .container {
     display: flex;
     /* flex-direction: row; */
-    background-color: coral;
+    background-color: #F29492;
     /* place-items: center end; */
     justify-content: flex-end;
 }
@@ -10,7 +10,7 @@
 }
 
 .MuiAppBar-colorPrimary {
-    color: pink !important;
+    color: #F29492 !important;
     background-color: transparent !important; 
 }
 .MuiPaper-elevation4 {
