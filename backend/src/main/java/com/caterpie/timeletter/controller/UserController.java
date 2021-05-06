@@ -3,6 +3,7 @@ package com.caterpie.timeletter.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.caterpie.timeletter.dto.User;
+import com.caterpie.timeletter.model.request.JoinRequest;
+import com.caterpie.timeletter.model.request.LoginRequest;
+import com.caterpie.timeletter.model.request.UserModifyRequest;
 import com.caterpie.timeletter.repository.UserRepository;
 import com.caterpie.timeletter.service.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -32,23 +36,24 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 	/**
-	 * @apiNote 회원가입
+	 * @apiNote 회원 전체 조회
 	 */
-	@ApiOperation(value= "Get User Detail", notes="상세 조회")
+	@ApiOperation(value= "Get All Users", notes="상세 조회")
 	@GetMapping("/findAll")
 	public List<User> FindAll() throws Exception {
-		
 		return userRepository.findAll();	
 	}
 	
-	
+	/**
+	 * @apiNote 회원가입(*이메일 인증 추가해야함)
+	 * @return HttpStatus
+	 */
 	@Transactional()
 	@ApiOperation(value = "Insert User Info", notes = "회원가입")
 	@PostMapping("/join")
-	public ResponseEntity<?> createUser(@RequestBody User user) {
-		// Post 방식으로 들어왔다. => User 객체로 들어옴
+	public ResponseEntity<?> createUser(@RequestBody JoinRequest joinReq) {
 		try {
-			userService.insertUser(user);
+			userService.insertUser(joinReq);
 			
 		} catch (Exception e) {
 			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);	
@@ -58,15 +63,12 @@ public class UserController {
 	
 	/**
 	 * @apiNote 회원 정보 상세 조회
-	 * @return Map
+	 * @return User
 	 */
 	@ApiOperation(value= "Get User Detail", notes="상세 조회")
 	@GetMapping("/detail")
-	public ResponseEntity<Map<String,Object>> detailUser(String email) throws Exception {
-		HttpStatus status = null;
-		Map<String,Object> map = new HashMap<>();
-		
-		return new ResponseEntity<Map<String,Object>> (map,status);	
+	public Optional<User> detailUser(int userId) throws Exception {
+		return  userRepository.findById(userId);	
 	}
 	
 	
@@ -75,15 +77,13 @@ public class UserController {
 	 */
 	@ApiOperation(value= "Update User Info", notes="회원 정보 수정")
 	@PutMapping("/update")
-	public ResponseEntity<String> updateUser(@RequestBody User user) {
+	public ResponseEntity<String> updateUser(@RequestBody UserModifyRequest modReq) {
 		try {
-			userService.updateUser(user);
+			userService.updateUser(modReq);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("회원 정보를 수정할 수 없습니다.", HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<String>("회원 정보 수정 완료", HttpStatus.OK);
-//		if (userService.updateUser(user)) return new ResponseEntity<String>("회원 정보 수정 완료", HttpStatus.OK);
-//		else return new ResponseEntity<String>("회원 정보를 수정할 수 없습니다.", HttpStatus.NO_CONTENT);
 	}
 	
 	/**
@@ -102,16 +102,15 @@ public class UserController {
 	
 	/**
 	 * @apiNote 로그인
-	 * @return true(로그인 성공), false(로그인 실패)
+	 * @return user_id, JWT(아직 구현 덜함)
 	 */
-	@ApiOperation(value= "Get User Info", notes = "로그인")
+	@ApiOperation(value= "Login", notes = "로그인")
 	@PostMapping("/login")
-	public boolean loginUser(@RequestBody User user) {
+	public int loginUser(@RequestBody LoginRequest loginReq) {
 		try {
-			if (userService.loginUser(user)) return true;
-			else return false;
+			return userService.loginUser(loginReq);
 		} catch (Exception e) {
-			return false;
+			return -1;
 		}
 	}
 }

@@ -5,7 +5,6 @@ import {
   Container,
   Typography,
   Card,
-  CardMedia,
   CardContent,
 } from '@material-ui/core';
 import MapDetail from "../../components/timeletter/MapDetail"
@@ -61,7 +60,7 @@ const LetterDetail = () => {
   )
 
   return (
-    <Container className={classes.container} maxWidth="xs">
+    <Container className={classes.container} style={{marginTop:"50px"}} maxWidth="xs">
       <Typography className={classes.title} variant="h6">레터 상세조회</Typography>
       <div className={classes.paper}>
         <Typography variant="subtitle1">- 이름 : {letter.title}</Typography>
