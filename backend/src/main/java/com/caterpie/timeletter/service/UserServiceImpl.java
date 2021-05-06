@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 
 import com.caterpie.timeletter.controller.SaltSHA256;
 import com.caterpie.timeletter.dto.User;
+import com.caterpie.timeletter.model.request.JoinRequest;
+import com.caterpie.timeletter.model.request.LoginRequest;
+import com.caterpie.timeletter.model.request.UserModifyRequest;
 import com.caterpie.timeletter.repository.UserRepository;
 
 @Service
@@ -14,29 +17,30 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepo;
 
 	@Override
-	public void insertUser(User user) {
+	public void insertUser(JoinRequest joinReq) {
 		// 1. 가입할 회원의 고유 salt 생성 및 저장
 		String salt = SaltSHA256.generateSalt();
-		user.setSalt(salt);
-		
 		// 2. 입력된 비밀번호 + salt 활용해서 암호화된 비밀번호 생성
-		String password = user.getPassword();
-		password = SaltSHA256.getEncrypt(password, salt);
+		String password = SaltSHA256.getEncrypt(joinReq.getPassword(), salt);
 		
-		// 3. 입력 비밀번호 삽입
-		user.setPassword(password);
-		
-		// 4. 유저 정보 DB에 삽입
+		User user = User.builder()
+				.password(password)
+				.phone(joinReq.getPhone())
+				.name(joinReq.getName())
+				.email(joinReq.getEmail())
+				.salt(salt)
+				.build();
+
 		userRepo.save(user);
 	}
 
 	@Override
-	public void updateUser(User user) {
-		int userId = user.getUserId();
-		String salt = SaltSHA256.generateSalt();
-		String password = SaltSHA256.getEncrypt(user.getPassword(), salt);
+	public void updateUser(UserModifyRequest modReq) {
 		
-		userRepo.updateUser(password, salt, userId);
+		int userId = modReq.getUserId();
+		String salt = SaltSHA256.generateSalt();
+		String password = SaltSHA256.getEncrypt(modReq.getPassword(), salt);
+		userRepo.updateUser(modReq.getName(), password, salt, modReq.getPhone(), userId);
 		
 	}
 	
@@ -46,19 +50,16 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public boolean loginUser(User user) {
-		String email = user.getEmail();	//입력한 id
+	public int loginUser(LoginRequest loginReq) {
+		String email = loginReq.getId();	//입력한 id
 		String salt = userRepo.findByEmail(email).getSalt();
-		String password = user.getPassword(); //입력한 pw
+		String password = loginReq.getPw(); //입력한 pw
 		password = SaltSHA256.getEncrypt(password, salt);	//암호화된 pw
-		
-		User dbUser =  userRepo.findByEmail(email);	//입력한 id로 DB에서 가져온 User
-		
-		if(dbUser.getEmail().equals(email) && dbUser.getPassword().equals(password))
-			return true;
-		else
-			return false;
-		
+		User user = userRepo.findByEmailAndPassword(email, password);
+		if(user != null)
+			return user.getUserId();
+		else 
+			return -1;
 	}
 	
 }
