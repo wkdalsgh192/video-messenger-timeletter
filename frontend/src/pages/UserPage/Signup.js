@@ -110,7 +110,7 @@ function Signup() {
   }
 
   return (
-    <div className="signupwrap">
+    <div className="signupwrap" style={{marginTop:"50px"}}>
       <div className="signup-html">
         <Container maxWidth="xs" className="">
           <CssBaseline />

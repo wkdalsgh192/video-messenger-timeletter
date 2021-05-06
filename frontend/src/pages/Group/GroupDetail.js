@@ -6,7 +6,7 @@ import { Container, Typography } from '@material-ui/core';
 function GroupDetail() {
 
   return (
-    <Container className="GroupDetail">
+    <Container className="GroupDetail" style={{marginTop:"50px"}}>
       <div>
         <div className="GroupMember">
           <Typography className="GroupMember-title">그룹상세보기</Typography>

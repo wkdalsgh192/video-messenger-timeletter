@@ -16,7 +16,7 @@ import LetterCardlist from "../../components/mypage/LetterCardlist";
 
 function Mypage() {
   return (
-    <div style={{marginBottom:"100px"}}>
+    <div style={{marginBottom:"100px", marginTop:"50px"}}>
       <Container  maxWidth="xs" className="">
       <h2>mypage</h2>
       <Card style={{marginTop:"80px"}}>
