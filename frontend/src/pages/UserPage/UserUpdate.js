@@ -14,7 +14,7 @@ import "./css/UserUpdate.css";
 
 function UserUpdate() {
     return (
-        <div className="">
+        <div className="" style={{marginTop:"50px"}}>
       <div className="">
         <Container maxWidth="xs" className="">
           <CssBaseline />

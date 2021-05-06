@@ -30,7 +30,7 @@ function GroupCreate() {
   ));
 
   return (
-    <Container style={{marginBottom:"70px"}}>
+    <Container style={{marginBottom:"70px",marginTop:"50px"}}>
       <br />
       <Typography>그룹생성</Typography>
       <br />

@@ -36,8 +36,7 @@ function GroupDetail() {
   }
 
   return (
-
-    <Container className="GroupDetail">
+    <Container className="GroupDetail" style={{marginTop:"50px"}}>
       <div>
         <div className="GroupMember">
           <Typography className="GroupMember-title">/그룹이름/</Typography>
