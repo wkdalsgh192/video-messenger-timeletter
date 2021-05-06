@@ -7,19 +7,33 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import { Container } from "@material-ui/core";
 import SearchModal from "../components/mainpage/SearchModal";
-import img1 from './UserPage/images/종이비행기.gif'
-import img2 from './UserPage/images/우체통.jfif'
-import img3 from './UserPage/images/letter.gif'
+import img1 from "./UserPage/images/종이비행기.gif";
+import img2 from "./UserPage/images/우체통.jfif";
+import img3 from "./UserPage/images/letter.gif";
+import {FaArrowDown} from 'react-icons/fa'
+import {IoIosArrowDown} from 'react-icons/all'
+import Grid from '@material-ui/core/Grid';
+
+import "./main.css"
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
 function Main() {
   return (
-    <Container maxWidth="xs" className="">
-      <img src={img1}></img>
-      <SearchModal ></SearchModal>
+    <div className="main-wrap">
+
+    <Container maxWidth="xs" className="main-html">
+       <SearchModal ></SearchModal>
+      <div className="child">
+        <p style={{color:"white", textAlign:"center"}}>사이트 이용법 보기</p>
+        
+      <IoIosArrowDown style={{color:"white"}} className="arrowstyle floating"/>
+      </div>
+     
+      {/* <img src={img1}></img> */}
       {/* <img src={img2}></img> */}
     </Container>
+    </div>
   );
 }
 
