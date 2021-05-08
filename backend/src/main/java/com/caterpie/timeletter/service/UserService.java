@@ -1,24 +1,24 @@
 package com.caterpie.timeletter.service;
 
-import com.caterpie.timeletter.dto.User;
-import com.caterpie.timeletter.model.request.JoinRequest;
-import com.caterpie.timeletter.model.request.LoginRequest;
-import com.caterpie.timeletter.model.request.UserModifyRequest;
+import java.util.Optional;
+
+import com.caterpie.timeletter.dto.JoinDto;
+import com.caterpie.timeletter.dto.UserModifyDto;
+import com.caterpie.timeletter.entity.User;
 
 public interface UserService {
 	/* C :: 회원 가입 */
-	void insertUser(JoinRequest joinReq);
+	void insertUser(JoinDto joinReq);
 	
 	/* R :: 회원 정보 가져오기 */
 	
 	/* U :: 회원 가입 수정 */
-	void updateUser(UserModifyRequest modReq);
+	void updateUser(UserModifyDto modReq);
 	
 	/* D :: 회원 정보 삭제 */
 	void deleteUser(int userId);
 	
-	/* L :: 로그인 */
-	int loginUser(LoginRequest loginReq);
+	Optional<User> getUserWithAuthorities(String email);
 	
-	
+	Optional<User> getAllUserWithAuthorities();
 }

@@ -1,9 +1,10 @@
-package com.caterpie.timeletter.model.request;
+package com.caterpie.timeletter.dto;
 
 import lombok.Data;
 
 @Data
-public class JoinRequest {
+public class UserModifyDto {
+	private int userId;
 	private String email;
 	private String password;
 	private String name;
