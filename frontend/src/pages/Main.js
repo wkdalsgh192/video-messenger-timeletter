@@ -9,41 +9,46 @@ import React from "react";
 import { Container } from "@material-ui/core";
 import SearchModal from "../components/mainpage/SearchModal";
 import img1 from "./UserPage/images/종이비행기.gif";
-// import img2 from "./UserPage/images/우체통.jfif";
-// import img3 from "./UserPage/images/letter.gif";
-// import {FaArrowDown} from 'react-icons/fa'
 import { IoIosArrowDown } from "react-icons/all";
 // import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import "./css/main.css";
+import "./css/main.scss";
 import Clock from "../components/mainpage/Clock";
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
 function Main() {
   const scrolling = () => {
-    window.scrollTo({top:"1300",behavior:"smooth"});
-    console.log('눌림')
-
-  }
+    window.scrollTo({ top: "1300", behavior: "smooth" });
+    console.log("눌림");
+  };
   return (
     <div className="main-wrap">
       <div className="main-html">
         <div className="section section-1">
-          <div className="clockmid">
-          <Clock></Clock>
+       
+          <div className="night">
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
+            <div className="shooting_star"></div>
           </div>
-          {/* <div>
-            <Link to="/login"><div style={{color:"white", paddingTop:"200px", fontSize:"3rem"}}>로그인하러가기</div></Link>
-            <div style={{color:"white", fontSize:"3rem"}} onClick={()=>window.scrollTo({top:"680",behavior:"smooth"})}>캡슐 찾으러가기</div>
-          </div> */}
-          
+          <div>
+            <Link to="/login">
+              <div style={{ color: "white", paddingTop: "250px", fontSize: "3rem" }}>0000개</div>
+            </Link>
+            <div style={{ color: "white", fontSize: "3rem" }} onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
+              캡슐 찾으러가기
+            </div>
+          </div>
+
           <div className="arrowstyle" onClick={scrolling}>
             <div>사이트 이용법 보기</div>
             <IoIosArrowDown className="floating" />
           </div>
         </div>
-        
+
         <div className="section section-2">
           <SearchModal></SearchModal>
           <div className="child"></div>
