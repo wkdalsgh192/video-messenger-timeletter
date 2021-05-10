@@ -102,3 +102,13 @@
   text-align: center;
   padding-top: 200px;
 }
+
+/* 시계위치 */
+
+.clockmid {
+  position: absolute;
+  top:100px;
+  left: 70px;
+
+
+}

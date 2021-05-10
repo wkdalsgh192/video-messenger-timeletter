@@ -16,6 +16,7 @@ import { IoIosArrowDown } from "react-icons/all";
 // import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import "./css/main.css";
+import Clock from "../components/mainpage/Clock";
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
@@ -29,10 +30,13 @@ function Main() {
     <div className="main-wrap">
       <div className="main-html">
         <div className="section section-1">
-          <div>
+          <div className="clockmid">
+          <Clock></Clock>
+          </div>
+          {/* <div>
             <Link to="/login"><div style={{color:"white", paddingTop:"200px", fontSize:"3rem"}}>로그인하러가기</div></Link>
             <div style={{color:"white", fontSize:"3rem"}} onClick={()=>window.scrollTo({top:"680",behavior:"smooth"})}>캡슐 찾으러가기</div>
-          </div>
+          </div> */}
           
           <div className="arrowstyle" onClick={scrolling}>
             <div>사이트 이용법 보기</div>
