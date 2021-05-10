@@ -21,7 +21,9 @@ public class ClubServiceImpl implements ClubService {
 	public void insertClub(ClubDto clubReq) { 
 		Club club = Club.builder()
 				.clubName(clubReq.getClubName())
-				.userId(clubReq.getUserId())
+				.userId(clubReq.getMasterId())
+				.clubDesc(clubReq.getDesc())
+				.clubProfile(clubReq.getProfile())
 				.build();
 		clubRepository.save(club);
 	}
@@ -32,8 +34,8 @@ public class ClubServiceImpl implements ClubService {
     }
 
 	@Transactional
-	public void joinClub(ClubJoinDto joinReq) {
-		clubRepository.joinClub(joinReq.getUserId(), joinReq.getClubId());
+	public void joinClub(int userId, int clubId) {
+		clubRepository.joinClub(userId, clubId);
 	}
 
 

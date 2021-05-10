@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.caterpie.timeletter.dto.ClubDto;
 import com.caterpie.timeletter.dto.ClubJoinDto;
 import com.caterpie.timeletter.entity.Club;
+import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.repository.ClubRepository;
+import com.caterpie.timeletter.repository.UserRepository;
 import com.caterpie.timeletter.service.ClubService;
 
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +34,8 @@ public class ClubController {
 	@Autowired
 	private ClubRepository clubRepository;
 	@Autowired
+	private UserRepository userRepository;
+	@Autowired
 	ClubService service;
 	
 	/* 클럽 생성 */
@@ -39,7 +43,12 @@ public class ClubController {
 	@PostMapping(path="/insert")
 	public ResponseEntity<?> insertClub(@RequestBody ClubDto clubReq) {
 		try {
+			int memLen = clubReq.getMembersId().size();
 			service.insertClub(clubReq);
+			for(int i=0; i<memLen; i++) {
+				Club newClub = clubRepository.findByClubName(clubReq.getClubName());
+				service.joinClub(clubReq.getMembersId().get(i), newClub.getClubId());
+			}
 		}catch (Exception e) {
 			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);		
 		}
@@ -71,7 +80,7 @@ public class ClubController {
 	@PostMapping(path="/join")
 	public ResponseEntity<?> insertClub(@RequestBody ClubJoinDto joinReq) {
 		try {
-			service.joinClub(joinReq);
+			service.joinClub(joinReq.getUserId(), joinReq.getClubId());
 		}catch (Exception e) {
 			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);		
 		}

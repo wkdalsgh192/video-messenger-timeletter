@@ -27,6 +27,10 @@ public class Club {
 	private int clubId;
 	@Column(length=10,nullable =false)
 	private String clubName;
+	@Column(length=100)
+	private String clubProfile;
+	@Column(length=256)
+	private String clubDesc;
 	private int userId;
 	
 //	@ManyToMany
@@ -41,10 +45,12 @@ public class Club {
 	
 	
 	@Builder
-	public Club(String clubName, int userId) {
+	public Club(String clubName, int userId, String clubDesc, String clubProfile) {
 		super();
 		this.clubName = clubName;
 		this.userId = userId;
+		this.clubDesc = clubDesc;
+		this.clubProfile = clubProfile;
 	}
 	
 }
