@@ -17,3 +17,15 @@
 .MuiCard-root {
   overflow: visible !important;
 }
+
+.mypage {
+  /* position: absolute; */
+  color: aliceblue;
+  height: 100%;
+  width: 100%;
+  /* margin-bottom: 100px; */
+  /* margin-top: 50px; */
+  padding-top: 50px;
+  padding-bottom: 70px;
+  background:url("../../images/sky2.jpg") repeat center;
+}

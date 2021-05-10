@@ -14,7 +14,7 @@ function GroupItem() {
   ]);
 
   const item = items.map((i) => (
-    <Card className="div" onClick={() => history.push("/group/detail")}>
+    <Card className="groupitem" onClick={() => history.push("/group/detail")}>
       <CardActionArea>
         {/* 그룹 이미지 */}
         <CardMedia className="img" image={i.img} />

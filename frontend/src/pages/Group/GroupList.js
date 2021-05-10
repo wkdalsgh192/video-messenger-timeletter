@@ -5,7 +5,7 @@ import AddToPhotosIcon from '@material-ui/icons/AddToPhotos';
 import './GroupList.css'
 function GroupList() {
     return (
-        <div style={{marginTop:"50px"}}>
+        <div className="grouplist">
             그룹 리스트 페이지
             <GroupItem></GroupItem>
             <Link to="/group/create">
