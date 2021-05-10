@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.caterpie.timeletter.dto.ClubDto;
+import com.caterpie.timeletter.dto.ClubJoinDto;
 import com.caterpie.timeletter.entity.Club;
+import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.repository.ClubRepository;
+import com.caterpie.timeletter.repository.UserRepository;
 import com.caterpie.timeletter.service.ClubService;
 
 import io.swagger.annotations.ApiOperation;
@@ -30,14 +34,21 @@ public class ClubController {
 	@Autowired
 	private ClubRepository clubRepository;
 	@Autowired
+	private UserRepository userRepository;
+	@Autowired
 	ClubService service;
 	
 	/* 클럽 생성 */
 	@Transactional()
 	@PostMapping(path="/insert")
-	public ResponseEntity<?> insertClub(@RequestBody Club club) {
+	public ResponseEntity<?> insertClub(@RequestBody ClubDto clubReq) {
 		try {
-			service.insertClub(club);
+			int memLen = clubReq.getMembersId().size();
+			service.insertClub(clubReq);
+			for(int i=0; i<memLen; i++) {
+				Club newClub = clubRepository.findByClubName(clubReq.getClubName());
+				service.joinClub(clubReq.getMembersId().get(i), newClub.getClubId());
+			}
 		}catch (Exception e) {
 			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);		
 		}
@@ -58,6 +69,7 @@ public class ClubController {
 	@DeleteMapping("/delClub")
 	public ResponseEntity<?> delpost(@RequestParam("id") int clubId) {
 		try {
+			clubRepository.delAllMember(clubId);
 			clubRepository.deleteById(clubId);
         }catch (Exception e) {
         	return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);
@@ -65,4 +77,13 @@ public class ClubController {
     	return new ResponseEntity<String>("success",HttpStatus.OK);
 	}
 	
+	@PostMapping(path="/join")
+	public ResponseEntity<?> insertClub(@RequestBody ClubJoinDto joinReq) {
+		try {
+			service.joinClub(joinReq.getUserId(), joinReq.getClubId());
+		}catch (Exception e) {
+			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);		
+		}
+		return new ResponseEntity<String>("OK",HttpStatus.CREATED);
+	}
 }
