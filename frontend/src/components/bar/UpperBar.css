@@ -1,7 +1,7 @@
 .container {
     display: flex;
     /* flex-direction: row; */
-    background-color: coral;
+    background-color: pink;
     /* place-items: center end; */
     justify-content: flex-end;
 }

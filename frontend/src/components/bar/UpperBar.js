@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,6 +10,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
 import './UpperBar.css'
+import { Token } from '../../constant';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -20,9 +21,8 @@ const useStyles = makeStyles((theme) => ({
 export default function UpperBar() {
   const classes = useStyles()
   const history = useHistory()
-
   // 로그인 여부를 확인하기 위한 state
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(false)
 
   // 로그인한 유저일 경우 보여줄 상단바
   const userBar = (
@@ -35,12 +35,12 @@ export default function UpperBar() {
       <IconButton color="inherit" aria-label="mypage" onClick={() => history.push('/mypage')}>
         <AccountCircle />
       </IconButton>
-      <Button color="inherit" onClick={() => setIsLogin(false)}>
+      <Button color="inherit" onClick={() => {localStorage.removeItem('token'); window.location.replace("/")}}>
         로그아웃
       </Button>
     </div>
   )
-
+    
   // 로그인하지 않은 게스트일 경우 보여줄 상단바
   const guestBar = (
     <div>
@@ -51,13 +51,13 @@ export default function UpperBar() {
   )
 
   return (
-    <AppBar position="fixed">
+    <AppBar position="absolute">
       <Toolbar>
         <Typography className={classes.title} variant="h6" noWrap onClick={() => history.push('/')}>
           TimeLetter
         </Typography>
         <div>
-          {isLogin ? userBar : guestBar}
+          {Token ? userBar : guestBar}
         </div>
       </Toolbar>
     </AppBar>

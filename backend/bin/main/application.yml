@@ -1,6 +1,6 @@
-#server:
-#  servlet:
-#    context-path: /timeletter
+server:
+  servlet:
+    context-path: /timeletter
 
 spring:
   datasource:
@@ -10,7 +10,7 @@ spring:
     password: password
 #    url: jdbc:mysql://localhost:3306/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8
 #    username: root
-#    password: ssafy
+#    password: 1234
 
   jpa:
     hibernate:
