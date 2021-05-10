@@ -2,9 +2,10 @@ package com.caterpie.timeletter.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,13 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.caterpie.timeletter.dto.Club;
+import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.repository.ClubRepository;
 import com.caterpie.timeletter.service.ClubService;
 
 import io.swagger.annotations.ApiOperation;
-
-import javax.transaction.Transactional;
 
 @RestController
 @RequestMapping("/club")

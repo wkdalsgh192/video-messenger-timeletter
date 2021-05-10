@@ -122,7 +122,7 @@ const LetterCreate = () => {
   }
 
   return (
-    <Container className={classes.container} maxWidth="xs">
+    <Container className={classes.container} style={{marginTop:"50px"}} maxWidth="xs">
       <Typography className={classes.title} variant="h6">레터생성</Typography>
       {/* 캡슐 정보 */}
       <div className={classes.paper}>

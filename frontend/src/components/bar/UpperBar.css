@@ -1,7 +1,7 @@
 .container {
     display: flex;
     /* flex-direction: row; */
-    background-color: coral;
+    background-color: pink;
     /* place-items: center end; */
     justify-content: flex-end;
 }
@@ -11,7 +11,7 @@
 
 .MuiAppBar-colorPrimary {
     color: pink !important;
-    background-color: unset !important;
+    background-color: transparent !important; 
 }
 .MuiPaper-elevation4 {
     box-shadow: unset !important;
