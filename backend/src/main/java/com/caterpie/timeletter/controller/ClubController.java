@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.caterpie.timeletter.dto.ClubDto;
+import com.caterpie.timeletter.dto.ClubJoinDto;
 import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.repository.ClubRepository;
 import com.caterpie.timeletter.service.ClubService;
@@ -66,4 +67,13 @@ public class ClubController {
     	return new ResponseEntity<String>("success",HttpStatus.OK);
 	}
 	
+	@PostMapping(path="/join")
+	public ResponseEntity<?> insertClub(@RequestBody ClubJoinDto joinReq) {
+		try {
+			service.joinClub(joinReq);
+		}catch (Exception e) {
+			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);		
+		}
+		return new ResponseEntity<String>("OK",HttpStatus.CREATED);
+	}
 }
