@@ -1,17 +1,22 @@
 package com.caterpie.timeletter.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,29 +24,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.caterpie.timeletter.dto.User;
-import com.caterpie.timeletter.model.request.JoinRequest;
-import com.caterpie.timeletter.model.request.LoginRequest;
-import com.caterpie.timeletter.model.request.UserModifyRequest;
+import com.caterpie.timeletter.dto.JoinDto;
+import com.caterpie.timeletter.dto.LoginDto;
+import com.caterpie.timeletter.dto.TokenDto;
+import com.caterpie.timeletter.dto.UserModifyDto;
+import com.caterpie.timeletter.entity.User;
+import com.caterpie.timeletter.jwt.JwtFilter;
+import com.caterpie.timeletter.jwt.TokenProvider;
 import com.caterpie.timeletter.repository.UserRepository;
 import com.caterpie.timeletter.service.UserService;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
+	
+	private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    public UserController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+        this.tokenProvider = tokenProvider;
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
+    }
+    
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	private UserRepository userRepository;
+	
 	/**
 	 * @apiNote 회원 전체 조회
 	 */
 	@ApiOperation(value= "Get All Users", notes="상세 조회")
-	@GetMapping("/findAll")
-	public List<User> FindAll() throws Exception {
-		return userRepository.findAll();	
+	@GetMapping("/get")
+	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	public ResponseEntity<User> getAllUser() throws Exception {
+		return ResponseEntity.ok(userService.getAllUserWithAuthorities().get());	
 	}
 	
 	/**
@@ -51,14 +73,14 @@ public class UserController {
 	@Transactional()
 	@ApiOperation(value = "Insert User Info", notes = "회원가입")
 	@PostMapping("/join")
-	public ResponseEntity<?> createUser(@RequestBody JoinRequest joinReq) {
+	public ResponseEntity<?> createUser(@RequestBody JoinDto joinDto) {
 		try {
-			userService.insertUser(joinReq);
+			userService.insertUser(joinDto);
 			
 		} catch (Exception e) {
-			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);	
+			return ResponseEntity.badRequest().build();	
 		}
-		return new ResponseEntity<String>("success",HttpStatus.CREATED);
+		return ResponseEntity.ok(joinDto);
 	}
 	
 	/**
@@ -66,9 +88,10 @@ public class UserController {
 	 * @return User
 	 */
 	@ApiOperation(value= "Get User Detail", notes="상세 조회")
-	@GetMapping("/detail")
-	public Optional<User> detailUser(int userId) throws Exception {
-		return  userRepository.findById(userId);	
+	@GetMapping("/get/{email}")
+	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+	public ResponseEntity<User> getUserInfo(@PathVariable String email) throws Exception {
+		return ResponseEntity.ok(userService.getUserWithAuthorities(email).get());	
 	}
 	
 	
@@ -77,7 +100,7 @@ public class UserController {
 	 */
 	@ApiOperation(value= "Update User Info", notes="회원 정보 수정")
 	@PutMapping("/update")
-	public ResponseEntity<String> updateUser(@RequestBody UserModifyRequest modReq) {
+	public ResponseEntity<String> updateUser(@RequestBody UserModifyDto modReq) {
 		try {
 			userService.updateUser(modReq);
 		} catch (Exception e) {
@@ -102,16 +125,33 @@ public class UserController {
 	
 	/**
 	 * @apiNote 로그인
-	 * @return user_id, JWT(아직 구현 덜함)
+	 * @return JWT
 	 */
 	@ApiOperation(value= "Login", notes = "로그인")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="Authorization", value="authorization header", required=false, dataType="string",
+				paramType="header")
+	})
 	@PostMapping("/login")
-	public int loginUser(@RequestBody LoginRequest loginReq) {
-		try {
-			return userService.loginUser(loginReq);
-		} catch (Exception e) {
-			return -1;
-		}
-	}
+    public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto) {
+		
+		// 로그인 정보를 이용하여 토큰 객체를 생성
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
+
+        // 토큰을 이용해 authenticate가 실행이 될 때 CustomUserDetailsService에서 loadUserByUsername 메소드가 실행됨
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        
+        // 여기서 authentication 객체가 생성되고, 이를 SecurityContext에 저장한다.
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // 또, authentication을 기반으로 jwt 토큰을 생성한다.
+        String jwt = tokenProvider.createToken(authentication);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+
+        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+    }
 }
 
