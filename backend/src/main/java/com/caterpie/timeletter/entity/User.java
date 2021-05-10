@@ -31,7 +31,7 @@ import lombok.ToString;
 public class User {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="user_id", columnDefinition = "INT UNSIGNED")
 	private int userId;
 	@Column(length=45,nullable =false)
@@ -54,7 +54,7 @@ public class User {
 	
 	@ManyToMany
 	@JoinTable(
-			name="user_authority",
+			name="user_has_authority",
 			joinColumns = {@JoinColumn(name= "user_id", referencedColumnName= "user_id")},
 			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
 	private Set<Authority> authorities;
