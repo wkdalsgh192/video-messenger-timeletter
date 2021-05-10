@@ -1,6 +1,6 @@
-#server:
-#  servlet:
-#    context-path: /timeletter
+server:
+  servlet:
+    context-path: /timeletter
 
 spring:
   datasource:
