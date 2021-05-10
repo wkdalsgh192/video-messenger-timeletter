@@ -10,7 +10,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
 import './UpperBar.css'
-import { Token } from '../../constants';
+// import { Token } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -53,11 +53,11 @@ export default function UpperBar() {
   return (
     <AppBar position="absolute">
       <Toolbar>
-        <Typography className={classes.title} variant="h6" noWrap onClick={() => history.push('/')}>
+        <Typography className={classes.title} variant="h6" noWrap onClick={() => {history.push('/'); setIsLogin(false)}}>
           TimeLetter
         </Typography>
         <div>
-          {Token ? userBar : guestBar}
+          {isLogin ? userBar : guestBar}
         </div>
       </Toolbar>
     </AppBar>
