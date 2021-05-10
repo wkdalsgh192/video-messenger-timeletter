@@ -45,18 +45,11 @@ public class UserServiceImpl implements UserService {
                 .build();
 		logger.debug("authority를 생성하였습니다.");
 		
-//		// 1. 가입할 회원의 고유 salt 생성 및 저장
-//		String salt = SaltSHA256.generateSalt();
-//		// 2. 입력된 비밀번호 + salt 활용해서 암호화된 비밀번호 생성
-//		String password = SaltSHA256.getEncrypt(joinDto.getPassword(), salt);
-		
-		
 		User user = User.builder()
 				.email(joinDto.getEmail())
 				.password(passwordEncoder.encode(joinDto.getPassword()))
 				.phone(joinDto.getPhone())
 				.name(joinDto.getName())
-				.salt("1234")
 				.activated(true)
 				.authorities(Collections.singleton(authority))
 				.build();
