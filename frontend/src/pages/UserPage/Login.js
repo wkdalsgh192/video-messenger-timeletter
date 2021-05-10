@@ -12,15 +12,17 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import axios from 'axios';
+import swal from "sweetalert";
 
 
 
 function Login() {
-
+  const history = useHistory();
   const [Email,setEmail] = useState("");
   const [Password, setPassword] = useState("");
-
+  
   const onEmailHandler = (event) => {
     setEmail(event.currentTarget.value);
   }
@@ -31,7 +33,23 @@ function Login() {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
+    let body = {
+      'email':Email,
+      'password':Password
+    }
+    axios.post('https://k4d105.p.ssafy.io/timeletter/user/login',body)
+      .then((res)=> {
+        localStorage.setItem('token', res.data.token);
+        // history.push('/');
+        window.location.replace("/");
+        })
+      .catch((err)=>{
+        console.log(err);
+        swal('login fail','로그인 실패','error')
+      })
   }
+
+  
 
 
 
@@ -84,11 +102,12 @@ function Login() {
             onChange={onPasswordHandler}
           />
           <Button
-            type="submit"
+            type="button"
             fullWidth
             variant="contained"
             color="primary"
             style={{marginTop:"20px"}}
+            onClick={onSubmitHandler}
           >
             Login
           </Button>
