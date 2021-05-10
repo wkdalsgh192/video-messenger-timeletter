@@ -12,14 +12,13 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import swal from "sweetalert";
 
 
 
 function Login() {
-  const history = useHistory();
   const [Email,setEmail] = useState("");
   const [Password, setPassword] = useState("");
   

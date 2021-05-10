@@ -10,7 +10,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
 import './UpperBar.css'
-import { Token } from '../../constant';
+import { Token } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
   title: {
