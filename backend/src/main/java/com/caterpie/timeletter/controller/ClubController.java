@@ -60,6 +60,7 @@ public class ClubController {
 	@DeleteMapping("/delClub")
 	public ResponseEntity<?> delpost(@RequestParam("id") int clubId) {
 		try {
+			clubRepository.delAllMember(clubId);
 			clubRepository.deleteById(clubId);
         }catch (Exception e) {
         	return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);

@@ -36,5 +36,7 @@ public class ClubServiceImpl implements ClubService {
 		clubRepository.joinClub(joinReq.getUserId(), joinReq.getClubId());
 	}
 
+
+
 	
 }

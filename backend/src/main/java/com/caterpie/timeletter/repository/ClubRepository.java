@@ -19,5 +19,10 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
 	@Query(value="insert into club_member values(?, ?)", nativeQuery=true)
 	void joinClub(int userId, int clubId);
 	
+	@Transactional
+	@Modifying
+	@Query(value="delete from club_member where club_id = ?", nativeQuery=true)
+	void delAllMember(int clubId);
+	
 }
 
