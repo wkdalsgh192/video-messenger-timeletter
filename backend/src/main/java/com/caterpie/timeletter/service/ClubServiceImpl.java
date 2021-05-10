@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.caterpie.timeletter.dto.ClubDto;
 import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.repository.ClubRepository;
 
@@ -16,7 +17,11 @@ public class ClubServiceImpl implements ClubService {
 	private ClubRepository clubRepository;
 	
 	@Transactional 
-	public void insertClub(Club club) { 
+	public void insertClub(ClubDto clubReq) { 
+		Club club = Club.builder()
+				.clubName(clubReq.getClubName())
+				.userId(clubReq.getUserId())
+				.build();
 		clubRepository.save(club);
 	}
 	
