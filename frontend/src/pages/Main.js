@@ -38,8 +38,8 @@ function Main() {
             <Link to="/login">
               <div style={{ color: "white", paddingTop: "250px", fontSize: "3rem" }}>0000개</div>
             </Link>
-            <div style={{ color: "white", fontSize: "3rem" }} onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
-              캡슐 찾으러가기
+            <div onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
+            <button class="fill" style={{width:"170px",height:"40px",borderRadius:"20px",paddingBottom:"10px"}}>레터 찾으러가기</button>
             </div>
           </div>
 
