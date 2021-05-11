@@ -28,8 +28,8 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`authority` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-INSERT INTO authority (authority_name) values ('ROLE_USER');
-INSERT INTO authority (authority_name) values ('ROLE_ADMIN');
+INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_USER');
+INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_ADMIN');
 
 
 -- -----------------------------------------------------
@@ -63,7 +63,7 @@ DROP TABLE IF EXISTS `timeletter`.`hibernate_sequence` ;
 DROP TABLE IF EXISTS `timeletter`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `timeletter`.`user` (
-  `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` INT UNSIGNED NOT NULL,
   `activated` TINYINT NULL DEFAULT NULL,
   `email` VARCHAR(45) NOT NULL,
   `name` VARCHAR(20) NOT NULL,
