@@ -28,6 +28,8 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`authority` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
+INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_USER');
+INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_ADMIN');
 
 -- -----------------------------------------------------
 -- Table `timeletter`.`club`
@@ -44,30 +46,18 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `timeletter`.`hibernate_sequence`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `timeletter`.`hibernate_sequence` ;
-
-CREATE TABLE IF NOT EXISTS `timeletter`.`hibernate_sequence` (
-  `next_val` BIGINT NULL DEFAULT NULL)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
 -- Table `timeletter`.`user`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `timeletter`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `timeletter`.`user` (
-  `user_id` INT UNSIGNED NOT NULL,
+  `user_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `activated` TINYINT NULL DEFAULT NULL,
   `email` VARCHAR(45) NOT NULL,
   `name` VARCHAR(20) NOT NULL,
   `password` VARCHAR(256) NOT NULL,
   `phone` VARCHAR(20) NOT NULL,
   `profile` VARCHAR(256) NULL DEFAULT NULL,
-  `salt` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
