@@ -1,3 +1,59 @@
+// 버튼
+
+
+//=== Set button colors
+// If you wonder why use Sass vars or CSS custom properties...
+  // Make a map with the class names and matching colors
+$colors: (
+
+  fill: #e4cb58,
+  pulse: #dabaee, 
+  close: #ff7f82, 
+  raise: #ffa260, 
+  up: #ef6eae, 
+  slide: #8fc866, 
+  offset: #b1bc19
+);
+
+// Sass variables compile to a static string; CSS variables are dynamic and inherited
+  // Loop through the map and set CSS custom properties using Sass variables
+@each $button, $color in $colors {
+  .#{$button} {
+    --color: #{$color};
+    
+  }
+}
+
+// Now every button will have different colors as set above. We get to use the same structure, only changing the custom properties.
+button {  
+  color: var(--color);
+  transition: 0.25s;
+  
+  &:hover,
+  &:focus { 
+    border-color: var(--hover);
+
+  }
+}
+
+
+// Basic button styles
+button {
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 0.5em 0.2em;
+  font-size: large;
+}
+
+
+
+
+
+
+// 별똥별/
 $shooting-time: 3000ms;
 
 .night {
