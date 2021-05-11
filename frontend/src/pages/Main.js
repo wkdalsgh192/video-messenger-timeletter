@@ -1,5 +1,5 @@
 // import React, { useCallback, useState } from "react";
-import React from "react";
+import React,{useEffect, useState, useRef} from "react";
 // import { useDispatch, useSelector } from "react-redux";
 
 // import Paper from "@material-ui/core/Paper";
@@ -19,10 +19,20 @@ const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
 function Main() {
+  const [num, setNum] = useState(333);
+  const numRef = useRef(333);
   const scrolling = () => {
     window.scrollTo({ top: "1300", behavior: "smooth" });
     console.log("눌림");
   };
+
+  useEffect(()=>{
+    setInterval(()=>{
+      setNum((numRef.current += 1));
+    },1000);
+  },[]);
+  
+  
   return (
     <div className="main-wrap">
       <div className="main-html">
@@ -35,11 +45,12 @@ function Main() {
             <div className="shooting_star"></div>
           </div>
           <div>
-            <Link to="/login">
-              <div style={{ color: "white", paddingTop: "250px", fontSize: "3rem" }}>0000개</div>
-            </Link>
+            
+            <div style={{ color: "white", paddingTop: "250px", fontSize: "1.7rem", fontWeight:"bold" }}>실시간 생성된 타임 레터</div>
+            <div style={{ color: "white", fontSize: "3rem" }}> ★ {num}</div>
+            
             <div onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
-            <button class="fill" style={{width:"170px",height:"40px",borderRadius:"20px",paddingBottom:"10px"}}>레터 찾으러가기</button>
+            <button class="fill" style={{width:"170px",height:"40px",borderRadius:"20px",paddingBottom:"10px",fontWeight:"bold"}}>레터 찾으러가기</button>
             </div>
           </div>
 

@@ -9,7 +9,8 @@ import * as All from './pages';
 const theme = createMuiTheme({
   typography: {
     // fontFamily: 'Cute+Font'
-    fontFamily: 'Jua'
+    // fontFamily: 'Jua'
+    fontFamily: 'Cafe24Oneprettynight'
   }
 })
 
