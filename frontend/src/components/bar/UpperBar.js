@@ -51,7 +51,7 @@ export default function UpperBar() {
   )
 
   return (
-    <AppBar position="absolute">
+    <AppBar position="fixed">
       <Toolbar>
         <Typography className={classes.title} variant="h6" noWrap onClick={() => history.push('/')}>
           TimeLetter

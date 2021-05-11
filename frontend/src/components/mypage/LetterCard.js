@@ -38,7 +38,7 @@ function LetterCard() {
     // 	<div class="shadow"></div>
     // </div>
     <Link to="/letter/detail">
-    <Card>
+    <Card className="">
       <Grid container alignItems="center" className="letterbox">
         <Grid item className="lettercontent">
           <CardContent>
