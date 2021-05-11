@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    /* flex-direction: row; */
+    background-color: pink;
+    /* place-items: center end; */
+    justify-content: flex-end;
+}
+.item {
+    margin-left: 1rem;
+}
+
+.MuiAppBar-colorPrimary {
+    color: #dabaee !important;
+    background-color: transparent !important; 
+}
+.MuiPaper-elevation4 {
+    box-shadow: unset !important;
+}

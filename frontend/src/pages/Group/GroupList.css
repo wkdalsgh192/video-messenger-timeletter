@@ -1,0 +1,12 @@
+.plusbtn {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+}
+.grouplist {
+  height: 100%;
+  width: 100%;
+  padding-top: 70px;
+  padding-bottom: 250px;
+  background: url("../images/sky2.jpg") repeat center;
+}

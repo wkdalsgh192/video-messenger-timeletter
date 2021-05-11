@@ -1,0 +1,9 @@
+.icon {
+    width:3rem;
+    height: 3rem;
+}
+.bottombar {
+    background-color: #2D0968;
+    position:fixed;
+    bottom: 0;
+}
