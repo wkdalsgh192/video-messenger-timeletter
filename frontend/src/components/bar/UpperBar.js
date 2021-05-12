@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,6 +10,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
 import './UpperBar.css'
+import { TOKEN } from '../../constants';
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -22,7 +23,13 @@ export default function UpperBar() {
   const history = useHistory()
 
   // 로그인 여부를 확인하기 위한 state
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(false)
+
+  useEffect(() => {  
+    if (TOKEN) {
+      setIsLogin(true)
+    }
+  }, [])
 
   // 로그인한 유저일 경우 보여줄 상단바
   const userBar = (
@@ -35,7 +42,7 @@ export default function UpperBar() {
       <IconButton color="inherit" aria-label="mypage" onClick={() => history.push('/mypage')}>
         <AccountCircle />
       </IconButton>
-      <Button color="inherit" onClick={() => setIsLogin(false)}>
+      <Button color="inherit" onClick={() => {setIsLogin(false); window.localStorage.clear(); window.location.replace("/")}}>
         로그아웃
       </Button>
     </div>
