@@ -33,12 +33,14 @@ function Login() {
     axios.post(BASE_URL+"user/login",body)
       .then((res)=>{
         window.localStorage.setItem("email",Email);
-        console.log(res.data.token);
+        // console.log(res.data.token);
         window.localStorage.setItem("token",res.data.token);
+        window.localStorage.setItem("user_id",res.data.userId);
+
         window.location.replace("/")
       
       })
-      .catch((err)=>{console.log(err)})
+      .catch((err)=>{console.log(err);alert('로그인 실패')})
   };
 
   return (
