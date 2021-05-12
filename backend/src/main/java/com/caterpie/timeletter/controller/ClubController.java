@@ -37,7 +37,10 @@ public class ClubController {
 	@Autowired
 	ClubService service;
 	
-	
+	/**
+	 * @apiNote 클럽 생성 기능
+	 * @return HttpStatus
+	 */
 	@Transactional()
 	@PostMapping(path="/insert")
 	@ApiOperation(value = "클럽생성하기", notes = "클럽생성")
@@ -58,30 +61,22 @@ public class ClubController {
 		return new ResponseEntity<String>("OK",HttpStatus.CREATED);
 	}
 	
+	
+	/**
+	 * @apiNote 전체 클럽 조회 기능
+	 * @return List<Club>
+	 */
 	@GetMapping("/findAll")
 	@ApiOperation(value = "전체 클럽조회", notes = "클럽조회")
 	public List<Club> findAll() {
 		return clubRepository.findAll();
 	}
+
 	
-	@GetMapping("/findByName")
-	@ApiOperation(value = "이름에 해당되는 클럽찾기", notes = "name으로 클럽조회")
-	public Club findByName(@RequestParam String name) {
-		return clubRepository.findByClubName(name);
-	}
-	
-	@DeleteMapping("/delClub")
-	@ApiOperation(value = "club_id로 삭제", response = String.class)
-	public ResponseEntity<?> delpost(@RequestParam("id") int clubId) {
-		try {
-			clubRepository.delAllMember(clubId);	//club_member테이블에서 club_id로 삭제
-			clubRepository.deleteById(clubId);		//club테이블에서 club_id로 삭제
-        }catch (Exception e) {
-        	return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);
-		}   	
-    	return new ResponseEntity<String>("success",HttpStatus.OK);
-	}
-	
+	/**
+	 * @apiNote 클럽 가입(초대) 기능
+	 * @return HttpStatus
+	 */
 	@PostMapping(path="/join")
 	@ApiOperation(value = "클럽가입(초대)하기", notes = "가입 클럽하기")
 	public ResponseEntity<?> insertClub(@RequestBody ClubJoinDto joinReq) {
@@ -94,6 +89,10 @@ public class ClubController {
 	}
 	
 	
+	/**
+	 * @apiNote 내가 가입한 클럽 조회 기능
+	 * @return List<Club>
+	 */
 	@GetMapping("/findMyClub")
 	@ApiOperation(value = "user_id로 가입된 클럽 찾기", notes = "가입된 클럽조회")
 	public List<Club> findByUserId(@RequestParam("id") int userId) {
@@ -102,15 +101,59 @@ public class ClubController {
 	}
 	
 	
+	/**
+	 * @apiNote 클럽 목록 조회 기능
+	 * @return List<Map<ClubList, Object>>
+	 */
 	@GetMapping("/findClubList")
-	@ApiOperation(value = "클럽 리스트 보기", notes = "클럽리스트페이지에서 사용될 API")
+	@ApiOperation(value = "클럽 리스트 보기", notes = "클럽 리스트 페이지에서 사용될 API")
 	public List<Map<ClubList, Object>> findClubList() {
 		return clubRepository.findClubList();
 	}
 	
+	
+	/**
+	 * @apiNote 클럽 상세 정보 조회 기능
+	 * @return ClubDetailDto
+	 */
 	@GetMapping("/findDetail")
 	@ApiOperation(value = "club_id로 클럽 디테일 정보 조회", notes = "클럽 디테일 페이지에서 사용될 API")
 	public ClubDetailDto findClubDetail(@RequestParam("id") int clubId) {
 		return service.findClubDetail(clubId);
 	}
+	
+	
+	/**
+	 * @apiNote 클럽(멤버 포함) 삭제
+	 * @return HttpStatus
+	 */
+	@DeleteMapping("/delClub")
+	@ApiOperation(value = "club_id로 클럽 삭제", response = String.class)
+	public ResponseEntity<?> delpost(@RequestParam("id") int clubId) {
+		try {
+			clubRepository.delAllMember(clubId);	//club_member테이블에서 club_id로 삭제
+			clubRepository.deleteById(clubId);		//club테이블에서 club_id로 삭제
+		}catch (Exception e) {
+			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);
+		}   	
+		return new ResponseEntity<String>("success",HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * @apiNote 클럽 멤버 삭제
+	 * @return HttpStatus
+	 */
+	@DeleteMapping("/delMember")
+	@ApiOperation(value = "user_id로 멤버 삭제", notes = "클럽 디테일 페이지에서 멤버 삭제기능")
+	public ResponseEntity<?> delMember(@RequestBody ClubJoinDto delReq) {
+		try {
+			clubRepository.deleteMember(delReq.getClubId(), delReq.getUserId());
+		}catch (Exception e) {
+			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);
+		}   	
+		return new ResponseEntity<String>("success",HttpStatus.OK);
+	}
+	
+	
 }
