@@ -1,7 +1,11 @@
 import { Button, Container, Input, Typography,Chip } from "@material-ui/core";
+import axios from "axios";
 import React, { useState } from "react";
+import { useHistory } from "react-router";
+import { BASE_URL, USER_ID,TOKEN } from "../../constants";
 
 function GroupCreate() {
+  const history = useHistory();
   const [name, setName] = useState([""]);
   const [email, setEmail] = useState([""]);
   const [photo, setPhoto] = useState([""]);
@@ -22,7 +26,22 @@ function GroupCreate() {
     setMembers(members=>[...members,email]);
     setEmail('');
   };
-  
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    let body = {
+      "clubName":name,
+      "desc":description,
+      'masterId':USER_ID,
+      "membersId":[USER_ID],
+      "profile":"없음"
+    };
+    axios.post(BASE_URL+"club/insert",body,{"Authorization":TOKEN})
+      .then((res)=>{console.log(res.data); 
+        // window.location.replace("/group/list");
+        history.push("/group/list")
+      })
+      .catch((err)=>{console.log(err); alert("")})
+  }
   const member = members.map((target)=>(
     <div style={{marginBottom:"2px"}}>
         <Chip label={target} onDelete={() => setMembers(members.filter(i=>i!==target))} color="primary" />
@@ -84,7 +103,7 @@ function GroupCreate() {
         </div>
         <br/>
         <div style={{textAlign:"center"}}>
-            <Button variant="outlined" style={{marginTop: "3px" }}>
+            <Button variant="outlined" style={{marginTop: "3px" }} onClick={onSubmitHandler}>
             그룹 생성
             </Button>
         </div>

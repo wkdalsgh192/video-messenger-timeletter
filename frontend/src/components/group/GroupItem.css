@@ -9,10 +9,15 @@
     filter:grayscale(30%);
 }
 .content {
-    text-align: center;
-    top:5px;
-    left:80px;
+    /* text-align: center; */
+    top:0px;
+    /* left:80px; */
     position:absolute;
     color:aliceblue;
     font-weight: bold;
+    width: 100%;
+}
+.nogroup {
+    color:aliceblue;
+    font-size: 2rem;
 }
