@@ -81,7 +81,7 @@ const MapCreate = (props) => {
   }, [lat])
 
   return (
-    <div style={{width: '100%', height: '100%'}}>
+    <div style={{width: '80%', height: '80%', marginLeft: "auto", marginRight: "auto"}}>
       <div>- 위도 : {lat}</div>
       <div>- 경도 : {lng}</div>
       <div 
