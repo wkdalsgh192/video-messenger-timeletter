@@ -22,7 +22,10 @@ function GroupCreate() {
     setMembers(members=>[...members,email]);
     setEmail('');
   };
-  
+  const onSubmitHandler = (event) => {
+    event.preventDefault();
+    // let body = {"clubname":name,"desc":}
+  }
   const member = members.map((target)=>(
     <div style={{marginBottom:"2px"}}>
         <Chip label={target} onDelete={() => setMembers(members.filter(i=>i!==target))} color="primary" />
@@ -84,7 +87,7 @@ function GroupCreate() {
         </div>
         <br/>
         <div style={{textAlign:"center"}}>
-            <Button variant="outlined" style={{marginTop: "3px" }}>
+            <Button variant="outlined" style={{marginTop: "3px" }} onClick={onSubmitHandler}>
             그룹 생성
             </Button>
         </div>

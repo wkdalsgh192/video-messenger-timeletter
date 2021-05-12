@@ -81,9 +81,9 @@ function Signup() {
     if (!CheckPassword) {
       return alert("비밀번호를 입력하세요");
     }
-    // if (Password !== CheckPassword) {
-    //   return alert('비밀번호가 일치하지 않습니다.')
-    // }
+    if (Password !== CheckPassword) {
+      return alert('비밀번호가 일치하지 않습니다.')
+    }
 
     let body = {
       email: Email,
@@ -95,8 +95,6 @@ function Signup() {
     axios.post(BASE_URL+"user/join",body)
       .then((res)=>{console.log(res.data); alert('회원가입완료'); history.push("/login")})
       .catch((err)=>console.log(err))
-    // dispatch(signUp(body));
-    // .then(alert('성공'))
   };
 
   let emailCheckForm = null;
