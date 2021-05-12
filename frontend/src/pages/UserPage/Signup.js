@@ -110,11 +110,11 @@ function Signup() {
   }
 
   return (
-    <div className="signupwrap" style={{marginTop:"50px"}}>
+    <div className="signupwrap">
       <div className="signup-html">
         <Container maxWidth="xs" className="">
           <CssBaseline />
-          <div>
+          {/* <div> */}
             <Grid container justify="center" className="paperinner">
               <Avatar>
                 <LockOutlinedIcon />
@@ -197,7 +197,7 @@ function Signup() {
                 sign up
               </Button>
             </form>
-          </div>
+          {/* </div> */}
         </Container>
       </div>
     </div>
