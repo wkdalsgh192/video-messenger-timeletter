@@ -1,5 +1,6 @@
 // import React, { useCallback, useState } from "react";
 import React,{useEffect, useState, useRef} from "react";
+import useSound from 'use-sound';
 // import { useDispatch, useSelector } from "react-redux";
 
 // import Paper from "@material-ui/core/Paper";
@@ -9,16 +10,19 @@ import React,{useEffect, useState, useRef} from "react";
 import { Container } from "@material-ui/core";
 import SearchModal from "../components/mainpage/SearchModal";
 import img1 from "./UserPage/images/종이비행기.gif";
+import sound1 from "./sounds/음악1.mp3"
 import { IoIosArrowDown } from "react-icons/all";
 // import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import "./css/main.css";
 import "./css/main.scss";
-import Clock from "../components/mainpage/Clock";
+
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
+
 function Main() {
+  const [play] = useSound(sound1);
   const [num, setNum] = useState(333);
   const numRef = useRef(333);
   const scrolling = () => {
@@ -52,11 +56,15 @@ function Main() {
             <div onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
             <button class="fill" style={{width:"170px",height:"40px",borderRadius:"20px",paddingBottom:"10px",fontWeight:"bold"}}>레터 찾으러가기</button>
             </div>
+            <div>
+            <button onClick={play}>음악재생test</button>
+            </div>
           </div>
 
           <div className="arrowstyle" onClick={scrolling}>
             <div>사이트 이용법 보기</div>
             <IoIosArrowDown className="floating" />
+          
           </div>
         </div>
 

@@ -6,11 +6,13 @@ import UpperBar from './components/bar/UpperBar';
 import BottomBar from './components/bar/BottomBar';
 import * as All from './pages';
 
+
 const theme = createMuiTheme({
   typography: {
     // fontFamily: 'Cute+Font'
-    // fontFamily: 'Jua'
-    fontFamily: 'Cafe24Oneprettynight'
+    // fontFamily: 'Jua',
+    fontFamily: 'Cafe24Oneprettynight',
+
   }
 })
 
