@@ -18,6 +18,8 @@ const MapCreate = (props) => {
       navigator.geolocation.getCurrentPosition(function(position) {
         setLat(position.coords.latitude)
         setLng(position.coords.longitude)
+        props.onChangeLat(lat)
+        props.onChangeLng(lng)
         setIsCurLoc(true)
       })
     } else {
@@ -26,7 +28,7 @@ const MapCreate = (props) => {
   }
 
   // 지도 생성
-  const createMap = () => {
+  const createMap = (props) => {
     //지도를 담을 영역의 DOM 레퍼런스
     const container = document.getElementById('map'); 
 
@@ -79,12 +81,12 @@ const MapCreate = (props) => {
   }, [lat])
 
   return (
-    <div>
-      <div>위도 : {lat}</div>
-      <div>경도 : {lng}</div>
+    <div style={{width: '100%', height: '100%'}}>
+      <div>- 위도 : {lat}</div>
+      <div>- 경도 : {lng}</div>
       <div 
         id="map" 
-        style={{width: '100%', height: '300px'}}
+        style={{width: '100%', height: '100%'}}
         onClick={() => {
           props.onChangeLat(lat)
           props.onChangeLng(lng)
