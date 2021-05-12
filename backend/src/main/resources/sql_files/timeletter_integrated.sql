@@ -28,8 +28,9 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`authority` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_USER');
-INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_ADMIN');
+INSERT INTO authority (authority_name) values ('ROLE_USER');
+INSERT INTO authority (authority_name) values ('ROLE_ADMIN');
+
 
 -- -----------------------------------------------------
 -- Table `timeletter`.`club`
@@ -43,6 +44,17 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`club` (
   PRIMARY KEY (`club_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `timeletter`.`hibernate_sequence`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `timeletter`.`hibernate_sequence` ;
+
+-- CREATE TABLE IF NOT EXISTS `timeletter`.`hibernate_sequence` (
+--   `next_val` BIGINT NULL DEFAULT NULL)
+-- ENGINE = InnoDB
+-- DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -85,6 +97,86 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`user_has_authority` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+
+-- -----------------------------------------------------
+-- Table `timeletter`.`club`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `club`;
+CREATE TABLE `club` (
+  `club_id` int NOT NULL AUTO_INCREMENT,
+  `club_name` varchar(10) NOT NULL,
+  `user_id` int NOT NULL,
+  `club_desc` varchar(100) DEFAULT NULL,
+  `club_profile` varchar(256) DEFAULT NULL,
+  PRIMARY KEY (`club_id`)
+) 
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+
+-- -----------------------------------------------------
+-- Table `timeletter`.`club_member`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `club_member`;
+CREATE TABLE `club_member` (
+  `user_id` int unsigned DEFAULT NULL,
+  `club_id` int DEFAULT NULL,
+  KEY `club_member_idx` (`user_id`),
+  KEY `member_club_idx` (`club_id`),
+  CONSTRAINT `club_member` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  CONSTRAINT `member_club` FOREIGN KEY (`club_id`) REFERENCES `club` (`club_id`)
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `timeletter`.`letter`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `timeletter`.`letter` ;
+CREATE TABLE IF NOT EXISTS `timeletter`.`letter` (
+  `letter_id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(100) NOT NULL,
+  `url` VARCHAR(256) NULL,
+  `message` VARCHAR(100) NULL,
+  `open_date` DATETIME NULL,
+  `lat` DECIMAL(10,8) NULL,
+  `lng` DECIMAL(11,8) NULL,
+  `alert` TINYINT NULL,
+  `is_private` TINYINT NULL,
+  `is_open` TINYINT NULL,
+  PRIMARY KEY (`letter_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `timeletter`.`user_has_letter`
+-- -----------------------------------------------------
+
+DROP TABLE IF EXISTS `timeletter`.`user_has_letter` ;
+CREATE TABLE IF NOT EXISTS `timeletter`.`user_has_letter` (
+  `user_id` INT UNSIGNED NOT NULL,
+  `letter_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `letter_id`),
+  INDEX `fk_user_has_letter_letter1_idx` (`letter_id` ASC) VISIBLE,
+  CONSTRAINT `fk_user_has_letter_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `timeletter`.`user` (`user_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_user_has_letter_letter1`
+    FOREIGN KEY (`letter_id`)
+    REFERENCES `timeletter`.`letter` (`letter_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

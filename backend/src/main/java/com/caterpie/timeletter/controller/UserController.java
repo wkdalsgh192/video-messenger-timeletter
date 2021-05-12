@@ -53,9 +53,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private UserRepository userRepository;
-	
 	/**
 	 * @apiNote 회원 전체 조회
 	 */
@@ -76,11 +73,10 @@ public class UserController {
 	public ResponseEntity<?> createUser(@RequestBody JoinDto joinDto) {
 		try {
 			userService.insertUser(joinDto);
-			
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();	
 		}
-		return ResponseEntity.ok(joinDto);
+		return ResponseEntity.ok("Congrats, You are signed up!");
 	}
 	
 	/**

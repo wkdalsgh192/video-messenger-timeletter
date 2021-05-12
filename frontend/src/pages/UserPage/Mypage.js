@@ -11,15 +11,22 @@ import { Container } from "@material-ui/core";
 import { Link } from 'react-router-dom';
 
 import "./css/Mypage.css";
+import "../css/main.scss";
 
 import LetterCardlist from "../../components/mypage/LetterCardlist";
 
 function Mypage() {
   return (
-    <div style={{marginBottom:"100px", marginTop:"50px"}}>
+    <div className="mypage">
+      <div className="night">
+        <div className="shooting_starts"></div>
+        <div className="shooting_starts"></div>
+        <div className="shooting_starts"></div>
+        <div className="shooting_starts"></div>
+      </div>
       <Container  maxWidth="xs" className="">
       <h2>mypage</h2>
-      <Card style={{marginTop:"80px"}}>
+      <Card style={{marginTop:"50px"}}>
        
           {/* <CardMedia image="/static/images/cards/live-from-space.jpg" title="Live from space album cover" /> */}
           <div>
