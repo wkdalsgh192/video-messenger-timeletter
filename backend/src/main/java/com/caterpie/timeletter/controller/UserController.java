@@ -58,6 +58,10 @@ public class UserController {
 	 */
 	@ApiOperation(value= "Get All Users", notes="상세 조회")
 	@GetMapping("/get")
+//	@ApiImplicitParams({
+//		@ApiImplicitParam(name="Authorization", value="authorization header", required=false, dataType="string",
+//				paramType="header")
+//	})
 	@PreAuthorize("hasAnyRole('USER','ADMIN')")
 	public ResponseEntity<User> getAllUser() throws Exception {
 		return ResponseEntity.ok(userService.getAllUserWithAuthorities().get());	
@@ -124,10 +128,10 @@ public class UserController {
 	 * @return JWT
 	 */
 	@ApiOperation(value= "Login", notes = "로그인")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name="Authorization", value="authorization header", required=false, dataType="string",
-				paramType="header")
-	})
+//	@ApiImplicitParams({
+//		@ApiImplicitParam(name="Authorization", value="authorization header", required=false, dataType="string",
+//				paramType="header")
+//	})
 	@PostMapping("/login")
     public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto) {
 		
@@ -147,7 +151,8 @@ public class UserController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
+        User user = userService.getUser(loginDto.getEmail());
+        return new ResponseEntity<>(new TokenDto(jwt,user.getUserId()), httpHeaders, HttpStatus.OK);
     }
 }
 
