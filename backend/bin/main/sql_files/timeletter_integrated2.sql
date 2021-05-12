@@ -63,21 +63,17 @@ ENGINE = InnoDB
 AUTO_INCREMENT = 2
 DEFAULT CHARACTER SET = utf8;
 
-INSERT INTO authority (authority_name) values ('ROLE_USER');
-INSERT INTO authority (authority_name) values ('ROLE_ADMIN');
-
 
 -- -----------------------------------------------------
--- Table `timeletter`.`club_has_member`
+-- Table `timeletter`.`club_member`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `timeletter`.`club_has_member` ;
+DROP TABLE IF EXISTS `timeletter`.`club_member` ;
 
-CREATE TABLE IF NOT EXISTS `timeletter`.`club_has_member` (
-  `user_id` INT UNSIGNED NOT NULL,
-  `club_id` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `timeletter`.`club_member` (
+  `user_id` INT UNSIGNED NULL DEFAULT NULL,
+  `club_id` INT NULL DEFAULT NULL,
   INDEX `club_member_idx` (`user_id` ASC) VISIBLE,
   INDEX `member_club_idx` (`club_id` ASC) VISIBLE,
-  PRIMARY KEY (`user_id`, `club_id`),
   CONSTRAINT `club_member`
     FOREIGN KEY (`user_id`)
     REFERENCES `timeletter`.`user` (`user_id`),
@@ -116,10 +112,9 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `timeletter`.`user_has_authority` ;
 
 CREATE TABLE IF NOT EXISTS `timeletter`.`user_has_authority` (
-  `user_id` INT UNSIGNED NOT NULL,
+  `user_id` INT NOT NULL,
   `authority_name` VARCHAR(50) NOT NULL,
   INDEX `fk_user_has_authority_authority_idx` (`authority_name` ASC) INVISIBLE,
-  PRIMARY KEY (`user_id`, `authority_name`),
   CONSTRAINT `fk_user_has_authority_authority`
     FOREIGN KEY (`authority_name`)
     REFERENCES `timeletter`.`authority` (`authority_name`),
@@ -148,23 +143,6 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`user_has_letter` (
     REFERENCES `timeletter`.`user` (`user_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
-
-
--- -----------------------------------------------------
--- Table `timeletter`.`letter_has_phone`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `timeletter`.`letter_has_phone` ;
-
-CREATE TABLE IF NOT EXISTS `timeletter`.`letter_has_phone` (
-  `letter_id` INT NOT NULL,
-  `phone_number` VARCHAR(45) NULL,
-  INDEX `fk_letter_has_phone_letter1_idx` (`letter_id` ASC) VISIBLE,
-  CONSTRAINT `fk_letter_has_phone_letter1`
-    FOREIGN KEY (`letter_id`)
-    REFERENCES `timeletter`.`letter` (`letter_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
