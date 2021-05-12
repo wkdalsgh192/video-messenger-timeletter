@@ -24,20 +24,7 @@ public class Club {
 	@Column(length=256)
 	private String clubDesc;
 	private int userId;	
-	
-//	@ManyToMany
-//	@JoinTable(name = "club_member",
-//			joinColumns = @JoinColumn(name = "club_id"),
-//			inverseJoinColumns = @JoinColumn(name = "user_id"))
-//	private List<User> users = new ArrayList<>();
-	
-
-//	@OneToMany(fetch=FetchType.LAZY)
-//	@JoinTable(name = "club_member",
-//		joinColumns = @JoinColumn(name = "club_id"),
-//		inverseJoinColumns = @JoinColumn(name = "club_id"))
-//	private List<Integer> userId;
-	
+		
 	
 	@Builder
 	public Club(String clubName, int userId, String clubDesc, String clubProfile) {
