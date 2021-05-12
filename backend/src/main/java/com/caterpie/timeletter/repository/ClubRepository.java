@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.caterpie.timeletter.dto.ClubJoinDto;
 import com.caterpie.timeletter.entity.Club;
+import com.caterpie.timeletter.entity.ClubListDto;
 
 @Repository
 public interface ClubRepository extends JpaRepository<Club, Integer> {
@@ -33,5 +34,11 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
 	List<Integer> findMyClub(int userId);
 	
 	List<Club> findByClubIdIn(List<Integer> clubList);
+	
+
+	@Transactional
+	@Modifying
+	@Query(value="select c.user_id, c.club_id, c.club_profile, c.club_desc, c.club_name, count(m.user_id) members FROM club c inner join club_member m on c.club_id = m.club_id group by c.club_id;", nativeQuery=true)
+	List<Map<ClubListDto, Object>> findClubList();
 }
 

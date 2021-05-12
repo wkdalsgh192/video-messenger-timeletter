@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Builder;
@@ -31,7 +32,7 @@ public class Club {
 	private String clubProfile;
 	@Column(length=256)
 	private String clubDesc;
-	private int userId;
+	private int userId;	
 	
 //	@ManyToMany
 //	@JoinTable(name = "club_member",
@@ -39,9 +40,12 @@ public class Club {
 //			inverseJoinColumns = @JoinColumn(name = "user_id"))
 //	private List<User> users = new ArrayList<>();
 	
-//	@OneToOne(fetch=FetchType.LAZY)
-//	@JoinColumn(name="club_id")
-//	private User user;
+
+//	@OneToMany(fetch=FetchType.LAZY)
+//	@JoinTable(name = "club_member",
+//		joinColumns = @JoinColumn(name = "club_id"),
+//		inverseJoinColumns = @JoinColumn(name = "club_id"))
+//	private List<Integer> userId;
 	
 	
 	@Builder

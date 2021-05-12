@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.caterpie.timeletter.dto.ClubDto;
 import com.caterpie.timeletter.dto.ClubJoinDto;
 import com.caterpie.timeletter.entity.Club;
-import com.caterpie.timeletter.entity.User;
+import com.caterpie.timeletter.entity.ClubListDto;
 import com.caterpie.timeletter.repository.ClubRepository;
-import com.caterpie.timeletter.repository.UserRepository;
 import com.caterpie.timeletter.service.ClubService;
 
 import io.swagger.annotations.ApiOperation;
@@ -35,20 +34,21 @@ public class ClubController {
 	@Autowired
 	private ClubRepository clubRepository;
 	@Autowired
-	private UserRepository userRepository;
-	@Autowired
 	ClubService service;
 	
-	/* 클럽 생성 */
+	
 	@Transactional()
 	@PostMapping(path="/insert")
 	@ApiOperation(value = "클럽생성하기", notes = "클럽생성")
 	public ResponseEntity<?> insertClub(@RequestBody ClubDto clubReq) {
 		try {
+			service.insertClub(clubReq);	//클럽생성
+			
+			Club newClub = clubRepository.findByClubName(clubReq.getClubName());	//생성된 클럽
+			service.joinClub(clubReq.getMasterId(), newClub.getClubId() );	//마스터 클럽가입
+			
 			int memLen = clubReq.getMembersId().size();
-			service.insertClub(clubReq);
-			for(int i=0; i<memLen; i++) {
-				Club newClub = clubRepository.findByClubName(clubReq.getClubName());
+			for(int i=0; i<memLen; i++) {	//멤버수만큼 클럽가입
 				service.joinClub(clubReq.getMembersId().get(i), newClub.getClubId());
 			}
 		}catch (Exception e) {
@@ -97,7 +97,13 @@ public class ClubController {
 	@ApiOperation(value = "user_id로 가입된 클럽 찾기", notes = "가입된 클럽조회")
 	public List<Club> findByUserId(@RequestParam("id") int userId) {
 		List<Integer> clubList = clubRepository.findMyClub(userId);
-		System.out.println(clubList.toString());
 		return clubRepository.findByClubIdIn(clubList);
+	}
+	
+	
+	@GetMapping("/fintClubList")
+	@ApiOperation(value = "클럽 리스트 보기", notes = "그룹리스트페이지에서 사용될 API")
+	public List<Map<ClubListDto, Object>> findClubList() {
+		return clubRepository.findClubList();
 	}
 }
