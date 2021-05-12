@@ -28,8 +28,6 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`authority` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_USER');
-INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_ADMIN');
 
 -- -----------------------------------------------------
 -- Table `timeletter`.`club`
@@ -37,9 +35,11 @@ INSERT INTO AUTHORITY (AUTHORITY_NAME) values ('ROLE_ADMIN');
 DROP TABLE IF EXISTS `timeletter`.`club` ;
 
 CREATE TABLE IF NOT EXISTS `timeletter`.`club` (
-  `club_id` INT NOT NULL,
+  `club_id` INT NOT NULL AUTO_INCREMENT,
   `club_name` VARCHAR(10) NOT NULL,
   `user_id` INT NOT NULL,
+  `club_desc` VARCHAR(100) NULL DEFAULT NULL,
+  `club_profile` VARCHAR(256) NULL DEFAULT NULL,
   PRIMARY KEY (`club_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -60,6 +60,53 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`user` (
   `profile` VARCHAR(256) NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8;
+
+INSERT INTO authority (authority_name) values ('ROLE_USER');
+INSERT INTO authority (authority_name) values ('ROLE_ADMIN');
+
+
+-- -----------------------------------------------------
+-- Table `timeletter`.`club_has_member`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `timeletter`.`club_has_member` ;
+
+CREATE TABLE IF NOT EXISTS `timeletter`.`club_has_member` (
+  `user_id` INT UNSIGNED NOT NULL,
+  `club_id` INT NOT NULL,
+  INDEX `club_member_idx` (`user_id` ASC) VISIBLE,
+  INDEX `member_club_idx` (`club_id` ASC) VISIBLE,
+  PRIMARY KEY (`user_id`, `club_id`),
+  CONSTRAINT `club_member`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `timeletter`.`user` (`user_id`),
+  CONSTRAINT `member_club`
+    FOREIGN KEY (`club_id`)
+    REFERENCES `timeletter`.`club` (`club_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `timeletter`.`letter`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `timeletter`.`letter` ;
+
+CREATE TABLE IF NOT EXISTS `timeletter`.`letter` (
+  `letter_id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(100) NOT NULL,
+  `url` VARCHAR(256) NULL DEFAULT NULL,
+  `message` VARCHAR(100) NULL DEFAULT NULL,
+  `open_date` DATETIME NULL DEFAULT NULL,
+  `lat` DECIMAL(10,8) NULL DEFAULT NULL,
+  `lng` DECIMAL(11,8) NULL DEFAULT NULL,
+  `alert` TINYINT NULL DEFAULT NULL,
+  `is_private` TINYINT NULL DEFAULT NULL,
+  `is_open` TINYINT NULL DEFAULT NULL,
+  PRIMARY KEY (`letter_id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 11
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -73,18 +120,51 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`user_has_authority` (
   `authority_name` VARCHAR(50) NOT NULL,
   INDEX `fk_user_has_authority_authority_idx` (`authority_name` ASC) INVISIBLE,
   PRIMARY KEY (`user_id`, `authority_name`),
-  CONSTRAINT `fk_user_has_authority_user`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `timeletter`.`user` (`user_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_has_authority_authority`
     FOREIGN KEY (`authority_name`)
-    REFERENCES `timeletter`.`authority` (`authority_name`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `timeletter`.`authority` (`authority_name`),
+  CONSTRAINT `fk_user_has_authority_user`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `timeletter`.`user` (`user_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `timeletter`.`user_has_letter`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `timeletter`.`user_has_letter` ;
+
+CREATE TABLE IF NOT EXISTS `timeletter`.`user_has_letter` (
+  `user_id` INT UNSIGNED NOT NULL,
+  `letter_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`, `letter_id`),
+  INDEX `fk_user_has_letter_letter1_idx` (`letter_id` ASC) VISIBLE,
+  CONSTRAINT `fk_user_has_letter_letter1`
+    FOREIGN KEY (`letter_id`)
+    REFERENCES `timeletter`.`letter` (`letter_id`),
+  CONSTRAINT `fk_user_has_letter_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `timeletter`.`user` (`user_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `timeletter`.`letter_has_phone`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `timeletter`.`letter_has_phone` ;
+
+CREATE TABLE IF NOT EXISTS `timeletter`.`letter_has_phone` (
+  `letter_id` INT NOT NULL,
+  `phone_number` VARCHAR(45) NULL,
+  INDEX `fk_letter_has_phone_letter1_idx` (`letter_id` ASC) VISIBLE,
+  CONSTRAINT `fk_letter_has_phone_letter1`
+    FOREIGN KEY (`letter_id`)
+    REFERENCES `timeletter`.`letter` (`letter_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

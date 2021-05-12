@@ -14,12 +14,16 @@ import swal from "sweetalert";
 
 import "./css/Login.css";
 import "./css/Signup.css";
+import axios from "axios";
+import { BASE_URL } from "../../constants";
+import { useHistory } from "react-router";
 
 // import { Link } from "react-router-dom";
 const { signUp } = require("../../_actions/user");
 
 function Signup() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [Email, setEmail] = useState("");
   const [EmailCheck, setEmailCheck] = useState(false);
   const [Password, setPassword] = useState("");
@@ -84,11 +88,14 @@ function Signup() {
     let body = {
       email: Email,
       name: Name,
-      phone: PhoneNumber,
       password: Password,
+      phone: PhoneNumber
     };
     console.log(body, "!!!!!!");
-    dispatch(signUp(body));
+    axios.post(BASE_URL+"user/join",body)
+      .then((res)=>{console.log(res.data); alert('회원가입완료'); history.push("/login")})
+      .catch((err)=>console.log(err))
+    // dispatch(signUp(body));
     // .then(alert('성공'))
   };
 

@@ -43,7 +43,6 @@ public class UserServiceImpl implements UserService {
 		Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
                 .build();
-		logger.debug("authority를 생성하였습니다.");
 		
 		User user = User.builder()
 				.email(joinDto.getEmail())
@@ -53,7 +52,6 @@ public class UserServiceImpl implements UserService {
 				.activated(true)
 				.authorities(Collections.singleton(authority))
 				.build();
-		logger.debug("user를 생성하였습니다.");
 		
 
 		userRepo.save(user);
@@ -88,5 +86,9 @@ public class UserServiceImpl implements UserService {
         		.getCurrentUsername().flatMap(userRepo::findOneWithAuthoritiesByEmail);
     }
 	
+	@Override
+	public User getUser(String email) {
+		return userRepo.findByEmail(email);
+	}
 	
 }

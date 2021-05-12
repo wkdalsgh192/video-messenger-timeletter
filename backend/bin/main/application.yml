@@ -3,6 +3,15 @@ server:
     context-path: /timeletter
 
 spring:
+  servlet:
+    multipart:
+      maxFileSize : 10MB
+      maxRequestSize : 10MB
+      
+  thymeleaf:
+    prefix : classpath:templates/
+    suffix : .html
+    cache : false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://k4d105.p.ssafy.io/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8

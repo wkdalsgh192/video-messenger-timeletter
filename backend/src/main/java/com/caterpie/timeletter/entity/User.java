@@ -2,7 +2,6 @@ package com.caterpie.timeletter.entity;
 
 import java.util.Set;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,12 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -52,6 +51,13 @@ public class User {
 	@JoinColumn(name="user_id")
 	private Club club;
 	
+	@OneToMany
+	@JoinTable(
+			name="user_has_letter",
+			joinColumns = {@JoinColumn(name="user_id", referencedColumnName = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name="letter_id", referencedColumnName="letter_id")})
+	private Set<Letter> letters;
+	
 	@ManyToMany
 	@JoinTable(
 			name="user_has_authority",
@@ -61,7 +67,7 @@ public class User {
 
 	@Builder
 	public User(String email, String name, String profile, String password, String phone, boolean activated,
-			Set<Authority> authorities) {
+			Set<Authority> authorities, Set<Letter> letters) {
 		super();
 		this.email = email;
 		this.name = name;
@@ -70,6 +76,7 @@ public class User {
 		this.phone = phone;
 		this.activated = activated;
 		this.authorities = authorities;
+		this.letters = letters;
 	}
 	
 	

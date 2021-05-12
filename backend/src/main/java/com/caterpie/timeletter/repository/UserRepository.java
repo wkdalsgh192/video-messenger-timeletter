@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	User findByEmailAndPassword(String email, String password);
 
+	User findOneByUserId(int userId);
+	
 	@Transactional
 	@Modifying
 	@Query(value="update user set  name= ?, password = ?, salt = ?, phone =? where user_id = ?", nativeQuery=true)
@@ -28,6 +30,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	
 	@EntityGraph(attributePaths = "authorities")
 	Optional<User> findOneWithAuthoritiesByEmail(String email);
+	
+	
 	
 }
 
