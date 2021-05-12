@@ -1,5 +1,8 @@
 package com.caterpie.timeletter.repository;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,5 +27,11 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
 	@Query(value="delete from club_member where club_id = ?", nativeQuery=true)
 	void delAllMember(int clubId);
 	
+	@Transactional
+	@Modifying
+	@Query(value="select club_id from club_member where user_id = ?", nativeQuery=true)
+	List<Integer> findMyClub(int userId);
+	
+	List<Club> findByClubIdIn(List<Integer> clubList);
 }
 

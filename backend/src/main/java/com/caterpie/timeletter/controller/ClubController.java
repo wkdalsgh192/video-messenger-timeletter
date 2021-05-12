@@ -1,6 +1,7 @@
 package com.caterpie.timeletter.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -41,6 +42,7 @@ public class ClubController {
 	/* 클럽 생성 */
 	@Transactional()
 	@PostMapping(path="/insert")
+	@ApiOperation(value = "클럽생성하기", notes = "클럽생성")
 	public ResponseEntity<?> insertClub(@RequestBody ClubDto clubReq) {
 		try {
 			int memLen = clubReq.getMembersId().size();
@@ -56,21 +58,23 @@ public class ClubController {
 	}
 	
 	@GetMapping("/findAll")
+	@ApiOperation(value = "전체 클럽조회", notes = "클럽조회")
 	public List<Club> findAll() {
 		return clubRepository.findAll();
 	}
 	
 	@GetMapping("/findByName")
+	@ApiOperation(value = "이름에 해당되는 클럽찾기", notes = "name으로 클럽조회")
 	public Club findByName(@RequestParam String name) {
 		return clubRepository.findByClubName(name);
 	}
 	
-	@ApiOperation(value = "club_id로 삭제", response = String.class)
 	@DeleteMapping("/delClub")
+	@ApiOperation(value = "club_id로 삭제", response = String.class)
 	public ResponseEntity<?> delpost(@RequestParam("id") int clubId) {
 		try {
-			clubRepository.delAllMember(clubId);
-			clubRepository.deleteById(clubId);
+			clubRepository.delAllMember(clubId);	//club_member테이블에서 club_id로 삭제
+			clubRepository.deleteById(clubId);		//club테이블에서 club_id로 삭제
         }catch (Exception e) {
         	return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);
 		}   	
@@ -78,6 +82,7 @@ public class ClubController {
 	}
 	
 	@PostMapping(path="/join")
+	@ApiOperation(value = "클럽가입(초대)하기", notes = "가입 클럽하기")
 	public ResponseEntity<?> insertClub(@RequestBody ClubJoinDto joinReq) {
 		try {
 			service.joinClub(joinReq.getUserId(), joinReq.getClubId());
@@ -85,5 +90,14 @@ public class ClubController {
 			return new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST);		
 		}
 		return new ResponseEntity<String>("OK",HttpStatus.CREATED);
+	}
+	
+	
+	@GetMapping("/findMyClub")
+	@ApiOperation(value = "user_id로 가입된 클럽 찾기", notes = "가입된 클럽조회")
+	public List<Club> findByUserId(@RequestParam("id") int userId) {
+		List<Integer> clubList = clubRepository.findMyClub(userId);
+		System.out.println(clubList.toString());
+		return clubRepository.findByClubIdIn(clubList);
 	}
 }
