@@ -18,10 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.caterpie.timeletter.dto.ClubDetailDto;
 import com.caterpie.timeletter.dto.ClubDto;
 import com.caterpie.timeletter.dto.ClubJoinDto;
 import com.caterpie.timeletter.entity.Club;
-import com.caterpie.timeletter.entity.ClubListDto;
+import com.caterpie.timeletter.entity.ClubList;
 import com.caterpie.timeletter.repository.ClubRepository;
 import com.caterpie.timeletter.service.ClubService;
 
@@ -101,9 +102,15 @@ public class ClubController {
 	}
 	
 	
-	@GetMapping("/fintClubList")
-	@ApiOperation(value = "클럽 리스트 보기", notes = "그룹리스트페이지에서 사용될 API")
-	public List<Map<ClubListDto, Object>> findClubList() {
+	@GetMapping("/findClubList")
+	@ApiOperation(value = "클럽 리스트 보기", notes = "클럽리스트페이지에서 사용될 API")
+	public List<Map<ClubList, Object>> findClubList() {
 		return clubRepository.findClubList();
+	}
+	
+	@GetMapping("/findDetail")
+	@ApiOperation(value = "club_id로 클럽 디테일 정보 조회", notes = "클럽 디테일 페이지에서 사용될 API")
+	public ClubDetailDto findClubDetail(@RequestParam("id") int clubId) {
+		return service.findClubDetail(clubId);
 	}
 }
