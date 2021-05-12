@@ -11,6 +11,7 @@ public interface UserService {
 	void insertUser(JoinDto joinReq);
 	
 	/* R :: 회원 정보 가져오기 */
+	User getUser(String email);
 	Optional<User> getUserWithAuthorities(String email);
 	Optional<User> getAllUserWithAuthorities();
 	

@@ -86,5 +86,9 @@ public class UserServiceImpl implements UserService {
         		.getCurrentUsername().flatMap(userRepo::findOneWithAuthoritiesByEmail);
     }
 	
+	@Override
+	public User getUser(String email) {
+		return userRepo.findByEmail(email);
+	}
 	
 }
