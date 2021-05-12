@@ -42,13 +42,13 @@ function Login() {
   };
 
   return (
-    <div className="login-wrap" style={{ marginTop: "50px" }}>
-      <Paper className="papercs">
+    <div className="login-wrap" >
+      <Paper className="papercs" style={{ marginTop: "90px" }}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div>
             <Grid container justify="center" className="paperinner">
-              <Avatar>
+            <Avatar style={{backgroundColor:"#2D0968"}}>
                 <LockOutlinedIcon />
               </Avatar>
             </Grid>
@@ -58,7 +58,7 @@ function Login() {
               </Typography>
             </Grid>
 
-            <form noValidate onSubmit={onSubmitHandler}>
+            <form noValidate onSubmit={onSubmitHandler} className="starfont">
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -83,24 +83,26 @@ function Login() {
                 id="password"
                 autoComplete="current-password"
                 onChange={onPasswordHandler}
+                className="starfont"
+                style={{fontFamily: 'RIDIBatang'}}
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
-                style={{ marginTop: "20px" }}
+                style={{marginTop:"20px", backgroundColor:"#2D0968"}}
               >
-                Login
+                            <span style={{color:"white",fontSize:"20px"}}>Login</span>
               </Button>
               <Grid container style={{ marginTop: "20px" }}>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
+                  <Link to="#" variant="body2">
+                  <span style={{fontWeight:"bold"}}>{"Forgot password?"}</span>
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link to="/signup">{"회원가입"}</Link>
+                <Link to="/signup"><span style={{fontWeight:"bold",fontSize:"15px"}} className="sratfont">{"회원가입"}</span></Link>
                 </Grid>
               </Grid>
             </form>

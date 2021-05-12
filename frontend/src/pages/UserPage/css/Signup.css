@@ -5,6 +5,7 @@
   min-height:900px; */
   position:absolute;
   background:url("../../images/sky2.jpg") repeat center;
+  padding-bottom: 850px;
   }
 
 
@@ -12,7 +13,17 @@
     width:100%;
     height:100%;
     position:absolute;
-    padding-bottom: 400px;
+    padding-bottom: 850px;
 
 }
 
+.papercs2 {
+  margin-top: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+  width:90%;
+  height:70%;
+  position:absolute;
+  padding-bottom: 700px;
+
+}

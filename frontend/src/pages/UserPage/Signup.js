@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 
 import swal from "sweetalert";
 
@@ -17,6 +18,7 @@ import "./css/Signup.css";
 import axios from "axios";
 import { BASE_URL } from "../../constants";
 import { useHistory } from "react-router";
+import ScrollToTop from '../../components/Scroll/ScrollToTop';
 
 // import { Link } from "react-router-dom";
 const { signUp } = require("../../_actions/user");
@@ -119,11 +121,13 @@ function Signup() {
   return (
     <div className="signupwrap">
       <div className="signup-html">
+      <ScrollToTop />
+      <Paper className="papercs2" style={{ marginTop: "80px" }}>
         <Container maxWidth="xs" className="">
           <CssBaseline />
           {/* <div> */}
             <Grid container justify="center" className="paperinner">
-              <Avatar>
+              <Avatar style={{backgroundColor:"#2D0968"}}>
                 <LockOutlinedIcon />
               </Avatar>
             </Grid>
@@ -166,8 +170,9 @@ function Signup() {
                         swal('warn you','이메일형식이 옳바르지 않습니다.',"error")
                       }
                     }}
+                    style={{backgroundColor:"#2D0968"}}
                   >
-                    인증하기
+                    <span style={{color:"white",fontSize:"17px"}}>인증하기</span>
                   </Button>
                 </Grid>
                 {emailCheckForm}
@@ -200,12 +205,13 @@ function Signup() {
 
               <TextField autoComplete="fname" margin="normal" name="Name" variant="outlined" required fullWidth id="Name" label="Name" autoFocus onChange={onNameHandler} />
               <TextField autoComplete="fname" margin="normal" name="" variant="outlined" required fullWidth id="" label="Phone Number" autoFocus onChange={onPhoneNumberHandler} />
-              <Button type="button" fullWidth variant="contained" color="primary" style={{ marginTop: "20px" }} onClick={onSubmitHandler}>
-                sign up
+              <Button type="button" fullWidth variant="contained" color="primary" style={{ marginTop: "20px",backgroundColor:"#2D0968" }} onClick={onSubmitHandler}>
+              <span style={{color:"white",fontSize:"17px"}}>SIGN UP</span>
               </Button>
             </form>
           {/* </div> */}
         </Container>
+        </Paper>
       </div>
     </div>
   );
