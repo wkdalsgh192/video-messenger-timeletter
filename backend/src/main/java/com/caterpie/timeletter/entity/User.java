@@ -78,9 +78,5 @@ public class User {
 		this.authorities = authorities;
 		this.letters = letters;
 	}
-	
-	
-	
-	
 }
 

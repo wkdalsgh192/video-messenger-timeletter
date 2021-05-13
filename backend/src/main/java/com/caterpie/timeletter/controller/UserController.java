@@ -54,17 +54,15 @@ public class UserController {
 	private UserService userService;
 	
 	/**
-	 * @apiNote 회원 전체 조회
+	 * @apiNote 현재 유저 정보 조회
 	 */
-	@ApiOperation(value= "Get All Users", notes="상세 조회")
+	@ApiOperation(value= "Get Current User", notes="현재 유저 정보 확인하기")
 	@GetMapping("/get")
-//	@ApiImplicitParams({
-//		@ApiImplicitParam(name="Authorization", value="authorization header", required=false, dataType="string",
-//				paramType="header")
-//	})
 	@PreAuthorize("hasAnyRole('USER','ADMIN')")
-	public ResponseEntity<User> getAllUser() throws Exception {
-		return ResponseEntity.ok(userService.getAllUserWithAuthorities().get());	
+	public ResponseEntity<?> getCurrentUser() throws Exception {
+		Optional<User> opt = userService.getCurrentUserWithAuthorities();
+		if (opt.isPresent()) return new ResponseEntity<>(opt, HttpStatus.OK);
+		else throw new Exception("Current user info does't exist");
 	}
 	
 	/**
@@ -83,16 +81,16 @@ public class UserController {
 		return ResponseEntity.ok("Congrats, You are signed up!");
 	}
 	
-	/**
-	 * @apiNote 회원 정보 상세 조회
-	 * @return User
-	 */
-	@ApiOperation(value= "Get User Detail", notes="상세 조회")
-	@GetMapping("/get/{email}")
-	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	public ResponseEntity<User> getUserInfo(@PathVariable String email) throws Exception {
-		return ResponseEntity.ok(userService.getUserWithAuthorities(email).get());	
-	}
+//	/**
+//	 * @apiNote 회원 정보 상세 조회
+//	 * @return User
+//	 */
+//	@ApiOperation(value= "Get User Detail", notes="상세 조회")
+//	@GetMapping("/get/{email}")
+//	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+//	public ResponseEntity<User> getUserInfo(@PathVariable String email) throws Exception {
+//		return ResponseEntity.ok(userService.getUserWithAuthorities(email).get());	
+//	}
 	
 	
 	/**

@@ -4,5 +4,7 @@ import com.caterpie.timeletter.dto.LetterDto;
 
 public interface LetterService {
 	/* C :: 레터 생성 */
-	void createLetter(LetterDto letterDto);
+	int createLetter(LetterDto letterDto) throws Exception;
+	
+	void saveFile(int letterId, String url) throws Exception;
 }

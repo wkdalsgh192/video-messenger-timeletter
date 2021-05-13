@@ -58,11 +58,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		     	// token을 사용하는 방식이기 때문에 csrf를 disable합니다.
 		        .csrf().disable()
 		        
-        		.formLogin()
-        		.usernameParameter("email")
-        		.passwordParameter("password")
-        		
-        		.and()
+//        		.formLogin()
+//        		.usernameParameter("email")
+//        		.passwordParameter("password")
+//        		
+//        		.and()
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .exceptionHandling()
@@ -76,7 +76,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/club/**").permitAll()
                 .antMatchers("/letter/**").permitAll()

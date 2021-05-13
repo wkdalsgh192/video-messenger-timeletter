@@ -16,11 +16,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.caterpie.timeletter.dto.LetterDto;
 import com.caterpie.timeletter.service.LetterService;
@@ -48,29 +48,42 @@ public class LetterController {
 		return new ResponseEntity<>(new InputStreamResource(inputStream),headers,HttpStatus.OK);
 	}
 	
-	@GetMapping("/")
-	public ModelAndView hello() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("uploader");
-		return modelAndView;
-	}
+//	@GetMapping("/")
+//	public ModelAndView hello() {
+//		ModelAndView modelAndView = new ModelAndView();
+//		modelAndView.setViewName("uploader");
+//		return modelAndView;
+//	}
 	
-	@PostMapping(path="/create", consumes= {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> createLetter(LetterDto letterDto, @RequestParam("file") MultipartFile file) {
-		
-		// 영상 데이터 저장
-		String url = new String();
-		String fileName = file.isEmpty() ? "" : file.getOriginalFilename();
-		try {
-			url = "".equals(fileName) ? "" : "C:\\Users\\multicampus\\Desktop\\test\\"+fileName;
-			file.transferTo(new File(url));
 
-			letterDto.setUrl(url);
-			letterService.createLetter(letterDto);
+	@PostMapping(path="/create")
+	public ResponseEntity<?> createLetter(@RequestBody LetterDto letterDto) {
+		
+		int letterId;
+		try {
+			letterId = letterService.createLetter(letterDto);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 		logger.debug(letterDto.toString());
+		return new ResponseEntity<>(letterId,HttpStatus.OK);
+	}
+	
+	@PostMapping(path="/save/{letterId}", consumes= {MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile file) {
+		
+		// 영상 데이터 저장
+		String url = "";
+		try {
+			url = "/home/ubuntu/files/"+file.getOriginalFilename();
+			file.transferTo(new File(url));
+			
+			letterService.saveFile(letterId, url);
+		} catch (Exception e) {
+			logger.debug("Failed to save a file");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+		
 		return ResponseEntity.ok("File Uploaded Successfully!");
 	}
 	
