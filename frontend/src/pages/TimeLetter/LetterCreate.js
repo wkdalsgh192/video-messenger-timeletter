@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
 import { 
   Container,
   Typography,
-  // Box,
   Grid,
   TextField,
   Button,
@@ -12,7 +11,6 @@ import {
   RadioGroup,
   Radio,
   FormControlLabel,
-  // InputLabel,
   Input,
   InputAdornment,
   ButtonGroup,
@@ -27,32 +25,50 @@ import {
   DialogActions,
   List,
   ListItem,
-  Divider,
   ListItemText,
   ListItemAvatar,
   Avatar,
-} from '@material-ui/core';
-import TitleRoundedIcon from '@material-ui/icons/TitleRounded';
-import CloseIcon from '@material-ui/icons/Close';
-import MapIcon from '@material-ui/icons/Map';
-import PhoneAndroidOutlinedIcon from '@material-ui/icons/PhoneAndroidOutlined';
+} from '@material-ui/core'
+import TitleRoundedIcon from '@material-ui/icons/TitleRounded'
+import CloseIcon from '@material-ui/icons/Close'
+import MapIcon from '@material-ui/icons/Map'
+import PhoneAndroidOutlinedIcon from '@material-ui/icons/PhoneAndroidOutlined'
 import MapCreate from '../../components/timeletter/MapCreate'
 import group from 'static/images/group.png'
+import bgImage from 'pages/images/sky2.jpg'
+import { BASE_URL, USER_ID, TOKEN } from 'constants/index.js'
+import axios from 'axios'
+import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+
+// 테마
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#fff'
+    }
+  }
+})
 
 
 // 스타일
 const useStyles = makeStyles((theme) => ({
   container: {
-    marginBottom: '80px',
+    backgroundImage: `url(${bgImage})`,
+    height: '100%',
+    width: '100%',
+    paddingTop: '20px',
+    paddingBottom: '80px',
+    // color: '#fff !important',
   },
   title: {
-    marginTop: '16px',
+    marginTop: '40px',
+    color: '#fff',
   },
   paper: {
     marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#e8eaf6',
+    backgroundColor: '#fff',
     padding: theme.spacing(0, 2),
   },
   form: {
@@ -61,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
   field: {
     marginBottom: '24px',
-    width: '100%'
+    width: '100%',
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -229,11 +245,25 @@ const LetterCreate = () => {
     setPhoneNumbers([])
     setPhoneNumberList([{ phoneNumber: ""}])
     setClubOpen(true)
-    // ********* 본인이 속한 그룹 목록을 받아오는 axios 요청 필요 ***********
+
+    // 본인이 속한 그룹 목록을 받아오는 axios 요청
+    // console.log(USER_ID)
+    axios.get(BASE_URL + 'club/findMyClub', {
+      params: {
+        id: USER_ID,
+      }
+    })
+      .then(res => {
+        console.log(res.data)
+        setClubList(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
   const handleClubId = (club, e) => {
-    setSelectClubId(club.id)
-    alert(club.name+'에 레터를 생성합니다.')
+    setSelectClubId(club.clubId)
+    alert(club.clubName+'에 레터를 생성합니다.')
   }
   const handleClubClose = () => {
     setClubOpen(false)
@@ -253,6 +283,11 @@ const LetterCreate = () => {
   // submit
   const onSubmit = (e) => {
     e.preventDefault()
+
+    // 나에게, 타인에게 / 그룹에게로 분기
+    // json axios를 먼저보내고 성공하면 file axios 보내기
+    // formData 수정 필요
+
     let formData = new FormData()
     formData.append('userId', 1)
     formData.append('title', title)
@@ -276,7 +311,7 @@ const LetterCreate = () => {
   }
 
   return (
-    <Container className={classes.container} style={{marginTop:"50px"}} maxWidth="xs">
+    <Container className={classes.container} maxWidth="xs">
       <Typography className={classes.title} variant="h6">레터생성</Typography>
       {/* 캡슐 정보 */}
       <div className={classes.paper}>
@@ -515,7 +550,7 @@ const LetterCreate = () => {
                           <ListItemAvatar>
                             <Avatar alt="clubimage" src={group} />
                           </ListItemAvatar>
-                          <ListItemText primary={club.name} secondary={club.info} />
+                          <ListItemText primary={club.clubName} secondary={club.clubDesc} />
                         </ListItem>
                       )
                     })}
