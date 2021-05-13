@@ -105,7 +105,7 @@ function Signup() {
     emailCheckForm = (
       <>
         <Grid item xs={12} sm={6}>
-          <TextField variant="outlined" margin="normal" required fullWidth label="인증번호 입력" autoFocus type="number" onChange={setEmailCheck} />
+          <TextField variant="outlined" margin="normal" required fullWidth label="인증번호 입력" autoFocus type="text" onChange={setEmailCheck} />
         </Grid>
         <Grid item xs={12} sm={6}>
           
