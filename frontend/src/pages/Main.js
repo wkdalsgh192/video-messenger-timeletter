@@ -59,7 +59,7 @@ function Main() {
             <div style={{ color: "white", fontSize: "3rem" }}> ★ {num}</div>
 
             <div onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
-              <button class="fill" style={{ width: "170px", height: "40px", borderRadius: "20px", paddingBottom: "10px", fontWeight: "bold" }}>
+              <button className="fill" style={{ width: "170px", height: "40px", borderRadius: "20px", paddingBottom: "10px", fontWeight: "bold" }}>
                 레터 찾으러가기
               </button>
             </div>
@@ -68,8 +68,8 @@ function Main() {
               <ReactAudioPlayer src={sound1} autoPlay={musicOn} controls /> */}
           
 
-              <iframe src={sound2} allow="autoplay" id="audio" style={{display:"none"}}></iframe>
-              <audio autoplay muted ><source src={sound1} type="audio/mp3"></source> </audio>
+              {/* <iframe src={sound2} allow="autoplay;" id="audio" style={{display:"none"}}></iframe> */}
+              {/* <audio autoplay muted ><source src={sound1} type="audio/mp3"></source> </audio> */}
 
 
             </div>

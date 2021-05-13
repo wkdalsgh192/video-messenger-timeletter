@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import './GroupDetail.css';
 import GroupCapsule from '../../components/group/GroupCapsule';
 import GroupMember from '../../components/group/GroupMember';
@@ -13,10 +13,13 @@ import LetterCardlist from "../../components/mypage/LetterCardlist";
 
 import './GroupDetail.css';
 import './GroupList.css';
+import axios from 'axios';
+import { BASE_URL,TOKEN } from "../../constants";
 
-function GroupDetail() {
+function GroupDetail(props) {
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [info, setInfo] = useState({});
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,6 +53,18 @@ function GroupDetail() {
     )
   }
 
+  useEffect(()=>{
+    let club_id = props.match.params.id;
+    axios.get(BASE_URL+"club/findDetail?id="+club_id,{"Authorization":TOKEN})
+      .then((res)=> {
+        // console.log(res.data);
+        setInfo(res.data);
+      })
+      .catch((err)=> {
+        console.log(err);
+      })
+  },[]);
+
   return (
     <Container className="GroupDetail" style={{color:"white"}} className="grouplist">
       <div>
@@ -72,7 +87,7 @@ function GroupDetail() {
       </Menu>
 
         </div>
-        <GroupMember></GroupMember>
+        <GroupMember members={info.members}></GroupMember>
 
       </div>
   
