@@ -46,67 +46,66 @@ const LetterList = () => {
 
   return (
     <Container className={classes.container} maxWidth="xs">
-        {/* 오픈, 비오픈 구분 탭 */}
-        <Tabs
-          value={value}
-          indicatorColor="primary"
-          onChange={handleChange}
-          aria-label="disabled tabs example"
-          style={{marginBottom:"15px", color:"bisque"}}
-        >
-          <Tab label="오픈된 레터" />
-          <Tab label="비오픈된 레터" />
-        </Tabs>
+      {/* 오픈, 비오픈 구분 탭 */}
+      <Tabs
+        value={value}
+        indicatorColor="primary"
+        onChange={handleChange}
+        aria-label="disabled tabs example"
+        style={{marginBottom:"15px", color:"bisque"}}
+      >
+        <Tab label="오픈된 레터" />
+        <Tab label="비오픈된 레터" />
+      </Tabs>
 
-
-        {/* 레터 목록 */}
-        <div className="trashnone">
-          <div class="night2">
-            <span class="moon"></span>
-            <span class="spot1"></span>
-            <span class="spot2"></span>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
-            <Link to="/letter/detail">
-              <div className="lettercontent2">
-                <div style={{fontSize:"20px", color: '#fff'}}>레터 이름</div>
-                <div style={{fontSize:"35px", color: '#fff'}}> 오픈시각 d-day</div>
-                <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
-                  <Chip variant="outlined" size="middle" icon={<FaceIcon />} label="From.조현섭" color={yw} />
-                </div>
+      {/* 레터 목록 */}
+      <div className="trashnone">
+        <div class="night2">
+          <span class="moon"></span>
+          <span class="spot1"></span>
+          <span class="spot2"></span>
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          <Link to="/letter/detail">
+            <div className="lettercontent2">
+              <div style={{fontSize:"20px", color: '#fff'}}>레터 이름</div>
+              <div style={{fontSize:"35px", color: '#fff'}}> 오픈시각 d-day</div>
+              <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
+                <Chip variant="outlined" size="middle" icon={<FaceIcon />} label="From.조현섭" color={yw} />
               </div>
-            </Link>
-          </div>          
-        </div>
+            </div>
+          </Link>
+        </div>          
+      </div>
 
-        {/* 레터 목록 */}
-        {/* <Link to="/letter/detail">
-          <Card className="">
-            <Grid container alignItems="center" className="letterbox">
-              <Grid item className="lettercontent">
-                <CardContent>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    레터 이름
-                  </Typography>
-                  <Typography component="h5" variant="h5">
-                    오픈시각 d-day
-                  </Typography>
-                </CardContent>
-              </Grid>
-              <Grid item style={{marginRight:"15px"}} >
-                <img src={closeletter} style={{ height: "70px", width: "70px" }} className="tossing" />
-              </Grid>
-              <Grid item className="lettercontent" style={{marginLeft:"10px", marginBottom:"10px"}}>
-                <Chip variant="outlined" size="small" icon={<FaceIcon />} label="From.조현섭" color="secondary" />
-              </Grid>
+      {/* 레터 목록 */}
+      {/* <Link to="/letter/detail">
+        <Card className="">
+          <Grid container alignItems="center" className="letterbox">
+            <Grid item className="lettercontent">
+              <CardContent>
+                <Typography variant="subtitle1" color="textSecondary">
+                  레터 이름
+                </Typography>
+                <Typography component="h5" variant="h5">
+                  오픈시각 d-day
+                </Typography>
+              </CardContent>
             </Grid>
-          </Card>
-        </Link> */}
+            <Grid item style={{marginRight:"15px"}} >
+              <img src={closeletter} style={{ height: "70px", width: "70px" }} className="tossing" />
+            </Grid>
+            <Grid item className="lettercontent" style={{marginLeft:"10px", marginBottom:"10px"}}>
+              <Chip variant="outlined" size="small" icon={<FaceIcon />} label="From.조현섭" color="secondary" />
+            </Grid>
+          </Grid>
+        </Card>
+      </Link> */}
     </Container>
   );
 };
