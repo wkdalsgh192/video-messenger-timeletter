@@ -60,12 +60,8 @@ public class LetterController {
 	public ResponseEntity<?> createLetter(@RequestBody LetterDto letterDto) {
 		
 		int letterId;
-		try {
-			letterId = letterService.createLetter(letterDto);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-		logger.debug(letterDto.toString());
+		letterId = letterService.createLetter(letterDto);
+		if (letterId < 0) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		return new ResponseEntity<>(letterId,HttpStatus.OK);
 	}
 	

@@ -1,7 +1,9 @@
 package com.caterpie.timeletter.entity;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -51,12 +53,9 @@ public class User {
 	@JoinColumn(name="user_id")
 	private Club club;
 	
-	@OneToMany
-	@JoinTable(
-			name="user_has_letter",
-			joinColumns = {@JoinColumn(name="user_id", referencedColumnName = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name="letter_id", referencedColumnName="letter_id")})
-	private Set<Letter> letters;
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="user_id", referencedColumnName="user_id")
+	private List<Letter> letters;
 	
 	@ManyToMany
 	@JoinTable(
@@ -67,7 +66,7 @@ public class User {
 
 	@Builder
 	public User(String email, String name, String profile, String password, String phone, boolean activated,
-			Set<Authority> authorities, Set<Letter> letters) {
+			Set<Authority> authorities, List<Letter> letters) {
 		super();
 		this.email = email;
 		this.name = name;
