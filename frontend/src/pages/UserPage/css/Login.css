@@ -37,3 +37,8 @@
     /* background:rgba(40,57,101,.9); */
   }
 
+/* 로그인 특수문자 나오게 */
+.MuiOutlinedInput-input {
+    font-family: 'RIDIBatang' !important
+  }
+
