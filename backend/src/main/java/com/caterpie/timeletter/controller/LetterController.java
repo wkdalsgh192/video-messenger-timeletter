@@ -71,7 +71,7 @@ public class LetterController {
 		// 영상 데이터 저장
 		String url = "";
 		try {
-			url = "/home/ubuntu/files/"+file.getOriginalFilename();
+			url = "/var/jenkins_home/workspace/caterpie/files/"+file.getOriginalFilename();
 			file.transferTo(new File(url));
 			
 			letterService.saveFile(letterId, url);
