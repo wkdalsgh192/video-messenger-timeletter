@@ -11,6 +11,8 @@ import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
 import './UpperBar.css'
 import { TOKEN } from '../../constants';
+import ReactAudioPlayer from "react-audio-player";
+import sound1 from "pages/sounds/음악1.mp3";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -54,6 +56,7 @@ export default function UpperBar() {
       <Button color="inherit" onClick={() => history.push('/login')}>
         로그인
       </Button>
+      {/* <ReactAudioPlayer src={sound1} autoPlay controls /> */}
     </div>
   )
 
