@@ -1,0 +1,12 @@
+.app {
+    /* background-color: ivory; */
+    /* height: 300%; */
+    /* width: 100%; */
+}
+
+/* 링크에 밑줄 및 색상 없애기 */
+
+a {
+	color: inherit;
+	text-decoration: none;
+}

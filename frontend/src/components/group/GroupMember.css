@@ -1,0 +1,27 @@
+.member-chip.MuiChip-root {
+    /* height: 64px !important;
+    border-radius:10px !important; */
+    background-color: #bcb8e7;
+    padding: 20px 5px 20px 5px;
+    border-radius:30px !important;
+    
+}
+
+.member {
+    display: flex;
+    margin-top: 4px;
+    /* max-width: 360px; */
+    white-space:nowrap;
+    overflow-x:scroll;
+    padding-bottom: 20px;
+}
+
+.site-tag-plus {
+    background: #fff;
+    
+  }
+
+.MuiChip-label {
+
+    font-size: 20px;
+}

@@ -1,0 +1,22 @@
+/* .GroupDetail div {
+    margin-top: 8px;
+} */
+.GroupMember {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+.GroupMember .GroupMember-title {
+    margin-right:auto;
+}
+.GroupMember button {
+    margin-left:4px;
+}
+.GroupDetail {
+    margin-bottom: 80px;
+}
+
+.trashnone .groupletter {
+    display: none !important;
+
+}
