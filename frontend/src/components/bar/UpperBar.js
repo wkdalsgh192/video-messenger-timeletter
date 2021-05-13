@@ -56,7 +56,7 @@ export default function UpperBar() {
       <Button color="inherit" onClick={() => history.push('/login')}>
         로그인
       </Button>
-      <ReactAudioPlayer src={sound1} autoPlay controls />
+      {/* <ReactAudioPlayer src={sound1} autoPlay controls /> */}
     </div>
   )
 
