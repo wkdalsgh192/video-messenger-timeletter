@@ -17,15 +17,13 @@ function GroupItem() {
 
   useEffect(()=>{
     axios.get(BASE_URL+"club/findMyClub?id="+USER_ID,{"Authorization":TOKEN})
-      .then((res)=> {console.log(res.data); setItems(res.data);})
+      .then((res)=> {setItems(res.data);})
       .catch((err)=>{console.log(err); setItems([])})
   },[])
   
-  useEffect(()=>{
-    console.log(items,'items',items.length===0);
-  })
+
   const item = items.map((i) => (
-    <Card key={i.clubId} className="groupitem" onClick={() => history.push("/group/detail")}>
+    <Card key={i.clubId} className="groupitem" onClick={() => history.push("/group/detail/"+i.clubId)}>
       <CardActionArea>
         {/* 그룹 이미지 */}
         <CardMedia className="img" image={img1} />
