@@ -1,6 +1,7 @@
 // import React, { useCallback, useState } from "react";
-import React,{useEffect, useState, useRef} from "react";
-import useSound from 'use-sound';
+import React, { useEffect, useState, useRef } from "react";
+import useSound from "use-sound";
+import ReactAudioPlayer from "react-audio-player";
 // import { useDispatch, useSelector } from "react-redux";
 
 // import Paper from "@material-ui/core/Paper";
@@ -10,38 +11,43 @@ import useSound from 'use-sound';
 import { Container } from "@material-ui/core";
 import SearchModal from "../components/mainpage/SearchModal";
 import img1 from "./UserPage/images/종이비행기.gif";
-import sound1 from "./sounds/음악1.mp3"
+import sound1 from "./sounds/음악1.mp3";
+import sound2 from "pages/sounds/silence.mp3";
 import { IoIosArrowDown } from "react-icons/all";
 // import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import "./css/main.css";
 import "./css/main.scss";
+import { StopOutlined } from "@material-ui/icons";
 
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
-
 function Main() {
-  const [play] = useSound(sound1);
+  const [play, { stop, isPlaying }] = useSound(sound1);
   const [num, setNum] = useState(333);
+  const [musicOn, setMusic] = useState(false);
   const numRef = useRef(333);
   const scrolling = () => {
     window.scrollTo({ top: "1300", behavior: "smooth" });
     console.log("눌림");
   };
 
-  useEffect(()=>{
-    setInterval(()=>{
+  useEffect(() => {
+    setMusic(true);
+    stop();
+  }, [stop]);
+
+  useEffect(() => {
+    setInterval(() => {
       setNum((numRef.current += 1));
-    },1000);
-  },[]);
-  
-  
+    }, 1000);
+  }, []);
+
   return (
     <div className="main-wrap">
       <div className="main-html">
         <div className="section section-1">
-       
           <div className="night">
             <div className="shooting_star"></div>
             <div className="shooting_star"></div>
@@ -49,22 +55,29 @@ function Main() {
             <div className="shooting_star"></div>
           </div>
           <div>
-            
-            <div style={{ color: "white", paddingTop: "250px", fontSize: "1.7rem", fontWeight:"bold" }}>실시간 생성된 타임 레터</div>
+            <div style={{ color: "white", paddingTop: "250px", fontSize: "1.7rem", fontWeight: "bold" }}>실시간 생성된 타임 레터</div>
             <div style={{ color: "white", fontSize: "3rem" }}> ★ {num}</div>
-            
+
             <div onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
-            <button class="fill" style={{width:"170px",height:"40px",borderRadius:"20px",paddingBottom:"10px",fontWeight:"bold"}}>레터 찾으러가기</button>
+              <button class="fill" style={{ width: "170px", height: "40px", borderRadius: "20px", paddingBottom: "10px", fontWeight: "bold" }}>
+                레터 찾으러가기
+              </button>
             </div>
             <div>
-            <button onClick={play}>음악재생test</button>
+              {/* {isPlaying ? <button onClick={() => stop}>꺼짐</button> : <button onClick={play}>켜짐</button>}
+              <ReactAudioPlayer src={sound1} autoPlay={musicOn} controls /> */}
+          
+
+              <iframe src={sound2} allow="autoplay" id="audio" style={{display:"none"}}></iframe>
+              <audio autoplay muted ><source src={sound1} type="audio/mp3"></source> </audio>
+
+
             </div>
           </div>
 
           <div className="arrowstyle" onClick={scrolling}>
             <div>사이트 이용법 보기</div>
             <IoIosArrowDown className="floating" />
-          
           </div>
         </div>
 

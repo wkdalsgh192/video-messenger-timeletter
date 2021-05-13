@@ -33,7 +33,7 @@ function Signup() {
   const [Name, setName] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
   const [EmailOk, setEmailOk] = useState(false);
-  const [formState, setFormState] = useState(true);
+  const [formState, setFormState] = useState(false);
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
   const onEmailHandler = event => {
@@ -108,8 +108,9 @@ function Signup() {
           <TextField variant="outlined" margin="normal" required fullWidth label="인증번호 입력" autoFocus type="number" onChange={setEmailCheck} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Button fullWidth variant="contained" color="primary">
-            확인
+          
+          <Button fullWidth variant="contained" color="primary" style={{backgroundColor:"#2D0968"}}>
+          <span style={{color:"white",fontSize:"17px"}}>확인</span>
           </Button>
         </Grid>
       </>
@@ -149,7 +150,6 @@ function Signup() {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
-                    autoFocus
                     type="email"
                     onChange={onEmailHandler}
                   />
@@ -201,8 +201,8 @@ function Signup() {
                 onChange={onPasswordCheckHandler}
               />
 
-              <TextField autoComplete="fname" margin="normal" name="Name" variant="outlined" required fullWidth id="Name" label="Name" autoFocus onChange={onNameHandler} />
-              <TextField autoComplete="fname" margin="normal" name="" variant="outlined" required fullWidth id="" label="Phone Number" autoFocus onChange={onPhoneNumberHandler} />
+              <TextField autoComplete="fname" margin="normal" name="Name" variant="outlined" required fullWidth id="Name" label="Name" onChange={onNameHandler} />
+              <TextField autoComplete="fname" margin="normal" name="" variant="outlined" required fullWidth id="" label="Phone Number" onChange={onPhoneNumberHandler} />
               <Button type="button" fullWidth variant="contained" color="primary" style={{ marginTop: "20px",backgroundColor:"#2D0968" }} onClick={onSubmitHandler}>
               <span style={{color:"white",fontSize:"17px"}}>SIGN UP</span>
               </Button>
