@@ -1,5 +1,6 @@
 package com.caterpie.timeletter.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.caterpie.timeletter.dto.JoinDto;
@@ -13,7 +14,7 @@ public interface UserService {
 	/* R :: 회원 정보 가져오기 */
 	User getUser(String email);
 	Optional<User> getUserWithAuthorities(String email);
-	Optional<User> getAllUserWithAuthorities();
+	Optional<User> getCurrentUserWithAuthorities();
 	
 	/* U :: 회원 가입 수정 */
 	void updateUser(UserModifyDto modReq);

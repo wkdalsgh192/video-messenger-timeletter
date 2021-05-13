@@ -41,3 +41,9 @@ logging:
     com.caterpie: DEBUG
 #    org.hibernate.SQL: debug
 #    org.hibernate.type.descriptor.sql: trace
+
+# JWT property
+#yacht:
+#  app:
+#    domain: 172.19.0.1
+#    fileSrc: https://k4d105.p.ssafy.io/data
