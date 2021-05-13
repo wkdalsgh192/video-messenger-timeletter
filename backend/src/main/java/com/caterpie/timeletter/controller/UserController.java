@@ -126,10 +126,6 @@ public class UserController {
 	 * @return JWT
 	 */
 	@ApiOperation(value= "Login", notes = "로그인")
-//	@ApiImplicitParams({
-//		@ApiImplicitParam(name="Authorization", value="authorization header", required=false, dataType="string",
-//				paramType="header")
-//	})
 	@PostMapping("/login")
     public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto) {
 		
@@ -149,8 +145,7 @@ public class UserController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
 
-        User user = userService.getUser(loginDto.getEmail());
-        return new ResponseEntity<>(new TokenDto(jwt,user.getUserId()), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
 }
 

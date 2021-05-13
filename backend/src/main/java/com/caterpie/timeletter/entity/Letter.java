@@ -39,12 +39,10 @@ public class Letter {
 	private String message;
 	@Column(length=100,nullable=false)
 	private String openDate;
-	@Column(name="lat",nullable=true)
+	@Column(name="latitude",nullable=true)
 	private BigDecimal latitude;
-	@Column(name="lng",nullable=true)
+	@Column(name="longitude",nullable=true)
 	private BigDecimal longitude;
-//	@Column(name="to_whom",nullable=true)
-//	private boolean toWhom;
 	@Column(name="alert")
 	private boolean alert;
 	@Column(name="is_private")

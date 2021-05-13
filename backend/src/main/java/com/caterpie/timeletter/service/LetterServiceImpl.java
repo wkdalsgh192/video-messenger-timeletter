@@ -32,7 +32,7 @@ public class LetterServiceImpl implements LetterService {
 	private TargetRepository targetRepo;
 	
 	@Override
-	public int createLetter(LetterDto letterDto) throws Exception {
+	public int createLetter(LetterDto letterDto){
 		
 		// user_has_letter에 업데이트
 		Letter letter = Letter.builder()
@@ -49,7 +49,7 @@ public class LetterServiceImpl implements LetterService {
 		int letterId = -1;
 		try {
 			User user = userRepo.findById(letterDto.getUserId()).get();
-			Set<Letter> letters = user.getLetters();
+			List<Letter> letters = user.getLetters();
 			letters.add(letter);
 			user.setLetters(letters);
 //			user.setLetters(Collections.singleton(letter));
