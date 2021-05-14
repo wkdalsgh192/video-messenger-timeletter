@@ -1,14 +1,18 @@
 package com.caterpie.timeletter.service;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.caterpie.timeletter.dto.ClubDetailDto;
 import com.caterpie.timeletter.dto.ClubDto;
-import com.caterpie.timeletter.dto.ClubJoinDto;
 import com.caterpie.timeletter.entity.Club;
+import com.caterpie.timeletter.entity.ClubDetailUser;
 import com.caterpie.timeletter.repository.ClubRepository;
 
 @Service
@@ -37,8 +41,22 @@ public class ClubServiceImpl implements ClubService {
 	public void joinClub(int userId, int clubId) {
 		clubRepository.joinClub(userId, clubId);
 	}
-
-
+	
+	@Override
+	public ClubDetailDto findClubDetail(int clubId) {
+		
+		Club club = clubRepository.findByClubId(clubId);
+		List<Map<ClubDetailUser, Object>> cdUser = clubRepository.findDetailUser(clubId);
+		
+		ClubDetailDto clubDetail = ClubDetailDto.builder()
+				.clubDesc(club.getClubDesc())
+				.clubName(club.getClubName())
+				.clubProfile(club.getClubProfile())
+				.clubId(club.getClubId())
+				.members(cdUser)
+				.build();
+		return clubDetail;
+	}
 
 	
 }

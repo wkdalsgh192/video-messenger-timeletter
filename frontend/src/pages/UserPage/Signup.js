@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 
 import swal from "sweetalert";
 
@@ -17,6 +18,7 @@ import "./css/Signup.css";
 import axios from "axios";
 import { BASE_URL } from "../../constants";
 import { useHistory } from "react-router";
+import ScrollToTop from '../../components/Scroll/ScrollToTop';
 
 // import { Link } from "react-router-dom";
 const { signUp } = require("../../_actions/user");
@@ -31,7 +33,7 @@ function Signup() {
   const [Name, setName] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
   const [EmailOk, setEmailOk] = useState(false);
-  const [formState, setFormState] = useState(true);
+  const [formState, setFormState] = useState(false);
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
   const onEmailHandler = event => {
@@ -103,11 +105,12 @@ function Signup() {
     emailCheckForm = (
       <>
         <Grid item xs={12} sm={6}>
-          <TextField variant="outlined" margin="normal" required fullWidth label="인증번호 입력" autoFocus type="number" onChange={setEmailCheck} />
+          <TextField variant="outlined" margin="normal" required fullWidth label="인증번호 입력" autoFocus type="text" onChange={setEmailCheck} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Button fullWidth variant="contained" color="primary">
-            확인
+          
+          <Button fullWidth variant="contained" color="primary" style={{backgroundColor:"#2D0968"}}>
+          <span style={{color:"white",fontSize:"17px"}}>확인</span>
           </Button>
         </Grid>
       </>
@@ -115,13 +118,15 @@ function Signup() {
   }
 
   return (
-    <div className="signupwrap" style={{marginTop:"50px"}}>
+    <div className="signupwrap">
       <div className="signup-html">
+      <ScrollToTop />
+      <Paper className="papercs2" style={{ marginTop: "80px" }}>
         <Container maxWidth="xs" className="">
           <CssBaseline />
-          <div>
+          {/* <div> */}
             <Grid container justify="center" className="paperinner">
-              <Avatar>
+              <Avatar style={{backgroundColor:"#2D0968"}}>
                 <LockOutlinedIcon />
               </Avatar>
             </Grid>
@@ -145,7 +150,6 @@ function Signup() {
                     label="Email Address"
                     name="email"
                     autoComplete="email"
-                    autoFocus
                     type="email"
                     onChange={onEmailHandler}
                   />
@@ -164,8 +168,9 @@ function Signup() {
                         swal('warn you','이메일형식이 옳바르지 않습니다.',"error")
                       }
                     }}
+                    style={{backgroundColor:"#2D0968"}}
                   >
-                    인증하기
+                    <span style={{color:"white",fontSize:"17px"}}>인증하기</span>
                   </Button>
                 </Grid>
                 {emailCheckForm}
@@ -196,14 +201,15 @@ function Signup() {
                 onChange={onPasswordCheckHandler}
               />
 
-              <TextField autoComplete="fname" margin="normal" name="Name" variant="outlined" required fullWidth id="Name" label="Name" autoFocus onChange={onNameHandler} />
-              <TextField autoComplete="fname" margin="normal" name="" variant="outlined" required fullWidth id="" label="Phone Number" autoFocus onChange={onPhoneNumberHandler} />
-              <Button type="button" fullWidth variant="contained" color="primary" style={{ marginTop: "20px" }} onClick={onSubmitHandler}>
-                sign up
+              <TextField autoComplete="fname" margin="normal" name="Name" variant="outlined" required fullWidth id="Name" label="Name" onChange={onNameHandler} />
+              <TextField autoComplete="fname" margin="normal" name="" variant="outlined" required fullWidth id="" label="Phone Number" onChange={onPhoneNumberHandler} />
+              <Button type="button" fullWidth variant="contained" color="primary" style={{ marginTop: "20px",backgroundColor:"#2D0968" }} onClick={onSubmitHandler}>
+              <span style={{color:"white",fontSize:"17px"}}>SIGN UP</span>
               </Button>
             </form>
-          </div>
+          {/* </div> */}
         </Container>
+        </Paper>
       </div>
     </div>
   );

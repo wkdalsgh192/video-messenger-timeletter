@@ -145,7 +145,7 @@ CREATE TABLE IF NOT EXISTS `timeletter`.`user_has_letter` (
     REFERENCES `timeletter`.`letter` (`letter_id`),
   CONSTRAINT `fk_user_has_letter_user1`
     FOREIGN KEY (`user_id`)
-    REFERENCES `timeletter`.`user` (`user_id`))
+    REFERENCES `timeleletter_has_phonetter`.`user` (`user_id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 

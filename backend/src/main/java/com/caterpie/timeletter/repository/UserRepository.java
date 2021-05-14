@@ -19,6 +19,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	User findOneByUserId(int userId);
 	
+	
 	@Transactional
 	@Modifying
 	@Query(value="update user set  name= ?, password = ?, salt = ?, phone =? where user_id = ?", nativeQuery=true)

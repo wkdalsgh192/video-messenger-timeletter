@@ -81,14 +81,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
     @Transactional(readOnly = true)
-    public Optional<User> getAllUserWithAuthorities() {
+    public Optional<User> getCurrentUserWithAuthorities() {
         return SecurityUtil
         		.getCurrentUsername().flatMap(userRepo::findOneWithAuthoritiesByEmail);
-    }
-	
-	@Override
-	public User getUser(String email) {
-		return userRepo.findByEmail(email);
 	}
-	
 }

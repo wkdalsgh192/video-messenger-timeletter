@@ -109,8 +109,27 @@
 
 .lettercontent2 {
 	position: absolute;
-	margin: 40px 20px 20px 20px;
+	margin: 20px 20px 20px 20px;
 }
+
+/* chip 색상 */
+
+.MuiChip-outlined {
+    background-color: #F4EBA8 !important;
+}
+
+/* chip 글씨 */
+.MuiChip-root {
+	color: black;
+	font-weight: bold;
+	font-size: 1rem !important;
+}
+
+/* chip 이모티콘 색상 */
+/* .MuiChip-root {
+	color: black;
+}
+ */
 
 /* 달 카드 */
 .night2

@@ -7,11 +7,6 @@ spring:
     multipart:
       maxFileSize : 10MB
       maxRequestSize : 10MB
-      
-  thymeleaf:
-    prefix : classpath:templates/
-    suffix : .html
-    cache : false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://k4d105.p.ssafy.io/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8
@@ -19,7 +14,7 @@ spring:
     password: password
 #    url: jdbc:mysql://localhost:3306/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8
 #    username: root
-#    password: 1234
+#    password: ssafy
 
   jpa:
     hibernate:
@@ -41,3 +36,9 @@ logging:
     com.caterpie: DEBUG
 #    org.hibernate.SQL: debug
 #    org.hibernate.type.descriptor.sql: trace
+
+# JWT property
+#yacht:
+#  app:
+#    domain: 172.19.0.1
+#    fileSrc: https://k4d105.p.ssafy.io/data

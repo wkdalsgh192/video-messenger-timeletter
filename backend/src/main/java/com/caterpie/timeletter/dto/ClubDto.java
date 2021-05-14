@@ -2,8 +2,6 @@ package com.caterpie.timeletter.dto;
 
 import java.util.List;
 
-import com.caterpie.timeletter.entity.User;
-
 import lombok.Data;
 
 @Data

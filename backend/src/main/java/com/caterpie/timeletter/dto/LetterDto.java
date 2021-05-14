@@ -1,6 +1,9 @@
 package com.caterpie.timeletter.dto;
 
 
+import java.util.List;
+
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -10,11 +13,12 @@ public class LetterDto {
 	private int userId;
 	private String title;
 	private String message;
-	private String url;
 	private String openDate;
 	private String latitude;
 	private String longitude;
+//	private boolean toOthers;
 	private boolean alert;
 	private boolean isPrivate;
 	private boolean isOpen;
+	private List<String> phoneNumber;
 }

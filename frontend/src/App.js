@@ -7,11 +7,13 @@ import BottomBar from './components/bar/BottomBar';
 import LoadingCreate from './components/loading/LoadingCreate';
 import * as All from './pages';
 
+
 const theme = createMuiTheme({
   typography: {
     // fontFamily: 'Cute+Font'
-    // fontFamily: 'Jua'
-    fontFamily: 'Cafe24Oneprettynight'
+    // fontFamily: 'Jua',
+    fontFamily: 'Cafe24Oneprettynight',
+
   }
 })
 
@@ -35,7 +37,7 @@ function App() {
           <Route path="/letter/detail/:id" exact={true} component={All.LetterDetail} />
 
           <Route path="/group/create" exact={true} component={All.GroupCreate} />
-          <Route path="/group/detail" exact={true} component={All.GroupDetail} />
+          <Route path="/group/detail/:id" exact={true} component={All.GroupDetail} />
           <Route path="/group/list" exact={true} component={All.GroupList} />
           <Route component={All.NotFound} />
         </Switch>

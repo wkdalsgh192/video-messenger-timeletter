@@ -3,7 +3,10 @@ package com.caterpie.timeletter.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,14 +19,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.caterpie.timeletter.dto.LetterDto;
+import com.caterpie.timeletter.entity.Letter;
+import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.service.LetterService;
+import com.caterpie.timeletter.service.UserService;
 
 
 @RestController
@@ -32,6 +38,9 @@ public class LetterController {
 	
 	@Autowired
 	private LetterService letterService;
+	
+	@Autowired
+	private UserService userService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(LetterController.class);
 	
@@ -48,30 +57,51 @@ public class LetterController {
 		return new ResponseEntity<>(new InputStreamResource(inputStream),headers,HttpStatus.OK);
 	}
 	
-	@GetMapping("/")
-	public ModelAndView hello() {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("uploader");
-		return modelAndView;
+//	@GetMapping(path="/get")
+//	public ResponseEntity<?> getAllLetters() {
+//		Optional<User> opt = userService.getCurrentUserWithAuthorities();
+//		
+//		if (opt.isPresent()) {
+//			Map<String,Letter> map = letterService.getAllLetters(opt.get());
+//			return new ResponseEntity<>(map, HttpStatus.OK);
+//		} else return ResponseEntity.noContent().build();
+//	}
+	
+
+	@PostMapping(path="/create")
+	public ResponseEntity<?> createLetter(@RequestBody LetterDto letterDto) {
+		
+		int letterId;
+		letterId = letterService.createLetter(letterDto);
+		if (letterId < 0) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		return new ResponseEntity<>(letterId,HttpStatus.OK);
 	}
 	
-	@PostMapping(path="/create", consumes= {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> createLetter(LetterDto letterDto, @RequestParam("file") MultipartFile file) {
+	@PostMapping(path="/save/{letterId}", consumes= {MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile video) throws IllegalStateException, IOException {
 		
-		// 영상 데이터 저장
-		String url = new String();
-		String fileName = file.isEmpty() ? "" : file.getOriginalFilename();
-		try {
-			url = "".equals(fileName) ? "" : "C:\\Users\\multicampus\\Desktop\\test\\"+fileName;
-			file.transferTo(new File(url));
-
-			letterDto.setUrl(url);
-			letterService.createLetter(letterDto);
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
-		logger.debug(letterDto.toString());
+		String path = System.getProperty("user.dir");
+		logger.debug(path);
+		File file = new File(path+"/src/main/resources/static/videos/"+video.getOriginalFilename());
+		
+		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+		video.transferTo(file);
+//		// 영상 데이터 저장
+//		String url = "";
+//		try {
+//			url = "/var/jenkins_home/workspace/caterpie/files/"+file.getOriginalFilename();
+//			file.transferTo(new File(url));
+//			
+//			letterService.saveFile(letterId, url);
+//		} catch (Exception e) {
+//			logger.debug("Failed to save a file");
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//		}
+		
 		return ResponseEntity.ok("File Uploaded Successfully!");
 	}
 	
+	public static void main(String[] args) {
+		System.out.println(System.getProperty("user.dir"));
+	}
 }	

@@ -1,58 +1,145 @@
-CREATE DATABASE  IF NOT EXISTS `timeletter` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `timeletter`;
--- MySQL dump 10.13  Distrib 8.0.24, for Win64 (x86_64)
---
--- Host: localhost    Database: timeletter
--- ------------------------------------------------------
--- Server version	8.0.24
+-- 테이블 순서는 관계를 고려하여 한 번에 실행해도 에러가 발생하지 않게 정렬되었습니다.
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+-- user Table Create SQL
+CREATE TABLE user
+(
+    `user_id`    INT             NOT NULL    AUTO_INCREMENT COMMENT '유저id', 
+    `email`      VARCHAR(45)     NOT NULL    COMMENT '이메일', 
+    `name`       VARCHAR(20)     NOT NULL    COMMENT '이름', 
+    `profile`    VARCHAR(256)    NULL        COMMENT '프로필', 
+    `password`   VARCHAR(256)    NOT NULL    COMMENT '비밀번호', 
+    `phone`      VARCHAR(20)     NOT NULL    COMMENT '연락처', 
+    `activated`  TINYINT         NOT NULL    COMMENT '활성 여부', 
+    CONSTRAINT  PRIMARY KEY (user_id)
+);
 
---
--- Table structure for table `user`
---
+ALTER TABLE user COMMENT 'user';
 
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `user_id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(45) DEFAULT NULL,
-  `name` varchar(45) DEFAULT NULL,
-  `profile` varchar(256) DEFAULT NULL,
-  `password` varchar(256) DEFAULT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `activated` TINYINT DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `user`
---
+-- user Table Create SQL
+CREATE TABLE club
+(
+    `club_id`       INT             NOT NULL    AUTO_INCREMENT COMMENT '클럽id', 
+    `club_name`     VARCHAR(45)     NOT NULL    COMMENT '클럽명', 
+    `user_id`       INT             NOT NULL    COMMENT '클럽장', 
+    `club_profile`  VARCHAR(256)    NULL        COMMENT '클럽프로필', 
+    `club_desc`     VARCHAR(100)    NOT NULL    COMMENT '클럽내용', 
+    CONSTRAINT  PRIMARY KEY (club_id)
+);
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin@admin.com','admin','admin','1581a615b13a17d1021ae19315e1991bd19b1391e01f01d016012814b1f41471b61441c016514d1de1031e1174113133','01011111111',true);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+ALTER TABLE club COMMENT 'club';
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+ALTER TABLE club
+    ADD CONSTRAINT FK_club_user_id_user_user_id FOREIGN KEY (user_id)
+        REFERENCES user (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
--- Dump completed on 2021-05-03 18:07:04
+
+-- user Table Create SQL
+CREATE TABLE letter
+(
+    `letter_id`   INT               NOT NULL    AUTO_INCREMENT COMMENT '레터id', 
+    `title`       VARCHAR(100)      NOT NULL    COMMENT '레터이름', 
+    `url`         VARCHAR(256)      NULL        COMMENT '파일 주소', 
+    `message`     VARCHAR(256)      NOT NULL    COMMENT '내용', 
+    `open_date`   DATE              NOT NULL    COMMENT '오픈시간', 
+    `latitude`    DECIMAL(10, 8)    NULL        COMMENT '위도', 
+    `longitude`   DECIMAL(11, 8)    NULL        COMMENT '경도', 
+    `is_private`  TINYINT           NOT NULL    COMMENT '공개여부', 
+    `is_open`     TINYINT           NOT NULL    COMMENT '오픈유무', 
+    `alert`       TINYINT           NOT NULL    COMMENT '알림', 
+    `user_id`     INT               NULL        COMMENT '유저 ID', 
+    `club_id`     INT               NULL        COMMENT '클럽 ID', 
+    CONSTRAINT  PRIMARY KEY (letter_id)
+);
+
+ALTER TABLE letter COMMENT 'letter';
+
+ALTER TABLE letter
+    ADD CONSTRAINT FK_letter_user_id_user_user_id FOREIGN KEY (user_id)
+        REFERENCES user (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE letter
+    ADD CONSTRAINT FK_letter_club_id_club_club_id FOREIGN KEY (club_id)
+        REFERENCES club (club_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+-- user Table Create SQL
+CREATE TABLE authority
+(
+    `authority_name`  VARCHAR(50)    NOT NULL    COMMENT '권한 이름', 
+    CONSTRAINT  PRIMARY KEY (authority_name)
+);
+
+
+-- user Table Create SQL
+CREATE TABLE club_has_member
+(
+    `user_id`  INT    NOT NULL    COMMENT '유저id', 
+    `club_id`  INT    NOT NULL    COMMENT '클럽id', 
+    CONSTRAINT  PRIMARY KEY (user_id, club_id)
+);
+
+ALTER TABLE club_has_member COMMENT 'club_member';
+
+ALTER TABLE club_has_member
+    ADD CONSTRAINT FK_club_has_member_user_id_user_user_id FOREIGN KEY (user_id)
+        REFERENCES user (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE club_has_member
+    ADD CONSTRAINT FK_club_has_member_club_id_club_club_id FOREIGN KEY (club_id)
+        REFERENCES club (club_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+-- user Table Create SQL
+CREATE TABLE letter_agree
+(
+    `user_id`    INT    NOT NULL    COMMENT '유저id', 
+    `letter_id`  INT    NOT NULL    COMMENT '레터id', 
+    CONSTRAINT  PRIMARY KEY (user_id, letter_id)
+);
+
+ALTER TABLE letter_agree COMMENT 'letter_agree';
+
+ALTER TABLE letter_agree
+    ADD CONSTRAINT FK_letter_agree_user_id_user_user_id FOREIGN KEY (user_id)
+        REFERENCES user (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE letter_agree
+    ADD CONSTRAINT FK_letter_agree_letter_id_letter_letter_id FOREIGN KEY (letter_id)
+        REFERENCES letter (letter_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+-- user Table Create SQL
+CREATE TABLE user_has_authority
+(
+    `user_id`         INT            NOT NULL    COMMENT '유저 ID', 
+    `authority_name`  VARCHAR(50)    NOT NULL    COMMENT '권한 이름', 
+    CONSTRAINT  PRIMARY KEY (user_id, authority_name)
+);
+
+ALTER TABLE user_has_authority
+    ADD CONSTRAINT FK_user_has_authority_authority_name_authority_authority_name FOREIGN KEY (authority_name)
+        REFERENCES authority (authority_name) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE user_has_authority
+    ADD CONSTRAINT FK_user_has_authority_user_id_user_user_id FOREIGN KEY (user_id)
+        REFERENCES user (user_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+-- user Table Create SQL
+CREATE TABLE target
+(
+    `letter_id`     INT            NOT NULL    COMMENT '레터 ID', 
+    `phone_number`  VARCHAR(45)    NULL        COMMENT '전송되는 번호', 
+    `target_id`     INT            NOT NULL    AUTO_INCREMENT COMMENT '타겟 ID', 
+    CONSTRAINT  PRIMARY KEY (target_id)
+);
+
+ALTER TABLE target
+    ADD CONSTRAINT FK_target_letter_id_letter_letter_id FOREIGN KEY (letter_id)
+        REFERENCES letter (letter_id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+INSERT INTO authority (authority_name) values ('ROLE_USER');
+INSERT INTO authority (authority_name) values ('ROLE_ADMIN');
+
+select * from user;
