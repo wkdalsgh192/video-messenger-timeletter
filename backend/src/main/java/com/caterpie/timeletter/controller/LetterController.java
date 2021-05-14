@@ -81,11 +81,18 @@ public class LetterController {
 	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile video) throws IllegalStateException, IOException {
 		
 		String path = System.getProperty("user.dir");
-		logger.debug(path);
-		File file = new File(path+"/src/main/resources/static/videos/"+video.getOriginalFilename());
+		logger.debug("".equals(path)? "empty":path);
 		
+		
+		File file = new File(path+"/src/main/resources/static/videos/"+video.getOriginalFilename());
 		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
 		video.transferTo(file);
+		
+		file = new File("/home/ubuntu/docker/jenkins-data/workspace/caterpie/backend/src/main/resources/static/videos/"+video.getOriginalFilename()+2);
+		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+		video.transferTo(file);
+		
+		
 //		// 영상 데이터 저장
 //		String url = "";
 //		try {
