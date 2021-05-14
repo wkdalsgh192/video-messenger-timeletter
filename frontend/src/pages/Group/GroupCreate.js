@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { BASE_URL, USER_ID,TOKEN } from "../../constants";
-
+import "./GroupCreate.css";
 function GroupCreate() {
   const history = useHistory();
   const [name, setName] = useState([""]);
@@ -49,7 +49,7 @@ function GroupCreate() {
   ));
 
   return (
-    <Container style={{marginBottom:"70px",marginTop:"50px"}}>
+    <Container className="groupcreate">
       <br />
       <Typography>그룹생성</Typography>
       <br />

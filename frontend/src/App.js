@@ -4,7 +4,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import UpperBar from './components/bar/UpperBar';
 import BottomBar from './components/bar/BottomBar';
-import Ufo from "./components/loading/Ufo";
+import LoadingCreate from './components/loading/LoadingCreate';
 import * as All from './pages';
 
 const theme = createMuiTheme({
@@ -28,7 +28,7 @@ function App() {
           <Route path="/login" exact={true} component={All.Login} />
           <Route path="/mypage" exact={true} component={All.Mypage} />
           <Route path="/userupdate" exact={true} component={All.UserUpdate} />
-          <Route path="/ufo" exact={true} component={Ufo} />
+          <Route path="/ufo" exact={true} component={LoadingCreate} />
 
           <Route path="/letter/create" exact={true} component={All.LetterCreate} />
           <Route path="/letter/list" exact={true} component={All.LetterList} />
