@@ -10,7 +10,7 @@ public interface LetterService {
 	/* C :: 레터 생성 */
 	int createLetter(LetterDto letterDto);
 	
-	Map<String,Letter> getAllLetters(User user);
+//	Map<String,Letter> getAllLetters(User user);
 	
 	void saveFile(int letterId, String url) throws Exception;
 	

@@ -57,15 +57,15 @@ public class LetterController {
 		return new ResponseEntity<>(new InputStreamResource(inputStream),headers,HttpStatus.OK);
 	}
 	
-	@GetMapping(path="/get")
-	public ResponseEntity<?> getAllLetters() {
-		Optional<User> opt = userService.getCurrentUserWithAuthorities();
-		
-		if (opt.isPresent()) {
-			Map<String,Letter> map = letterService.getAllLetters(opt.get());
-			return new ResponseEntity<>(map, HttpStatus.OK);
-		} else return ResponseEntity.noContent().build();
-	}
+//	@GetMapping(path="/get")
+//	public ResponseEntity<?> getAllLetters() {
+//		Optional<User> opt = userService.getCurrentUserWithAuthorities();
+//		
+//		if (opt.isPresent()) {
+//			Map<String,Letter> map = letterService.getAllLetters(opt.get());
+//			return new ResponseEntity<>(map, HttpStatus.OK);
+//		} else return ResponseEntity.noContent().build();
+//	}
 	
 
 	@PostMapping(path="/create")
