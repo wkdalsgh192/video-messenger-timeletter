@@ -82,17 +82,21 @@ public class LetterController {
 		
 		String path = System.getProperty("user.dir");
 		logger.debug("".equals(path)? "empty":path);
+		logger.debug(path);
+		logger.debug("hello");
 		
-		
+		// 도착하는 곳의 url 주소
 		File file = new File(path+"/src/main/resources/static/videos/"+video.getOriginalFilename());
 		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
 		video.transferTo(file);
 		
-		file = new File("/home/ubuntu/docker/jenkins-data/workspace/caterpie/backend/src/main/resources/static/videos/"+video.getOriginalFilename()+2);
+		logger.debug("hello1");
+		
+		file = new File("/home/ubuntu/docker/jenkins-data/workspace/caterpie/backend/src/main/resources/static/videos/"+video.getOriginalFilename());
 		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
 		video.transferTo(file);
 		
-		
+		logger.debug("hello2");
 //		// 영상 데이터 저장
 //		String url = "";
 //		try {
