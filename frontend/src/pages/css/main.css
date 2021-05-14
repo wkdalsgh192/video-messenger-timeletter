@@ -13,6 +13,12 @@
   /* background:rgba(40,57,101,.9); */
 }
 
+/* 세로선 */
+.updown { border: 0.1px solid white;
+   width: 0.1px;
+    height: 50px; }
+
+
 
 /* 통통 튀는 */
 
@@ -91,7 +97,8 @@
   font-size: 1.3rem;
 }
 .section-2 {
-  background-color: rgb(47, 7, 85);
+  background: rgb(20,12,59);
+background: linear-gradient(180deg, rgba(20,12,59,1) 0%, rgba(55,9,113,1) 35%, rgba(66,10,74,1) 100%);
   width: 100%;
   position: relative;
   padding: 200px 20px 20px 20px;

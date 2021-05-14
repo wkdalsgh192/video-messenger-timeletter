@@ -1,42 +1,39 @@
 // import React, { useCallback, useState } from "react";
 import React, { useEffect, useState, useRef } from "react";
 import useSound from "use-sound";
-import ReactAudioPlayer from "react-audio-player";
+
 // import { useDispatch, useSelector } from "react-redux";
 
 // import Paper from "@material-ui/core/Paper";
 // import InputBase from "@material-ui/core/InputBase";
 // import IconButton from "@material-ui/core/IconButton";
 // import SearchIcon from "@material-ui/icons/Search";
-import { Container } from "@material-ui/core";
+
 import SearchModal from "../components/mainpage/SearchModal";
 import img1 from "./UserPage/images/종이비행기.gif";
 import sound1 from "./sounds/음악1.mp3";
-import sound2 from "pages/sounds/silence.mp3";
+
 import { IoIosArrowDown } from "react-icons/all";
 // import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import "./css/main.css";
 import "./css/main.scss";
 import { StopOutlined } from "@material-ui/icons";
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
 
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
 function Main() {
-  const [play, { stop, isPlaying }] = useSound(sound1);
+
   const [num, setNum] = useState(333);
-  const [musicOn, setMusic] = useState(false);
   const numRef = useRef(333);
   const scrolling = () => {
     window.scrollTo({ top: "1300", behavior: "smooth" });
     console.log("눌림");
   };
 
-  useEffect(() => {
-    setMusic(true);
-    stop();
-  }, [stop]);
 
   useEffect(() => {
     setInterval(() => {
@@ -63,16 +60,7 @@ function Main() {
                 레터 찾으러가기
               </button>
             </div>
-            <div>
-              {/* {isPlaying ? <button onClick={() => stop}>꺼짐</button> : <button onClick={play}>켜짐</button>}
-              <ReactAudioPlayer src={sound1} autoPlay={musicOn} controls /> */}
           
-
-              {/* <iframe src={sound2} allow="autoplay;" id="audio" style={{display:"none"}}></iframe> */}
-              {/* <audio autoplay muted ><source src={sound1} type="audio/mp3"></source> </audio> */}
-
-
-            </div>
           </div>
 
           <div className="arrowstyle" onClick={scrolling}>
@@ -84,6 +72,21 @@ function Main() {
         <div className="section section-2">
           <SearchModal></SearchModal>
           <div className="child"></div>
+          <Grid container spacing={3}>
+          <Grid item xs={5}>
+            <Link to="/signup">
+
+            <div style={{color:"white"}}>
+          답장하기
+          </div>
+            </Link>
+        </Grid>
+          <div className="updown"></div>
+        <Grid item xs={5}>
+          <div style={{color:"white"}} onClick={scrolling}>사이트 둘러보기</div>
+          
+        </Grid>
+        </Grid>
         </div>
 
         <div className="section section-3">
