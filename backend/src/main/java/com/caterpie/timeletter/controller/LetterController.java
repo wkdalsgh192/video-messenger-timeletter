@@ -86,12 +86,13 @@ public class LetterController {
 		logger.debug("hello");
 		
 		// 도착하는 곳의 url 주소
-		File file = new File(path+"home/ubuntu/files/"+video.getOriginalFilename());
+		String url = path+"home/ubuntu/files/"+video.getOriginalFilename();
+		logger.debug(url);
+		File file = new File(url);
 		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
 		video.transferTo(file);
 		
 		logger.debug("hello1");
-		logger.debug("hello2");
 //		// 영상 데이터 저장
 //		String url = "";
 //		try {
@@ -108,6 +109,6 @@ public class LetterController {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(System.getProperty("user.dir"));
+		System.out.println(System.getProperty("user.home"));
 	}
 }	
