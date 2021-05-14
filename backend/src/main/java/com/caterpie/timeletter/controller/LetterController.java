@@ -81,6 +81,7 @@ public class LetterController {
 	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile video) throws IllegalStateException, IOException {
 		
 		String path = System.getProperty("user.dir");
+		logger.debug(path);
 		File file = new File(path+"/src/main/resources/static/videos/"+video.getOriginalFilename());
 		
 		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
