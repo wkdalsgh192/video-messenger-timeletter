@@ -91,11 +91,6 @@ public class LetterController {
 		video.transferTo(file);
 		
 		logger.debug("hello1");
-		
-		file = new File("/home/ubuntu/docker/jenkins-data/workspace/caterpie/backend/src/main/resources/static/videos/"+video.getOriginalFilename());
-		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-		video.transferTo(file);
-		
 		logger.debug("hello2");
 //		// 영상 데이터 저장
 //		String url = "";
