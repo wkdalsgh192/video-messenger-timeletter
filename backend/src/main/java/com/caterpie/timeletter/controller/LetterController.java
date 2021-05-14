@@ -86,7 +86,7 @@ public class LetterController {
 		logger.debug("hello");
 		
 		// 도착하는 곳의 url 주소
-		File file = new File(path+"/src/main/resources/static/videos/"+video.getOriginalFilename());
+		File file = new File(path+"home/ubuntu/files/"+video.getOriginalFilename());
 		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
 		video.transferTo(file);
 		
