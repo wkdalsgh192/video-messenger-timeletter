@@ -78,22 +78,16 @@ public class LetterController {
 	}
 	
 	@PostMapping(path="/save/{letterId}", consumes= {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile video) throws IllegalStateException, IOException {
-		
-		String path = System.getProperty("user.dir");
-		logger.debug("".equals(path)? "empty":path);
-		logger.debug(path);
-		logger.debug("hello");
+	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile video) throws Exception {
 		
 		// 도착하는 곳의 url 주소
-		
 		String url = "/videos/"+video.getOriginalFilename();
 		logger.debug(url);
 		File file = new File(url);
 		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
 		video.transferTo(file);
+		letterService.saveFile(letterId, url);
 		
-		logger.debug("hello1");
 //		// 영상 데이터 저장
 //		String url = "";
 //		try {
@@ -109,7 +103,4 @@ public class LetterController {
 		return ResponseEntity.ok("File Uploaded Successfully!");
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(System.getProperty("user.dir"));
-	}
 }	
