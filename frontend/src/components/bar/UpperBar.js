@@ -11,8 +11,9 @@ import Button from '@material-ui/core/Button';
 import { useHistory } from 'react-router-dom';
 import './UpperBar.css'
 import { TOKEN } from '../../constants';
-import ReactAudioPlayer from "react-audio-player";
 import sound1 from "pages/sounds/음악1.mp3";
+
+import ReactHowler from 'react-howler'
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -24,8 +25,14 @@ export default function UpperBar() {
   const classes = useStyles()
   const history = useHistory()
 
+  
   // 로그인 여부를 확인하기 위한 state
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(false);
+  
+  // 음악 재생 state
+  const [isPlay,setIsPlay] = useState(false);
+
+
 
   useEffect(() => {  
     if (TOKEN) {
@@ -41,10 +48,10 @@ export default function UpperBar() {
           <NotificationsIcon />
         </Badge>
       </IconButton>
-      <IconButton color="inherit" aria-label="mypage" onClick={() => history.push('/mypage')}>
+      <IconButton color="inherit" aria-label="mypage" onClick={() => history.push('/mypage')} >
         <AccountCircle />
       </IconButton>
-      <Button color="inherit" onClick={() => {setIsLogin(false); window.localStorage.clear(); window.location.replace("/")}}>
+      <Button color="inherit" onClick={() => {setIsLogin(false); window.localStorage.clear(); window.location.replace("/")}} style={{fontSize:"18px"}}>
         로그아웃
       </Button>
     </div>
@@ -53,10 +60,9 @@ export default function UpperBar() {
   // 로그인하지 않은 게스트일 경우 보여줄 상단바
   const guestBar = (
     <div>
-      <Button color="inherit" onClick={() => history.push('/login')}>
+      <Button color="inherit" onClick={() => history.push('/login')} style={{fontSize:"18px"}}>
         로그인
       </Button>
-      {/* <ReactAudioPlayer src={sound1} autoPlay controls /> */}
     </div>
   )
 
@@ -67,8 +73,14 @@ export default function UpperBar() {
           TimeLetter
         </Typography>
         <div>
-          {isLogin ? userBar : guestBar}
+        <ReactHowler
+          src={sound1}
+          playing={isPlay}
+        />
+        {isPlay ? <div onClick={()=>setIsPlay(false)} style={{fontSize:"18px"}}>"감성OFF"</div> : <div onClick={()=>setIsPlay(true)} style={{fontSize:"18px"}}>"감성ON"</div>}
         </div>
+        <div>{isLogin ? userBar : guestBar}</div>
+          
       </Toolbar>
     </AppBar>
   )
