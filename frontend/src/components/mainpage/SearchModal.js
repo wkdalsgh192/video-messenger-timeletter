@@ -26,8 +26,8 @@ function SearchModal() {
   };
   return (
     <div style={{marginTop:"", marginBottom:"20px"}}>
-      <Paper component="form" className="" style={{display:"flex",justifyContent:"space-around",paddingLeft:"10px"}} >
-        <InputBase className="" placeholder="레터 번호를 입력하세요." />
+      <Paper component="form" className="searchbar">
+        <InputBase className="searchinput" placeholder="레터 번호를 입력하세요." />
         <IconButton className="" type="button" aria-label="search" onClick={handleOpen}>
           <SearchIcon />
         </IconButton>
