@@ -46,19 +46,23 @@ public class LetterServiceImpl implements LetterService {
 				.alert(letterDto.isAlert())
 				.isPrivate(letterDto.isPrivate())
 				.isOpen(letterDto.isOpen())
+				.userId(letterDto.getUserId())
+				.clubId(letterDto.getClubId())
 				.build();
 		
 		int letterId = -1;
 		try {
+			Letter result = letterRepo.save(letter);
+			letterId = result.getLetterId();
+			
+			
 			User user = userRepo.findById(letterDto.getUserId()).get();
 			List<Letter> letters = user.getLetters();
 			letters.add(letter);
 			user.setLetters(letters);
 //			user.setLetters(Collections.singleton(letter));
 			userRepo.save(user);
-			
-			Letter result = letterRepo.save(letter);
-			letterId = result.getLetterId();
+						
 			List<String> list = letterDto.getPhoneNumber();
 			if (!list.isEmpty()) {
 				list.stream().forEach(s -> {
