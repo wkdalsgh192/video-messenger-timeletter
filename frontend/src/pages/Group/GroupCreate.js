@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { BASE_URL, USER_ID,TOKEN } from "../../constants";
-
+import "./GroupCreate.css";
 function GroupCreate() {
   const history = useHistory();
   const [name, setName] = useState([""]);
@@ -32,7 +32,8 @@ function GroupCreate() {
       "clubName":name,
       "desc":description,
       'masterId':USER_ID,
-      "membersId":[USER_ID],
+      // 'masterId':2,
+      "membersId":[],
       "profile":"없음"
     };
     axios.post(BASE_URL+"club/insert",body,{"Authorization":TOKEN})
@@ -40,7 +41,7 @@ function GroupCreate() {
         // window.location.replace("/group/list");
         history.push("/group/list")
       })
-      .catch((err)=>{console.log(err); alert("")})
+      .catch((err)=>{console.log(err); alert("not create")})
   }
   const member = members.map((target)=>(
     <div style={{marginBottom:"2px"}}>
@@ -49,7 +50,7 @@ function GroupCreate() {
   ));
 
   return (
-    <Container style={{marginBottom:"70px",marginTop:"50px"}}>
+    <Container className="groupcreate">
       <br />
       <Typography>그룹생성</Typography>
       <br />
