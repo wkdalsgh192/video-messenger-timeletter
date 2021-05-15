@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { 
   Container,
@@ -233,15 +233,7 @@ const LetterCreate = () => {
   const [clubOpen, setClubOpen] = useState(false)
   const [selectClubId, setSelectClubId] = useState(null)
   const [clubId, setClubId] = useState(null)
-  const [clubList, setClubList] = useState(
-    [
-      {id: 1, name: 'club1', info: 'club1입니다'},
-      {id: 2, name: 'club2', info: 'club2입니다'},
-      {id: 3, name: 'club3', info: 'club3입니다'},
-      {id: 4, name: 'club4', info: 'club4입니다'},
-      {id: 5, name: 'club5', info: 'club5입니다'},
-    ]
-  )
+  const [clubList, setClubList] = useState([])
 
   const handleTargetClub = () => {
     setTarget('2')
@@ -253,7 +245,7 @@ const LetterCreate = () => {
     // console.log(USER_ID)
     axios.get(BASE_URL + 'club/findMyClub', {
       params: {
-        id: USER_ID,
+        id: 1,
       }
     })
       .then(res => {
@@ -280,58 +272,109 @@ const LetterCreate = () => {
 
   // 비밀번호
   const [password, setPassword] = useState()
-  
-
-  useEffect(() => {
-
-  }, [])
 
 
-  // submit
-  const onSubmit = (e) => {
-    e.preventDefault()
-
-    // 나에게, 타인에게 / 그룹에게로 분기
-    // json axios를 먼저보내고 성공하면 file axios 보내기
-    // formData 수정 필요
-    let params = {
-      userId: 1,
-      title: title,
-      message: message,
-      file: file[0],
-      private: Boolean(isPrivate),
-      openDate: openDate,
-      latitude: lat,
-      longitude: lng,
-      alert: Boolean(alarm),
-      target: Number(target),
-      password: password
-    }
-
-    console.log(params)
-
+  // axios 요청 함수
+  const sendAxios = () => {
+    // formData 생성
+        
     let formData = new FormData()
-    formData.append('userId', 1)
-    formData.append('title', title)
-    formData.append('message', message)
     formData.append(`file`, file[0])
-    formData.append('private', Boolean(isPrivate))
-    formData.append('openDate', openDate)
-    formData.append('latitude', lat)
-    formData.append('longitude', lng)
-    formData.append('alert', Boolean(alarm))
-    formData.append('target', Number(target))
 
     for (let pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1])
     }
 
-    // for (let i =0; i < files.length; i++) {
-    //   formData.append(`file[${i}]`, files[i])
-    // }
-    
+    // json axios를 먼저보내고 성공하면 file axios 보내기
+    // 나에게, 타인에게 / 그룹에게로 분기
+    if (target !== '2') {
+      // 나에게, 타인에게
+      let body = {
+        userId: 1,
+        title: title,
+        message: message,
+        private: Boolean(isPrivate),
+        openDate: openDate,
+        latitude: String(lat),
+        longitude: String(lng),
+        alert: Boolean(alarm),
+        phoneNumber: phoneNumbers
+      }
+
+      console.log(body)
+
+      axios.post(BASE_URL + 'letter/create', body)
+      .then(res => {
+        console.log(res)
+        // 파일 업로드
+        // 생성된 letterId를 받아서 요청 주소에 넣는다.
+        axios.post(BASE_URL + `letter/save/${1}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    } else {
+      // 그룹에게
+      let body = {
+        userId: 1,
+        title: title,
+        message: message,
+        private: Boolean(isPrivate),
+        openDate: openDate,
+        latitude: String(lat),
+        longitude: String(lng),
+        alert: Boolean(alarm),
+        clubId: clubId,
+      }
+
+      console.log(body)
+
+      axios.post(BASE_URL + 'letter/create', body)
+      .then(res => {
+        console.log(res)
+        // 파일 업로드
+        // 생성된 letterId를 받아서 요청 주소에 넣는다.
+        axios.post(BASE_URL + `letter/save/${1}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
   }
 
+  // submit
+  const onSubmit = (e) => {
+    e.preventDefault()
+
+    // 필수 요소가 모두 입력되었는지 확인하는 로직 필요
+    if (true) {
+      sendAxios()
+    } else {
+      alert('필수 요소를 모두 입력해주세요')
+    }
+  }
+
+  // ************** return ****************
   return (
     <Container className={classes.container} maxWidth="xs">
       <Typography className={classes.title} variant="h6">레터생성</Typography>
@@ -343,7 +386,7 @@ const LetterCreate = () => {
             {/* 캡슐 이름 */}
             <Grid item>
               <FormControl className={classes.field}>
-                <FormLabel>레터이름</FormLabel>
+                <FormLabel>레터이름*</FormLabel>
                 <Input
                   onChange={(e) => setTitle(e.target.value)}
                   id="title"
@@ -372,6 +415,7 @@ const LetterCreate = () => {
                   variant="outlined"
                   defaultValue={message}
                   placeholder="메세지를 남겨보세요"
+                  required
                 />
               </FormControl>
             </Grid>
@@ -379,7 +423,7 @@ const LetterCreate = () => {
             {/* 파일 업로드 */}
             <Grid item>
               <FormControl className={classes.field}>
-                <FormLabel>영상 업로드</FormLabel>
+                <FormLabel>영상 업로드*</FormLabel>
                 <input 
                   onChange={(e) => setFile(e.target.files)}
                   type="file"
@@ -388,6 +432,7 @@ const LetterCreate = () => {
                   variant="outlined"
                   style={{marginTop: '4px'}}
                   name="files"
+                  required
                 />
               </FormControl>
             </Grid>
@@ -395,7 +440,7 @@ const LetterCreate = () => {
             {/* 비공개설정 */}
             <Grid item>
               <FormControl className={classes.field}>
-                <FormLabel>공개여부</FormLabel>
+                <FormLabel>공개여부*</FormLabel>
                 <RadioGroup value={isPrivate} onChange={(e) => setIsPrivate(e.target.value)}>
                   <Grid container spacing={2}>
                     <Grid item><FormControlLabel value='' control={<Radio />} label="공개" /></Grid>
@@ -407,7 +452,7 @@ const LetterCreate = () => {
 
             {/* 오픈조건 설정 */}
             <Grid item>
-              <FormLabel>오픈조건</FormLabel>
+              <FormLabel>오픈조건*</FormLabel>
               <Grid container>
                 <Grid item>
                   <TextField
@@ -480,7 +525,7 @@ const LetterCreate = () => {
             {/* 알림 설정 */}
             <Grid item>
               <FormControl className={classes.field}>
-                <FormLabel>알림설정</FormLabel>
+                <FormLabel>알림설정*</FormLabel>
                 <RadioGroup value={alarm} onChange={(e) => setAlarm(e.target.value)}>
                   <Grid container spacing={2}>
                     <Grid item><FormControlLabel value='' control={<Radio />} label="일주일 전" /></Grid>
@@ -492,7 +537,7 @@ const LetterCreate = () => {
 
             {/* 수신대상 */}
             
-            <FormLabel>수신대상</FormLabel>
+            <FormLabel>수신대상*</FormLabel>
             <ButtonGroup variant="outlined" color="primary" fullWidth style={{marginTop: '8px'}}>
               <Button onClick={handleTargetMe}>나에게</Button>
               <Button onClick={handleTargetOther}>타인에게</Button>
@@ -592,7 +637,7 @@ const LetterCreate = () => {
             {/* 비밀번호 입력 */}
             <Grid item style={{marginTop: '24px'}}>
               <FormControl className={classes.field}>
-                <FormLabel>키 설정</FormLabel>
+                <FormLabel>키 설정*</FormLabel>
                 <Input
                   onChange={(e) => setPassword(e.target.value)}
                   id="password"
