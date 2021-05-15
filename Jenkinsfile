@@ -25,27 +25,27 @@ pipeline {
         stage('Docker build') {
             agent any
             steps {
-                sh 'docker build -t latest_backend:latest /var/jenkins_home/workspace/caterpie/backend'
+                // sh 'docker build -t latest_backend:latest /var/jenkins_home/workspace/caterpie/backend'
                 sh 'docker build -t latest_frontend:latest /var/jenkins_home/workspace/caterpie/frontend'
             }
         }
         stage('Docker run') {
             agent any
             steps {
-                sh 'docker ps -f name=latest_backend -q \
-                    | xargs --no-run-if-empty docker container stop'
+                // sh 'docker ps -f name=latest_backend -q \
+                //     | xargs --no-run-if-empty docker container stop'
                 sh 'docker ps -f name=latest_frontend -q \
                     | xargs --no-run-if-empty docker container stop'
-                sh 'docker container ls -a -f name=latest_backend -q \
-                    | xargs -r docker container rm'
+                // sh 'docker container ls -a -f name=latest_backend -q \
+                //     | xargs -r docker container rm'
                 sh 'docker container ls -a -f name=latest_frontend -q \
                     | xargs -r docker container rm'
                 sh 'docker images -f dangling=true && \
                     docker rmi $(docker images -f "dangling=true" -q)' 
-                sh 'docker run -d --name latest_backend \
-                    -p 8080:8080 \
-                    --network caterpie \
-                    latest_backend:latest'
+                // sh 'docker run -d --name latest_backend \
+                //     -p 8080:8080 \
+                //     --network caterpie \
+                //     latest_backend:latest'
                 sh 'docker run -d --name latest_frontend \
                     -p 80:80 \
                     -p 443:443 \
