@@ -49,8 +49,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/error", "/v2/api-docs", "/swagger-resources/**",
                         "/configuration/security", "/swagger-ui.html",
                         "/webjars/**", "/swagger/**", "/configuration/ui"
+			,"/videos"
                 );
     }
+    
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -76,6 +78,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
+		.antMatchers("/**").permitAll()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/club/**").permitAll()
                 .antMatchers("/letter/**").permitAll()
@@ -84,5 +87,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
+    
     }
+    
 }

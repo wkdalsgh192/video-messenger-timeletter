@@ -4,6 +4,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import UpperBar from './components/bar/UpperBar';
 import BottomBar from './components/bar/BottomBar';
+import LoadingCreate from './components/loading/LoadingCreate';
+import LoadingOpen from './components/loading/LoadingOpen';
 import * as All from './pages';
 
 
@@ -29,6 +31,8 @@ function App() {
           <Route path="/login" exact={true} component={All.Login} />
           <Route path="/mypage" exact={true} component={All.Mypage} />
           <Route path="/userupdate" exact={true} component={All.UserUpdate} />
+          <Route path="/loading/create" exact={true} component={LoadingCreate} />
+          <Route path="/loading/open" exact={true} component={LoadingOpen} />
 
           <Route path="/letter/create" exact={true} component={All.LetterCreate} />
           <Route path="/letter/list" exact={true} component={All.LetterList} />

@@ -44,6 +44,7 @@ pipeline {
                     docker rmi $(docker images -f "dangling=true" -q)' 
                 sh 'docker run -d --name latest_backend \
                     -p 8080:8080 \
+                    -v /home/ubuntu/videos:/videos \
                     --network caterpie \
                     latest_backend:latest'
                 sh 'docker run -d --name latest_frontend \

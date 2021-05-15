@@ -4,8 +4,8 @@ const { kakao } = window
 
 const MapDetail = (props) => {
   // 위경도
-  const lat = props.position[0]
-  const lng = props.position[1]
+  const lat = props.lat
+  const lng = props.lng
 
   useEffect(() => {
     //지도를 담을 영역의 DOM 레퍼런스
@@ -31,7 +31,7 @@ const MapDetail = (props) => {
   return (
     <div
       id="map"
-      style={{width: '100%', height: '300px', marginBottom: '20px'}}
+      style={{width: '100%', height: '300px', marginBottom: '20px', borderRadius:"10px"}}
     ></div>
   );
 };
