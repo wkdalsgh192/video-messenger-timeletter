@@ -6,12 +6,17 @@ import java.util.Map;
 import com.caterpie.timeletter.entity.ClubDetailUser;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /*
  * 그룹 디테일 페이지에서 사용될 Dto
  */
-@Data
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class ClubDetailDto {
 	private int clubId;
 	private String clubName;

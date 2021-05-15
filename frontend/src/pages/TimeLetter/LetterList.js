@@ -1,22 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Container,
   Tabs, 
   Tab,
-  Link,
-  // Card,
-  // Grid,
-  // CardContent,
-  // Typography,
-  Chip,
 } from '@material-ui/core'
-import FaceIcon from '@material-ui/icons/Face'
-import yellow from '@material-ui/core/colors/yellow';
+
 import bgImage from 'pages/images/sky2.jpg'
-// import closeletter from 'components/mypage/images/close.png'
-import './css/letter.scss'
-import './css/LetterList.css'
+import LetterListItem from 'components/timeletter/LetterListItem'
+// import MapList from "components/timeletter/MapList"
 
 
 // 스타일
@@ -31,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const yw = yellow[900]
+
 
 // 컴포넌트
 const LetterList = () => {
@@ -40,72 +32,120 @@ const LetterList = () => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
-    console.log(newValue)
+    // console.log(newValue)
     setValue(newValue);
   };
+
+  // axios요청을 통해 letterList를 받는다.
+  // API 구현 전이므로 더미 데이터로 대체한다.
+  const [letterList, setLetterList] = useState([
+    {
+      letterId: 1,
+      userId: 1,
+      userName: '안세익',
+      title: 'title1',
+      message: 'message1',
+      file: '',
+      private: true,
+      openDate: '2021-05-14',
+      latitude: 33.450705,
+      longitude: 126.570677,
+      alert: true,
+      target: 2,
+      isOpen: true,
+    },
+    {
+      letterId: 2,
+      userId: 1,
+      userName: '안세익',
+      title: 'title2',
+      message: 'message2',
+      file: '',
+      private: true,
+      openDate: '2021-05-14',
+      latitude: 33.450105,
+      longitude: 126.570223,
+      alert: true,
+      target: 2,
+      isOpen: true,
+    },
+    {
+      letterId: 3,
+      userId: 1,
+      userName: '안세익',
+      title: 'title3',
+      message: 'message3',
+      file: '',
+      private: true,
+      openDate: '2021-05-14',
+      latitude: 33.450465,
+      longitude: 126.570452,
+      alert: true,
+      target: 2,
+      isOpen: false,
+    },
+    {
+      letterId: 4,
+      userId: 1,
+      userName: '안세익',
+      title: 'title4',
+      message: 'message4',
+      file: '',
+      private: true,
+      openDate: '2021-05-14',
+      latitude: 33.450103,
+      longitude: 126.570546,
+      alert: true,
+      target: 2,
+      isOpen: false,
+    }
+  ])
+
+  // 오픈여부에 따라 letter를 분류한다.
+  const [openLetters, setOpenLetters] = useState([])
+  const [notOpenLetters, setNotOpenLetters] = useState([])
+
+  useEffect(() => {
+    let tmpOpenLetters = []
+    let tmpNotOpenLetters = []
+    for (let i = 0; i < letterList.length; i++) {
+      if (letterList[i].isOpen === true) {
+        tmpOpenLetters.push(letterList[i])
+      } else {
+        tmpNotOpenLetters.push(letterList[i])
+      }
+    }
+    setOpenLetters(tmpOpenLetters)
+    setNotOpenLetters(tmpNotOpenLetters)
+  }, [letterList])
+
 
   return (
     <Container className={classes.container} maxWidth="xs">
       {/* 오픈, 비오픈 구분 탭 */}
       <Tabs
         value={value}
-        indicatorColor="primary"
+        indicatorColor="secondary"
         onChange={handleChange}
-        aria-label="disabled tabs example"
+        aria-label="tabs"
         style={{marginBottom:"15px", color:"bisque"}}
       >
         <Tab label="오픈된 레터" />
         <Tab label="비오픈된 레터" />
       </Tabs>
 
-      {/* 레터 목록 */}
-      <div className="trashnone">
-        <div class="night2">
-          <span class="moon"></span>
-          <span class="spot1"></span>
-          <span class="spot2"></span>
-          <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-          <Link to="/letter/detail">
-            <div className="lettercontent2">
-              <div style={{fontSize:"20px", color: '#fff'}}>레터 이름</div>
-              <div style={{fontSize:"35px", color: '#fff'}}> 오픈시각 d-day</div>
-              <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
-                <Chip variant="outlined" size="middle" icon={<FaceIcon />} label="From.조현섭" color={yw} />
-              </div>
-            </div>
-          </Link>
-        </div>          
-      </div>
+      {/* 오픈, 비오픈 지도 전환 */}
+      {/* {value === 0 ? <MapList letters={openLetters} /> : <MapList letters={notOpenLetters} />} */}
 
-      {/* 레터 목록 */}
-      {/* <Link to="/letter/detail">
-        <Card className="">
-          <Grid container alignItems="center" className="letterbox">
-            <Grid item className="lettercontent">
-              <CardContent>
-                <Typography variant="subtitle1" color="textSecondary">
-                  레터 이름
-                </Typography>
-                <Typography component="h5" variant="h5">
-                  오픈시각 d-day
-                </Typography>
-              </CardContent>
-            </Grid>
-            <Grid item style={{marginRight:"15px"}} >
-              <img src={closeletter} style={{ height: "70px", width: "70px" }} className="tossing" />
-            </Grid>
-            <Grid item className="lettercontent" style={{marginLeft:"10px", marginBottom:"10px"}}>
-              <Chip variant="outlined" size="small" icon={<FaceIcon />} label="From.조현섭" color="secondary" />
-            </Grid>
-          </Grid>
-        </Card>
-      </Link> */}
+      {/* 오픈, 비오픈레터 전환 */}
+      {value === 0
+        ? openLetters.map((openLetter, index) => {
+          return <LetterListItem key={index} letter={openLetter} /> 
+        })
+        : notOpenLetters.map((notOpenLetter, index) => {
+          return <LetterListItem key={index} letter={notOpenLetter} />
+        }) 
+      }
     </Container>
   );
 };

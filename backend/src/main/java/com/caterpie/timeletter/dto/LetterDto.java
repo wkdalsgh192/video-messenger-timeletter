@@ -11,12 +11,12 @@ import lombok.ToString;
 @ToString
 public class LetterDto {
 	private int userId;
+	private int clubId;
 	private String title;
 	private String message;
 	private String openDate;
 	private String latitude;
 	private String longitude;
-//	private boolean toOthers;
 	private boolean alert;
 	private boolean isPrivate;
 	private boolean isOpen;
