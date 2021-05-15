@@ -29,7 +29,7 @@ public class Letter {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "letter_id", columnDefinition = "INT UNSIGNED")
+	@Column(name = "letter_id", columnDefinition = "INT")
 	private int letterId;
 	@Column(length=100,nullable=false)
 	private String title;
@@ -47,7 +47,6 @@ public class Letter {
 	private boolean alert;
 	@Column(name="is_private")
 	private boolean isPrivate;
-	@JsonIgnore
 	@Column(name="is_open")
 	private boolean isOpen;
 	@Column(name="user_id")
