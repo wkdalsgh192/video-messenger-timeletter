@@ -50,6 +50,11 @@ public class Letter {
 	@JsonIgnore
 	@Column(name="is_open")
 	private boolean isOpen;
+	@Column(name="user_id")
+	private int userId;
+	@Column(name="club_id")
+	private int clubId;
+
 	
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="letterId")
@@ -57,8 +62,8 @@ public class Letter {
 	
 	
 	@Builder
-	public Letter(int letterId, int clubId, String title, String url, String message, String openDate, BigDecimal latitude,
-			BigDecimal longitude, boolean alert, boolean isPrivate, boolean isOpen) {
+	public Letter(int letterId, String title, String url, String message, String openDate, BigDecimal latitude,
+			BigDecimal longitude, boolean alert, boolean isPrivate, boolean isOpen, int userId, int clubId) {
 		super();
 		this.letterId = letterId;
 		this.title = title;
@@ -67,17 +72,11 @@ public class Letter {
 		this.openDate = openDate;
 		this.latitude = latitude;
 		this.longitude = longitude;
-//		this.toWhom = toWhom;
 		this.alert = alert;
 		this.isPrivate = isPrivate;
 		this.isOpen = isOpen;
+		this.userId = userId;
+		this.clubId = clubId;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

@@ -3,7 +3,10 @@ package com.caterpie.timeletter.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.caterpie.timeletter.dto.LetterDto;
+import com.caterpie.timeletter.entity.Letter;
+import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.service.LetterService;
+import com.caterpie.timeletter.service.UserService;
 
 
 @RestController
@@ -32,6 +38,9 @@ public class LetterController {
 	
 	@Autowired
 	private LetterService letterService;
+	
+	@Autowired
+	private UserService userService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(LetterController.class);
 	
@@ -48,11 +57,14 @@ public class LetterController {
 		return new ResponseEntity<>(new InputStreamResource(inputStream),headers,HttpStatus.OK);
 	}
 	
-//	@GetMapping("/")
-//	public ModelAndView hello() {
-//		ModelAndView modelAndView = new ModelAndView();
-//		modelAndView.setViewName("uploader");
-//		return modelAndView;
+//	@GetMapping(path="/get")
+//	public ResponseEntity<?> getAllLetters() {
+//		Optional<User> opt = userService.getCurrentUserWithAuthorities();
+//		
+//		if (opt.isPresent()) {
+//			Map<String,Letter> map = letterService.getAllLetters(opt.get());
+//			return new ResponseEntity<>(map, HttpStatus.OK);
+//		} else return ResponseEntity.noContent().build();
 //	}
 	
 
@@ -66,21 +78,38 @@ public class LetterController {
 	}
 	
 	@PostMapping(path="/save/{letterId}", consumes= {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile file) {
+	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile video) throws IllegalStateException, IOException {
 		
-		// 영상 데이터 저장
-		String url = "";
-		try {
-			url = "/var/jenkins_home/workspace/caterpie/files/"+file.getOriginalFilename();
-			file.transferTo(new File(url));
-			
-			letterService.saveFile(letterId, url);
-		} catch (Exception e) {
-			logger.debug("Failed to save a file");
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-		}
+		String path = System.getProperty("user.dir");
+		logger.debug("".equals(path)? "empty":path);
+		logger.debug(path);
+		logger.debug("hello");
+		
+		// 도착하는 곳의 url 주소
+		
+		String url = "/videos/"+video.getOriginalFilename();
+		logger.debug(url);
+		File file = new File(url);
+		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+		video.transferTo(file);
+		
+		logger.debug("hello1");
+//		// 영상 데이터 저장
+//		String url = "";
+//		try {
+//			url = "/var/jenkins_home/workspace/caterpie/files/"+file.getOriginalFilename();
+//			file.transferTo(new File(url));
+//			
+//			letterService.saveFile(letterId, url);
+//		} catch (Exception e) {
+//			logger.debug("Failed to save a file");
+//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//		}
 		
 		return ResponseEntity.ok("File Uploaded Successfully!");
 	}
 	
+	public static void main(String[] args) {
+		System.out.println(System.getProperty("user.dir"));
+	}
 }	
