@@ -35,9 +35,7 @@ function SearchModal() {
     } 
   }
   return (
-    <div style={{marginTop:"", marginBottom:"20px"}}>
-      <div style={{color:"white"}}>기분 좋은,</div>
-      <div style={{color:"white"}}>설레임 with timeletter</div>
+    <div style={{marginTop:"50px", marginBottom:"70px"}}>
       <Paper component="form" className="" style={{display:"flex",justifyContent:"space-around",paddingLeft:"10px"}} >
         <InputBase className="" placeholder="레터 번호를 입력하세요." onKeyPress={onEnter} />
         <input type="text" style={{display:"none"}}/> 
@@ -46,7 +44,7 @@ function SearchModal() {
           <SearchIcon />
         </IconButton>
       </Paper>
-      <div style={{color:"white"}}>전송 받은 레터 번호를 입력해주세요.</div>
+      <div style={{color:"white",fontSize:"15px",marginTop:"10px"}}>전송 받은 레터 번호를 입력해주세요.</div>
       <Dialog
         open={open}
         onClose={handleClose}
