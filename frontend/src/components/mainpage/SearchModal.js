@@ -37,7 +37,7 @@ function SearchModal() {
   return (
     <div style={{marginTop:"", marginBottom:"20px"}}>
       <Paper component="form" className="searchbar"> 
-      <InputBase className="" placeholder="레터 번호를 입력하세요." onKeyPress={onEnter} />
+      <InputBase className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={onEnter} />
         <input type="text" style={{display:"none"}}/> 
         <IconButton className="" type="button" aria-label="search" onClick={handleOpen}>
           <SearchIcon />
