@@ -32,6 +32,7 @@ import {
 import TitleRoundedIcon from '@material-ui/icons/TitleRounded'
 import CloseIcon from '@material-ui/icons/Close'
 import MapIcon from '@material-ui/icons/Map'
+import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined'
 import PhoneAndroidOutlinedIcon from '@material-ui/icons/PhoneAndroidOutlined'
 import MapCreate from '../../components/timeletter/MapCreate'
 import group from 'static/images/group.png'
@@ -42,11 +43,11 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 
 // 테마
 const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#fff'
-    }
-  }
+  // palette: {
+  //   primary: {
+  //     main: '#fff'
+  //   }
+  // }
 })
 
 
@@ -62,14 +63,15 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     marginTop: '40px',
-    color: '#fff',
+    color: 'white',
   },
   paper: {
     marginTop: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#fff',
+    backgroundColor: '#e8eaf6',
     padding: theme.spacing(0, 2),
+    borderRadius:"10px"
   },
   form: {
     width: '100%',
@@ -83,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   appBar: {
-    position: 'relative',
+    position: 'fixed',
   },
   barTitle: {
     marginLeft: theme.spacing(2),
@@ -169,6 +171,7 @@ const LetterCreate = () => {
   // 알림
   const [alarm, setAlarm] = useState('')
   // ''는 일주일 전, 'true'는 한달 전
+
 
   // 타겟 설정
   const [target, setTarget] = useState('0')
@@ -273,6 +276,10 @@ const LetterCreate = () => {
     setSelectClubId(null)
     setClubOpen(false)
   }
+
+
+  // 비밀번호
+  const [password, setPassword] = useState()
   
 
   useEffect(() => {
@@ -287,6 +294,21 @@ const LetterCreate = () => {
     // 나에게, 타인에게 / 그룹에게로 분기
     // json axios를 먼저보내고 성공하면 file axios 보내기
     // formData 수정 필요
+    let params = {
+      userId: 1,
+      title: title,
+      message: message,
+      file: file[0],
+      private: Boolean(isPrivate),
+      openDate: openDate,
+      latitude: lat,
+      longitude: lng,
+      alert: Boolean(alarm),
+      target: Number(target),
+      password: password
+    }
+
+    console.log(params)
 
     let formData = new FormData()
     formData.append('userId', 1)
@@ -565,7 +587,28 @@ const LetterCreate = () => {
                   저장
                 </Button>
               </DialogActions>
-            </Dialog>   
+            </Dialog>
+
+            {/* 비밀번호 입력 */}
+            <Grid item style={{marginTop: '24px'}}>
+              <FormControl className={classes.field}>
+                <FormLabel>키 설정</FormLabel>
+                <Input
+                  onChange={(e) => setPassword(e.target.value)}
+                  id="password"
+                  color="secondary"
+                  placeholder="오픈 키를 입력해주세요"
+                  fullWidth
+                  required
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <VpnKeyOutlinedIcon />
+                    </InputAdornment>
+                  }
+                  style={{marginTop: '4px'}}
+                />
+              </FormControl>
+            </Grid>
             
             {/* submit */}
             <Button
@@ -574,6 +617,7 @@ const LetterCreate = () => {
               variant="contained"
               color="primary"
               className={classes.submit}
+              style={{backgroundColor: '#2D0968'}}
             >
               레터 생성
             </Button>
