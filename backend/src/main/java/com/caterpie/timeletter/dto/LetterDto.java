@@ -11,6 +11,7 @@ import lombok.ToString;
 @ToString
 public class LetterDto {
 	private int userId;
+	private int clubId;
 	private String title;
 	private String message;
 	private String openDate;
