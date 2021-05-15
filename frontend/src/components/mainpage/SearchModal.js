@@ -15,23 +15,36 @@ import TextField from '@material-ui/core/TextField';
 import 'components/mainpage/SearchModal.css'
 
 function SearchModal() {
+
+  //비밀번호 입력 창 open state
   const [open, setOpen] = useState(false);
 
+  // 비밀번호 입력 모달 오픈,클로즈
   const handleOpen = () => {
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };
+
+  // 엔터키 이벤트
+  const onEnter = (e) => {
+    // e.preventDefault();
+    if(e.key == 'Enter'){
+      handleOpen()
+    } 
+  }
   return (
-    <div style={{marginTop:"", marginBottom:"20px"}}>
+    <div style={{marginTop:"50px", marginBottom:"70px"}}>
       <Paper component="form" className="" style={{display:"flex",justifyContent:"space-around",paddingLeft:"10px"}} >
-        <InputBase className="" placeholder="레터 번호를 입력하세요." />
+        <InputBase className="" placeholder="레터 번호를 입력하세요." onKeyPress={onEnter} />
+        <input type="text" style={{display:"none"}}/> 
+
         <IconButton className="" type="button" aria-label="search" onClick={handleOpen}>
           <SearchIcon />
         </IconButton>
       </Paper>
+      <div style={{color:"white",fontSize:"15px",marginTop:"10px"}}>전송 받은 레터 번호를 입력해주세요.</div>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -49,11 +62,11 @@ function SearchModal() {
             fullWidth
           />
           <DialogContentText id="alert-dialog-description">
-           회원가입하고 답장을 보내보세요 :)
+           <Link to="/signup" style={{color:"#000080", fontWeight:"bold"}}>회원가입</Link>하고 답장을 보내보세요 :)
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button onClick={handleClose} color="primary" style={{fontWeight:"bold"}}>
             제출하기
           </Button>
         </DialogActions>

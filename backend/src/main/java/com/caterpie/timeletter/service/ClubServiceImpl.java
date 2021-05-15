@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.caterpie.timeletter.dto.ClubDetailDto;
 import com.caterpie.timeletter.dto.ClubDto;
+import com.caterpie.timeletter.dto.ClubLettersDto;
+import com.caterpie.timeletter.dto.LetterDto;
 import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.entity.ClubDetailUser;
+import com.caterpie.timeletter.entity.ClubList;
 import com.caterpie.timeletter.repository.ClubRepository;
 
 @Service
@@ -58,5 +61,13 @@ public class ClubServiceImpl implements ClubService {
 		return clubDetail;
 	}
 
+	@Override
+	public ClubLettersDto findLetters(int clubId) {
+		ClubLettersDto cld = new ClubLettersDto();
+		cld.setOpenedLetter(clubRepository.findOpenedLetters(clubId));
+		cld.setClosedLetter(clubRepository.findClosedLetters(clubId));
+		return cld;
+	
+	}
 	
 }
