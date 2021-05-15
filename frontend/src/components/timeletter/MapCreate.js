@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import bgImage from 'pages/images/sky2.jpg'
+import { Grid } from '@material-ui/core'
 
 const { kakao } = window
 
@@ -81,12 +83,15 @@ const MapCreate = (props) => {
   }, [lat])
 
   return (
-    <div style={{width: '80%', height: '80%', marginLeft: "auto", marginRight: "auto"}}>
-      <div>- 위도 : {lat}</div>
-      <div>- 경도 : {lng}</div>
-      <div 
+    <div style={{width: '100%', height: '100%', backgroundImage: `url(${bgImage})`, paddingTop: '60px'}}>
+      <div style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
+        <div style={{color: 'white'}}>- 위도 : {lat}</div>
+        <div style={{color: 'white'}}>- 경도 : {lng}</div>
+      </div>
+      
+      <div
         id="map" 
-        style={{width: '100%', height: '100%'}}
+        style={{width: '80%', height: '85%', marginLeft: "auto", marginRight: "auto", borderRadius:"10px"}}
         onClick={() => {
           props.onChangeLat(lat)
           props.onChangeLng(lng)
