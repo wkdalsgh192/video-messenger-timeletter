@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.caterpie.timeletter.dto.ClubDetailDto;
 import com.caterpie.timeletter.dto.ClubDto;
 import com.caterpie.timeletter.dto.ClubJoinDto;
+import com.caterpie.timeletter.dto.ClubLettersDto;
+import com.caterpie.timeletter.dto.LetterDto;
 import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.entity.ClubList;
 import com.caterpie.timeletter.repository.ClubRepository;
@@ -155,5 +157,15 @@ public class ClubController {
 		return new ResponseEntity<String>("success",HttpStatus.OK);
 	}
 	
+	
+	/**
+	 * @apiNote 클럽의 레터 조회
+	 * @return ClubLetters
+	 */
+	@GetMapping("/findLetters")
+	@ApiOperation(value = "club_id로 클럽 디테일 정보 조회", notes = "클럽 디테일 페이지에서 사용될 API")
+	public ClubLettersDto findLetters(@RequestParam("id") int clubId) {
+		return service.findLetters(clubId);
+	}
 	
 }

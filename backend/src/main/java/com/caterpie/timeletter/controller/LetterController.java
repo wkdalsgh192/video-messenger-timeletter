@@ -82,24 +82,18 @@ public class LetterController {
 		
 		// 도착하는 곳의 url 주소
 		String url = "/videos/"+video.getOriginalFilename();
+//		String url = "C:\\Users\\multicampus\\Desktop\\test\\"+video.getOriginalFilename();
 		logger.debug(url);
 		File file = new File(url);
 		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
-		video.transferTo(file);
-		letterService.saveFile(letterId, url);
-		
-//		// 영상 데이터 저장
-//		String url = "";
-//		try {
-//			url = "/var/jenkins_home/workspace/caterpie/files/"+file.getOriginalFilename();
-//			file.transferTo(new File(url));
-//			
-//			letterService.saveFile(letterId, url);
-//		} catch (Exception e) {
-//			logger.debug("Failed to save a file");
-//			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//		}
-		
+		try {
+			letterService.saveFile(letterId, url);
+			video.transferTo(file);
+		} catch (Exception e) {
+			logger.error("Error occurs!!",e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+			
+		}
 		return ResponseEntity.ok("File Uploaded Successfully!");
 	}
 	
