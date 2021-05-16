@@ -1,6 +1,7 @@
 package com.caterpie.timeletter.service;
 
 import java.util.Map;
+import java.util.Optional;
 
 import com.caterpie.timeletter.dto.LetterDto;
 import com.caterpie.timeletter.entity.Letter;
@@ -11,8 +12,8 @@ public interface LetterService {
 	int createLetter(LetterDto letterDto);
 	
 	/* C :: 레터 영상 조회 */
-	String retrieveUrl(int letterId);
-//	Map<String,Letter> getAllLetters(User user);
+	Optional<Letter> retrieveLetter(String letterCode);
+	Map<String,Letter> getAllLetters(User user);
 	
 	void saveFile(int letterId, String url) throws Exception;
 	

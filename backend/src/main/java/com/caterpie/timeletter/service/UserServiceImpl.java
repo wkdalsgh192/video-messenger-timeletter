@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 		User user = User.builder()
 				.email(joinDto.getEmail())
 				.password(passwordEncoder.encode(joinDto.getPassword()))
-				.phone(joinDto.getPhone())
+				.phoneNumber(joinDto.getPhoneNumber())
 				.name(joinDto.getName())
 				.activated(true)
 				.authorities(Collections.singleton(authority))

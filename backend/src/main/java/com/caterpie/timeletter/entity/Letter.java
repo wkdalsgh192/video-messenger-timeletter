@@ -43,8 +43,6 @@ public class Letter {
 	private BigDecimal latitude;
 	@Column(name="longitude",nullable=true)
 	private BigDecimal longitude;
-	@Column(name="alert")
-	private boolean alert;
 	@Column(name="is_private")
 	private boolean isPrivate;
 	@Column(name="is_open")
@@ -53,6 +51,8 @@ public class Letter {
 	private int userId;
 	@Column(name="club_id")
 	private int clubId;
+	@Column(name="letter_code")
+	private String letterCode;
 
 	
 	@OneToMany(fetch=FetchType.LAZY)
@@ -62,7 +62,7 @@ public class Letter {
 	
 	@Builder
 	public Letter(int letterId, String title, String url, String message, String openDate, BigDecimal latitude,
-			BigDecimal longitude, boolean alert, boolean isPrivate, boolean isOpen, int userId, int clubId) {
+			BigDecimal longitude, boolean isPrivate, boolean isOpen, int userId, int clubId, String letterCode, List<Target> targets) {
 		super();
 		this.letterId = letterId;
 		this.title = title;
@@ -71,11 +71,12 @@ public class Letter {
 		this.openDate = openDate;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.alert = alert;
 		this.isPrivate = isPrivate;
 		this.isOpen = isOpen;
 		this.userId = userId;
 		this.clubId = clubId;
+		this.letterCode = letterCode;
+		this.targets = targets;
 	}
 
 }
