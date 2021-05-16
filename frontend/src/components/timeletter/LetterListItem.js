@@ -18,20 +18,12 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 const LetterListItem = (props) => {
   // const history = useHistory()
 
-  // console.log(props.letter)
+  let name = props.item.name
+  let letter = props.item.letter
 
-  let name = ''
-  let letter = {}
+  const sender = 'From. ' + name
 
-  for (const [key, value] of Object.entries(props.letter)) {
-    // console.log(key, value)
-    name = key
-    letter = value
-  }
-
-  const sender = 'From' + name
-
-  const letterUrl = 'detail/' + letter.letterId
+  const letterUrl = 'detail/' + letter.letterCode
 
   // video
   const [videoOpen, setVideoOpen] = useState(false)

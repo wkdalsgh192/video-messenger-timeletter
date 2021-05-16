@@ -36,7 +36,7 @@ function App() {
 
           <Route path="/letter/create" exact={true} component={All.LetterCreate} />
           <Route path="/letter/list" exact={true} component={All.LetterList} />
-          <Route path="/letter/detail/:id" exact={true} component={All.LetterDetail} />
+          <Route path="/letter/detail/:code" exact={true} component={All.LetterDetail} />
 
           <Route path="/group/create" exact={true} component={All.GroupCreate} />
           <Route path="/group/detail/:id" exact={true} component={All.GroupDetail} />
