@@ -44,7 +44,7 @@ public class User {
 	@Column(length=64,nullable =false)
 	private String password;
 	@Column(length=20,nullable =false)
-	private String phone;
+	private String phoneNumber;
 	@JsonIgnore
 	@Column(name="activated")
 	private boolean activated;
@@ -65,14 +65,14 @@ public class User {
 	private Set<Authority> authorities;
 
 	@Builder
-	public User(String email, String name, String profile, String password, String phone, boolean activated,
+	public User(String email, String name, String profile, String password, String phoneNumber, boolean activated,
 			Set<Authority> authorities, List<Letter> letters) {
 		super();
 		this.email = email;
 		this.name = name;
 		this.profile = profile;
 		this.password = password;
-		this.phone = phone;
+		this.phoneNumber = phoneNumber;
 		this.activated = activated;
 		this.authorities = authorities;
 		this.letters = letters;

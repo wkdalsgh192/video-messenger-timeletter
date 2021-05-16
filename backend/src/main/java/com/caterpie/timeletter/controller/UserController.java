@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,12 +30,12 @@ import com.caterpie.timeletter.dto.UserModifyDto;
 import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.jwt.JwtFilter;
 import com.caterpie.timeletter.jwt.TokenProvider;
-import com.caterpie.timeletter.repository.UserRepository;
 import com.caterpie.timeletter.service.UserService;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ExampleProperty;
 
 @RestController
 @RequestMapping("/user")
@@ -126,6 +125,15 @@ public class UserController {
 	 * @return JWT
 	 */
 	@ApiOperation(value= "Login", notes = "로그인")
+//	@ApiImplicitParams({
+//	    @ApiImplicitParam(
+//	        name = "contents",
+//	        dataTypeClass = LoginDto.class,
+//	        examples = @io.swagger.annotations.Example(
+//	            value = {
+//	                @ExampleProperty(value = "{'email': 'ssafy1@ssafy.com','password':'ssafy1'}", mediaType = "application/json")
+//	            })) 
+//	})
 	@PostMapping("/login")
     public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto) {
 		
