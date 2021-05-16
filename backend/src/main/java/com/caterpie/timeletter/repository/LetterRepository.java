@@ -12,5 +12,5 @@ public interface LetterRepository extends JpaRepository<Letter, Integer> {
 //	// 타겟 리스트를 이미들고와야한다.
 //	List<Letter> findWithTargetsByPhoneNumber(String phoneNumber);
 	
-	Optional<Letter> findOneByIdAndUserId(int letterId, int userId);
+	Optional<Letter> findOneByLetterIdAndUserId(int letterId, int userId);
 }

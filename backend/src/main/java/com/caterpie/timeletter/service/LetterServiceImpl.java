@@ -94,7 +94,7 @@ public class LetterServiceImpl implements LetterService {
 		// 유저 아이디 확인
 		Optional<User> opt = SecurityUtil.getCurrentUsername().flatMap(userRepo::findOneWithAuthoritiesByEmail);
 		if (!opt.isPresent()) return null;
-		Optional<Letter> letter = letterRepo.findOneByIdAndUserId(letterId, opt.get().getUserId());
+		Optional<Letter> letter = letterRepo.findOneByLetterIdAndUserId(letterId, opt.get().getUserId());
 		if (!letter.isPresent()) return null;
 		String url = letter.get().getUrl();
 		if (!url.equals(null))

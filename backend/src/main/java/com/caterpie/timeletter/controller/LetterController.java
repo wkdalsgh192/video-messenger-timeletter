@@ -3,10 +3,7 @@ package com.caterpie.timeletter.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.caterpie.timeletter.dto.LetterDto;
-import com.caterpie.timeletter.entity.Letter;
-import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.service.LetterService;
-import com.caterpie.timeletter.service.UserService;
+
+import io.swagger.annotations.ApiImplicitParam;
 
 
 @RestController
@@ -79,7 +75,8 @@ public class LetterController {
 	}
 	
 	@PostMapping(path="/save/{letterId}", consumes= {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile video) throws Exception {
+//	@ApiImplicitParam(name = "file", dataType = "MultipartFile.class", paramType="form", required = true)
+	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestPart("file") MultipartFile video) throws Exception {
 		
 		// 도착하는 곳의 url 주소
 		String url = "/videos/"+video.getOriginalFilename();
