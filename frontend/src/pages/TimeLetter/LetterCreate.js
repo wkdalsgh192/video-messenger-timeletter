@@ -298,7 +298,8 @@ const LetterCreate = () => {
         latitude: String(lat),
         longitude: String(lng),
         alert: Boolean(alarm),
-        phoneNumber: phoneNumbers
+        phoneNumber: phoneNumbers,
+        clubId: 8,
       }
 
       console.log(body)
