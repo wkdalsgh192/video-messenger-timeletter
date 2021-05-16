@@ -39,16 +39,17 @@ public class LetterController {
 	@Autowired
 	private LetterService letterService;
 	
-	@Autowired
-	private UserService userService;
-	
 	private static final Logger logger = LoggerFactory.getLogger(LetterController.class);
 	
-	@GetMapping("/{fileName}")
-	public ResponseEntity<InputStreamResource> retrieveMediaFile(@PathVariable String fileName) throws FileNotFoundException {
-		File file = new File("C:\\Users\\multicampus\\Desktop\\test\\"+fileName+".mp4");
+	@GetMapping("/retrieve/{letterId}")
+	public ResponseEntity<InputStreamResource> retrieveFile(@PathVariable int letterId) throws FileNotFoundException {
+		// 유저 아이디 확인 및 레터 아이디 확인
+		// 일치하는 경우 url 가져오기
+		String url = letterService.retrieveUrl(letterId);
+		// url에 맞게 file 가져오기
+		File file = new File(url);
 		System.out.println(file.toString());
-		InputStream inputStream = new FileInputStream("C:\\Users\\multicampus\\Desktop\\test\\"+fileName+".mp4");
+		InputStream inputStream = new FileInputStream(url);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept-Ranges", "bytes");
 		headers.set("Content-Type", "video/mp4");

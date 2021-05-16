@@ -18,6 +18,7 @@ import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.repository.LetterRepository;
 import com.caterpie.timeletter.repository.TargetRepository;
 import com.caterpie.timeletter.repository.UserRepository;
+import com.caterpie.timeletter.util.SecurityUtil;
 
 @Service
 public class LetterServiceImpl implements LetterService {
@@ -86,6 +87,19 @@ public class LetterServiceImpl implements LetterService {
 		Letter letter = letterRepo.findById(letterId).get();
 		letter.setUrl(url);
 		letterRepo.save(letter);
+	}
+
+	@Override
+	public String retrieveUrl(int letterId) {
+		// 유저 아이디 확인
+		Optional<User> opt = SecurityUtil.getCurrentUsername().flatMap(userRepo::findOneWithAuthoritiesByEmail);
+		if (!opt.isPresent()) return null;
+		Optional<Letter> letter = letterRepo.findOneByIdAndUserId(letterId, opt.get().getUserId());
+		if (!letter.isPresent()) return null;
+		String url = letter.get().getUrl();
+		if (!url.equals(null))
+			return url;
+		else return null;
 	}
 	
 //	@Override
