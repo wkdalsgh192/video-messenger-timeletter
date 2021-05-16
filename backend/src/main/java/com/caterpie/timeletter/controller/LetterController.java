@@ -3,10 +3,7 @@ package com.caterpie.timeletter.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,15 +18,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.caterpie.timeletter.dto.LetterDto;
-import com.caterpie.timeletter.entity.Letter;
-import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.service.LetterService;
-import com.caterpie.timeletter.service.UserService;
+
+import io.swagger.annotations.ApiImplicitParam;
 
 
 @RestController
@@ -39,16 +35,17 @@ public class LetterController {
 	@Autowired
 	private LetterService letterService;
 	
-	@Autowired
-	private UserService userService;
-	
 	private static final Logger logger = LoggerFactory.getLogger(LetterController.class);
 	
-	@GetMapping("/{fileName}")
-	public ResponseEntity<InputStreamResource> retrieveMediaFile(@PathVariable String fileName) throws FileNotFoundException {
-		File file = new File("C:\\Users\\multicampus\\Desktop\\test\\"+fileName+".mp4");
+	@GetMapping("/retrieve/{letterId}")
+	public ResponseEntity<InputStreamResource> retrieveFile(@PathVariable int letterId) throws FileNotFoundException {
+		// 유저 아이디 확인 및 레터 아이디 확인
+		// 일치하는 경우 url 가져오기
+		String url = letterService.retrieveUrl(letterId);
+		// url에 맞게 file 가져오기
+		File file = new File(url);
 		System.out.println(file.toString());
-		InputStream inputStream = new FileInputStream("C:\\Users\\multicampus\\Desktop\\test\\"+fileName+".mp4");
+		InputStream inputStream = new FileInputStream(url);
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept-Ranges", "bytes");
 		headers.set("Content-Type", "video/mp4");
@@ -78,7 +75,8 @@ public class LetterController {
 	}
 	
 	@PostMapping(path="/save/{letterId}", consumes= {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestParam("file") MultipartFile video) throws Exception {
+//	@ApiImplicitParam(name = "file", dataType = "MultipartFile.class", paramType="form", required = true)
+	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestPart("file") MultipartFile video) throws Exception {
 		
 		// 도착하는 곳의 url 주소
 		String url = "/videos/"+video.getOriginalFilename();
