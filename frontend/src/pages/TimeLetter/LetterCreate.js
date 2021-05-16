@@ -40,6 +40,7 @@ import bgImage from 'pages/images/sky2.jpg'
 import { BASE_URL, USER_ID, TOKEN } from 'constants/index.js'
 import axios from 'axios'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import LoadingCreate from 'components/loading/LoadingCreate'
 
 // 테마
 const theme = createMuiTheme({
@@ -94,6 +95,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const MapTransition = React.forwardRef(function MapTransition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
@@ -298,7 +303,8 @@ const LetterCreate = () => {
         latitude: String(lat),
         longitude: String(lng),
         alert: Boolean(alarm),
-        phoneNumber: phoneNumbers
+        phoneNumber: phoneNumbers,
+        clubId: 0,
       }
 
       console.log(body)
@@ -363,15 +369,27 @@ const LetterCreate = () => {
   }
 
   // submit
-  const onSubmit = (e) => {
+  async function onSubmit (e) {
     e.preventDefault()
+
+    // setVideoOpen(true)
 
     // 필수 요소가 모두 입력되었는지 확인하는 로직 필요
     if (true) {
-      sendAxios()
+      await sendAxios()
     } else {
       alert('필수 요소를 모두 입력해주세요')
     }
+
+    
+  }
+
+
+  // video
+  const [videoOpen, setVideoOpen] = useState(false)
+
+  const handleVideoClose = () => {
+    setVideoOpen(false)
   }
 
   // ************** return ****************
@@ -433,6 +451,7 @@ const LetterCreate = () => {
                   style={{marginTop: '4px'}}
                   name="files"
                   required
+                  accept="video/*"
                 />
               </FormControl>
             </Grid>
@@ -666,6 +685,10 @@ const LetterCreate = () => {
             >
               레터 생성
             </Button>
+
+            <Dialog fullScreen open={videoOpen} onClose={handleVideoClose} TransitionComponent={VideoTransition}>
+              <LoadingCreate />
+            </Dialog>
           </Grid>
         </form>
       </div>
