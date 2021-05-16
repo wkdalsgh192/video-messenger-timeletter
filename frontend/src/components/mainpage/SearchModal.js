@@ -54,7 +54,6 @@ function SearchModal() {
         <DialogTitle id="alert-dialog-title">{"레터 암호를 입력해주세요!"}</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="Password"
