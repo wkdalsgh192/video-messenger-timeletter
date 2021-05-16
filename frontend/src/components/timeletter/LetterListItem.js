@@ -1,21 +1,37 @@
 import React, { useState } from 'react';
 import {
   Chip,
+  Dialog,
+  Slide,
 } from '@material-ui/core'
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import FaceIcon from '@material-ui/icons/Face'
 import './css/LetterListItem.css'
+import LoadingOpen from 'components/loading/LoadingOpen'
+
+
+const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 
 const LetterListItem = (props) => {
-  const history = useHistory()
+  // const history = useHistory()
 
   const sender = 'From.' + props.letter.userName
   const letterUrl = 'detail/' + props.letter.letterId
 
+  // video
+  const [videoOpen, setVideoOpen] = useState(false)
+  const handleVideoClose = () => {
+    setVideoOpen(false)
+  }
+
   const handleClick = () => {
     if (props.letter.isOpen === true) {
-      history.push(letterUrl)
+      setVideoOpen(true)
+      // alert('레터 상세조회로 이동합니다.')
+      // history.push(letterUrl)
     } else {
       alert('비오픈 레터는 조회할 수 없습니다.')
     }
@@ -23,6 +39,8 @@ const LetterListItem = (props) => {
 
   const [openInfo, setOpenInfo] = useState('오픈날짜 ' + props.letter.openDate)
   const [closeInfo, setCloseInfo] = useState('')
+
+  
 
   // yyyy-mm-dd ==> Date객체
   const toDate = (date_str) => {
@@ -81,28 +99,33 @@ const LetterListItem = (props) => {
   }
 
   return (
-    <div className="trashnone">
-      <div className="night2">
-        <span className="moon"></span>
-        <span className="spot1"></span>
-        <span className="spot2"></span>
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-        <div onClick={handleClick}>
-          <div className="lettercontent2">
-            <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
-              <Chip variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />
+    <div>
+      <div className="trashnone">
+        <div className="night2">
+          <span className="moon"></span>
+          <span className="spot1"></span>
+          <span className="spot2"></span>
+          <ul>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          <div onClick={handleClick}>
+            <div className="lettercontent2">
+              <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
+                <Chip variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />
+              </div>
+              <div style={{fontSize:"20px", color: '#fff'}}>{props.letter.title}</div>
+              {getInfo()}
             </div>
-            <div style={{fontSize:"20px", color: '#fff'}}>{props.letter.title}</div>
-            {getInfo()}
           </div>
-        </div>
-      </div>          
+        </div>          
+      </div>
+      <Dialog fullScreen open={videoOpen} onClose={handleVideoClose} TransitionComponent={VideoTransition}>
+        <LoadingOpen letterUrl={letterUrl} />
+      </Dialog>
     </div>
   );
 };
