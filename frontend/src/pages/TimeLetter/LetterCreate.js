@@ -112,7 +112,7 @@ const LetterCreate = () => {
   // console.log(title)
 
   // 메세지
-  const [message, setMessage] = useState(null)
+  const [message, setMessage] = useState('')
   // console.log(message)
 
   // 첨부한 영상
@@ -174,7 +174,7 @@ const LetterCreate = () => {
   
 
   // 알림
-  const [alarm, setAlarm] = useState('')
+  // const [alarm, setAlarm] = useState('')
   // ''는 일주일 전, 'true'는 한달 전
 
 
@@ -225,13 +225,23 @@ const LetterCreate = () => {
   // 타인에게 보내기 저장버튼 클릭시
   const handleSaveClick = () => {
     let tmpNumber = []
+    let valid = true
+    const regex = /^[0-9\b -]{13}$/;
     for (let i = 0; i < phoneNumberList.length; i++) {
-      if (phoneNumberList[i].phoneNumber !== "") {
+      if (regex.test(phoneNumberList[i].phoneNumber)) {
         tmpNumber.push(phoneNumberList[i].phoneNumber)
+      } else if (phoneNumberList[i].phoneNumber === "") {
+
+      } else {
+        valid = false
       }
     }
-    setPhoneNumbers(tmpNumber)
-    setOtherOpen(false)
+    if (valid === true) {
+      setPhoneNumbers(tmpNumber)
+      setOtherOpen(false)
+    } else {
+      alert('010-0000-0000 형태로 번호를 입력해주세요')
+    }
   }
 
   // 그룹에게
@@ -276,7 +286,7 @@ const LetterCreate = () => {
 
 
   // 비밀번호
-  const [password, setPassword] = useState()
+  // const [password, setPassword] = useState()
 
 
   // axios 요청 함수
@@ -302,7 +312,7 @@ const LetterCreate = () => {
         openDate: openDate,
         latitude: String(lat),
         longitude: String(lng),
-        alert: Boolean(alarm),
+        // alert: Boolean(alarm),
         phoneNumber: phoneNumbers,
         clubId: 0,
       }
@@ -321,6 +331,7 @@ const LetterCreate = () => {
         })
         .then(res => {
           console.log(res)
+          setVideoOpen(true)
         })
         .catch(err => {
           console.log(err)
@@ -339,7 +350,7 @@ const LetterCreate = () => {
         openDate: openDate,
         latitude: String(lat),
         longitude: String(lng),
-        alert: Boolean(alarm),
+        // alert: Boolean(alarm),
         clubId: clubId,
       }
 
@@ -357,6 +368,7 @@ const LetterCreate = () => {
         })
         .then(res => {
           console.log(res)
+          setVideoOpen(true)
         })
         .catch(err => {
           console.log(err)
@@ -369,21 +381,18 @@ const LetterCreate = () => {
   }
 
   // submit
-  async function onSubmit (e) {
+  function onSubmit (e) {
     e.preventDefault()
 
-    // setVideoOpen(true)
-
     // 필수 요소가 모두 입력되었는지 확인하는 로직 필요
-    if (true) {
-      await sendAxios()
+    if (title !== '' && message !== '' && file !== null) {
+      sendAxios()
     } else {
       alert('필수 요소를 모두 입력해주세요')
     }
 
     
   }
-
 
   // video
   const [videoOpen, setVideoOpen] = useState(false)
@@ -492,7 +501,7 @@ const LetterCreate = () => {
                     <MapIcon />
                   </IconButton>
 
-                  {lat == null ? null : deleteButton}
+                  {lat === 0 ? null : deleteButton}
 
                   {/* 장소 등록 여부 확인 */}
                   <Dialog
@@ -542,7 +551,7 @@ const LetterCreate = () => {
             </Grid>
 
             {/* 알림 설정 */}
-            <Grid item>
+            {/* <Grid item>
               <FormControl className={classes.field}>
                 <FormLabel>알림설정*</FormLabel>
                 <RadioGroup value={alarm} onChange={(e) => setAlarm(e.target.value)}>
@@ -552,10 +561,9 @@ const LetterCreate = () => {
                   </Grid>
                 </RadioGroup>
               </FormControl>
-            </Grid>
+            </Grid> */}
 
             {/* 수신대상 */}
-            
             <FormLabel>수신대상*</FormLabel>
             <ButtonGroup variant="outlined" color="primary" fullWidth style={{marginTop: '8px'}}>
               <Button onClick={handleTargetMe}>나에게</Button>
@@ -654,7 +662,7 @@ const LetterCreate = () => {
             </Dialog>
 
             {/* 비밀번호 입력 */}
-            <Grid item style={{marginTop: '24px'}}>
+            {/* <Grid item style={{marginTop: '24px'}}>
               <FormControl className={classes.field}>
                 <FormLabel>키 설정*</FormLabel>
                 <Input
@@ -672,7 +680,7 @@ const LetterCreate = () => {
                   style={{marginTop: '4px'}}
                 />
               </FormControl>
-            </Grid>
+            </Grid> */}
             
             {/* submit */}
             <Button

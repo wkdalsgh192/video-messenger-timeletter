@@ -8,6 +8,7 @@ import {
 
 import bgImage from 'pages/images/sky2.jpg'
 import LetterListItem from 'components/timeletter/LetterListItem'
+import { FaBullseye } from 'react-icons/fa'
 // import MapList from "components/timeletter/MapList"
 
 
@@ -39,65 +40,57 @@ const LetterList = () => {
   // axios요청을 통해 letterList를 받는다.
   // API 구현 전이므로 더미 데이터로 대체한다.
   const [letterList, setLetterList] = useState([
-    {
-      letterId: 1,
-      userId: 1,
-      userName: '안세익',
-      title: 'title1',
-      message: 'message1',
-      file: '',
-      private: true,
-      openDate: '2021-05-14',
-      latitude: 33.450705,
-      longitude: 126.570677,
-      alert: true,
-      target: 2,
-      isOpen: true,
+    {'안세익' : {
+        letterId: 1,
+        userId: 1,
+        title: 'title1',
+        message: 'message1',
+        file: '',
+        private: true,
+        openDate: '2021-05-14',
+        latitude: 33.450705,
+        longitude: 126.570677,
+        isOpen: true,
+      }
     },
-    {
-      letterId: 2,
-      userId: 1,
-      userName: '안세익',
-      title: 'title2',
-      message: 'message2',
-      file: '',
-      private: true,
-      openDate: '2021-05-14',
-      latitude: 33.450105,
-      longitude: 126.570223,
-      alert: true,
-      target: 2,
-      isOpen: true,
+    {'안세익' : {
+        letterId: 2,
+        userId: 1,
+        title: 'title2',
+        message: 'message2',
+        file: '',
+        private: true,
+        openDate: '2021-05-14',
+        latitude: 33.450105,
+        longitude: 126.570223,
+        isOpen: true,
+      }
     },
-    {
-      letterId: 3,
-      userId: 1,
-      userName: '안세익',
-      title: 'title3',
-      message: 'message3',
-      file: '',
-      private: true,
-      openDate: '2022-06-14',
-      latitude: 33.450465,
-      longitude: 126.570452,
-      alert: true,
-      target: 2,
-      isOpen: false,
+    {'안세익': {
+        letterId: 3,
+        userId: 1,
+        title: 'title3',
+        message: 'message3',
+        file: '',
+        private: false,
+        openDate: '2022-06-14',
+        latitude: 33.450465,
+        longitude: 126.570452,
+        isOpen: false,
+      }
     },
-    {
-      letterId: 4,
-      userId: 1,
-      userName: '안세익',
-      title: 'title4',
-      message: 'message4',
-      file: '',
-      private: true,
-      openDate: '2022-06-14',
-      latitude: 33.450103,
-      longitude: 126.570546,
-      alert: true,
-      target: 2,
-      isOpen: false,
+    {'안세익': {
+        letterId: 4,
+        userId: 1,
+        title: 'title4',
+        message: 'message4',
+        file: '',
+        private: true,
+        openDate: '2022-06-14',
+        latitude: 33.450103,
+        longitude: 126.570546,
+        isOpen: false,
+      }
     }
   ])
 
@@ -109,10 +102,13 @@ const LetterList = () => {
     let tmpOpenLetters = []
     let tmpNotOpenLetters = []
     for (let i = 0; i < letterList.length; i++) {
-      if (letterList[i].isOpen === true) {
-        tmpOpenLetters.push(letterList[i])
-      } else {
-        tmpNotOpenLetters.push(letterList[i])
+      for (const key of Object.keys(letterList[i])) {
+        if (letterList[i][key].isOpen === true) {
+          tmpOpenLetters.push(letterList[i])
+          // console.log(letterList[i][key])
+        } else if (letterList[i][key].private === false) {
+          tmpNotOpenLetters.push(letterList[i])
+        }
       }
     }
     setOpenLetters(tmpOpenLetters)
