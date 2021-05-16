@@ -1,19 +1,24 @@
 import React from 'react';
-import video1 from "./편지방생.mp4";
+import video1 from "./OpenLetter.mp4";
 import "./LoadingCreate.css";
-function LoadingCreate() {
-    const endfunction = () => {
-        alert('영상끝남')
-    }
-    return (
-        <video
-            className="createLoading" 
-            src={video1} 
-            muted="muted" 
-            autoplay="autoplay"
-            onEnded={endfunction}
-        ></video>
-    )
+import { useHistory } from 'react-router-dom';
+
+function LoadingCreate(props) {
+  const history = useHistory()
+
+  const endfunction = () => {
+    history.push(props.letterUrl)
+  }
+
+  return (
+    <video
+      className="createLoading" 
+      src={video1} 
+      muted="muted" 
+      autoPlay="autoplay"
+      onEnded={endfunction}
+    ></video>
+  )
 }
 
 export default LoadingCreate
