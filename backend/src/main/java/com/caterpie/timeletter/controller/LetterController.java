@@ -82,6 +82,7 @@ public class LetterController {
 		
 		// 도착하는 곳의 url 주소
 		String url = "/videos/"+video.getOriginalFilename();
+//		String url = "C:\\Users\\multicampus\\Desktop\\test\\"+video.getOriginalFilename();
 		logger.debug(url);
 		File file = new File(url);
 		if (!file.getParentFile().exists()) file.getParentFile().mkdirs();

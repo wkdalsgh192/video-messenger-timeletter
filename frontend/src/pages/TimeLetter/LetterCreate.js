@@ -135,8 +135,8 @@ const LetterCreate = () => {
   const [mapOpen, setMapOpen] = useState(false)
   const [selectLat, setSelectLat] = useState(null)
   const [selectLng, setSelectLng] = useState(null)
-  const [lat, setLat] = useState(null)
-  const [lng, setLng] = useState(null)
+  const [lat, setLat] = useState(0)
+  const [lng, setLng] = useState(0)
 
   const handleLocOpen = () => {
     setLocOpen(true)
@@ -149,8 +149,8 @@ const LetterCreate = () => {
     setLocOpen(false)
   }
   const handleLocDelete = () => {
-    setLat(null)
-    setLng(null)
+    setLat(0)
+    setLng(0)
     alert('설정된 장소를 삭제했습니다.')
   }
   const handleMapCancel = () => {
@@ -309,7 +309,7 @@ const LetterCreate = () => {
         console.log(res)
         // 파일 업로드
         // 생성된 letterId를 받아서 요청 주소에 넣는다.
-        axios.post(BASE_URL + `letter/save/${1}`, formData, {
+        axios.post(BASE_URL + `letter/save/${res.data}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
