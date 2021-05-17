@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 // 함수형 컴포넌트
 const LetterDetail = () => {
+  // console.log('detail!!!!!')
   let { code } = useParams()
   // console.log(code)
   const classes = useStyles()
@@ -66,15 +67,18 @@ const LetterDetail = () => {
     },
   )
 
+  const [url, setUrl] = useState()
+
   useEffect(() => {
     // letterCode를 파라미터로 letter정보를 받아 오는 axios 요청 필요
     axios.get(BASE_URL + `letter/retrieve/${code}`)
     .then(res => {
-      console.log(res)
-      for (const [key, value] of Object.entries(res.data)) {
-        setName(key)
-        setLetter(value)
-      }
+      console.log(res.data)
+      setUrl(res.data.letterId)
+      // for (const [key, value] of Object.entries(res.data)) {
+      //   setName(key)
+      //   setLetter(value)
+      // }
     })
     .catch(err => {
       console.log(err)
@@ -102,6 +106,10 @@ const LetterDetail = () => {
     setMapOpen(!mapOpen)
   }
 
+  console.log(url)
+  const fileUrl = `http://localhost:8080/timeletter/letter/load/${url}`
+  console.log(fileUrl)
+
   return (
     <Container className={classes.container} maxWidth="xs">
       <Typography className={classes.title} variant="h6">레터 상세조회</Typography>
@@ -111,7 +119,7 @@ const LetterDetail = () => {
           <ReactPlayer
             // ******** 비디오 url 수정 ************
             // url={sampleVideo2}
-            url='/videos/sampleVideo1.mp4'
+            url={fileUrl}
             width='100%'
             height='100%'
             // playing
