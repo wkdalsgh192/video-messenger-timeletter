@@ -55,7 +55,6 @@ const LetterDetail = () => {
   const [letter, setLetter] = useState(null)
   const [fileUrl, setFileUrl] = useState('')
 
-  const [url, setUrl] = useState()
 
   useEffect(() => {
     // letterCode를 파라미터로 letter정보를 받아 오는 axios 요청
@@ -69,9 +68,12 @@ const LetterDetail = () => {
       for (const [key, value] of Object.entries(res.data)) {
         setName(key)
         setLetter(value)
+        console.log(value)
         // console.log(name)
         // console.log(letter)
-        setFileUrl(BASE_URL + 'letter/load/' + value.letterId)
+        // setFileUrl(BASE_URL + 'letter/load/' + value.letterId)
+        setFileUrl('https://k4d105.p.ssafy.io' + value.url)
+        console.log(fileUrl)
       }
     })
     .catch(err => {
@@ -116,15 +118,12 @@ const LetterDetail = () => {
                     //   url={fileUrl}
                     //   width='100%'
                     //   height='100%'
-                    //   // playing
+                    //   playing
                     //   controls
-                    //   playsinline
-                    //   playing={true}
+                    //   playsInline
                     // />
-                    <video preload="auto" muted autoPlay={true} loop controls={true} width="100%" height="100%" playsInline src={fileUrl} type="video/mp4">
-                      {/* <source src={fileUrl} type="video/mp4" /> */}
-                      {/* <source src={fileUrl} type="video/ogg" />
-                      <source src={fileUrl} type="video/webm" /> */}
+                    <video preload="auto" loop controls={true} width="100%" height="100%" playsInline>
+                      <source src={fileUrl} type="video/mp4" />
                     </video>
                   : null
                 }
