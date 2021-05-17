@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -43,15 +44,16 @@ public class LetterController {
 	private static final Logger logger = LoggerFactory.getLogger(LetterController.class);
 	
 	@GetMapping("/retrieve/{letterCode}")
-	public ResponseEntity<InputStream> retrieveLetter(@PathVariable String letterCode) throws FileNotFoundException {
+	public ResponseEntity<InputStreamResource> retrieveLetter(@PathVariable String letterCode) throws FileNotFoundException {
 		// 유저 아이디 확인 및 레터 아이디 확인
 		// 일치하는 경우 url 가져오기
 		Optional<Letter> letter = letterService.retrieveLetter(letterCode);
 		// url에 맞게 file 가져오기
 
 		if (!letter.isPresent()) return ResponseEntity.noContent().build();
-		
+		logger.debug("heelo");
 		String url = letter.get().getUrl();
+//		String url = "C:\\Users\\multicampus\\Desktop\\test\\"+"sample-30s.mp4";
 		File file = new File(url);
 		System.out.println(file.toString());
 		InputStream inputStream = new FileInputStream(url);
@@ -60,7 +62,7 @@ public class LetterController {
 		headers.set("Content-Type", "video/mp4");
 		headers.set("Content-Range", "bytes 50-1025/17839845");
 		headers.set("Content-Length", String.valueOf(file.length()));
-		return new ResponseEntity<InputStream>(inputStream,headers,HttpStatus.OK);
+		return new ResponseEntity<InputStreamResource>(new InputStreamResource(inputStream),headers,HttpStatus.OK);
 //		return new ResponseEntity<>(letter.get(),HttpStatus.OK);
 	}
 	
