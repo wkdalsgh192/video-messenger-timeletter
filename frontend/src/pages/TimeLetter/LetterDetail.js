@@ -58,14 +58,18 @@ const LetterDetail = () => {
 
   useEffect(() => {
     // letterCode를 파라미터로 letter정보를 받아 오는 axios 요청
-    axios.get(BASE_URL + `letter/retrieve/${code}`)
+    axios.get(BASE_URL + `letter/retrieve/${code}`, {
+      headers: {
+        Authorization: TOKEN
+      }
+    })
     .then(res => {
-      console.log(res)
+      console.log(res.data)
       for (const [key, value] of Object.entries(res.data)) {
         setName(key)
         setLetter(value)
-        console.log(name)
-        console.log(letter)
+        // console.log(name)
+        // console.log(letter)
         setFileUrl(BASE_URL + 'letter/load/' + value.letterId)
       }
     })
