@@ -16,27 +16,18 @@ import { Link } from "react-router-dom";
 import "./css/main.css";
 import "./css/main.scss";
 import Grid from "@material-ui/core/Grid";
-import { BsPencil } from "react-icons/bs";
-import { HiOutlineBookOpen } from "react-icons/hi";
-
-import { RiMailSendLine } from "react-icons/ri";
+import { BsPencil } from 'react-icons/bs'; 
+import { HiOutlineBookOpen } from 'react-icons/hi';
+import CountLetters from 'components/mainpage/CountLetters'
 
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
 function Main() {
-  const [num, setNum] = useState(333);
-  const numRef = useRef(333);
   const scrolling = () => {
     window.scrollTo({ top: "1300", behavior: "smooth" });
     console.log("눌림");
   };
-
-  useEffect(() => {
-    setInterval(() => {
-      setNum((numRef.current += 1));
-    }, 1000);
-  }, []);
 
   return (
     <div className="main-wrap">
@@ -50,12 +41,7 @@ function Main() {
             <div className="shooting_star"></div>
           </div>
           <div>
-            <div style={{ color: "white", paddingTop: "35vh", fontSize: "1.7rem", fontWeight: "" }}>이동중인 타임 레터</div>
-            <div style={{ color: "white", fontSize: "2rem" }}>
-              {" "}
-              <RiMailSendLine /> <span style={{ fontSize: "3rem" }}>{num}</span>
-            </div>
-
+            <CountLetters />
             <div onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
               <button className="fill" style={{ width: "170px", height: "40px", borderRadius: "20px", paddingBottom: "10px", marginTop:"15px" }}>
                 레터 찾으러가기

@@ -53,8 +53,8 @@ function SearchBar() {
   return (
     <div style={{marginTop:"50px", marginBottom:"80px"}}>
       <Paper component="form" className="searchbar"> 
-      <InputBase className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleEnter} />
-        <input onChange={(e) => setLetterCode(e.target.value)} type="text" style={{display:"none"}}/> 
+      <InputBase onChange={(e) => setLetterCode(e.target.value)} className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleEnter} />
+        {/* <input type="text" style={{display:"none"}}/>  */}
         <IconButton className="" type="button" aria-label="search" onClick={handleClick}>
           <SearchIcon />
         </IconButton>
@@ -76,7 +76,7 @@ function SearchBar() {
             fullWidth
           />
           <DialogContentText id="alert-dialog-description">
-           <Link to="/signup" style={{color:"#000080", fontWeight:"bold"}}>회원가입</Link>하고 답장을 보내보세요 :)
+            <Link to="/signup" style={{color:"#000080", fontWeight:"bold"}}>회원가입</Link>하고 답장을 보내보세요 :)
           </DialogContentText>
         </DialogContent>
         <DialogActions>
