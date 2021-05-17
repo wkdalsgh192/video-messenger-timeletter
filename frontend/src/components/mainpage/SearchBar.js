@@ -1,46 +1,66 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
+// import Dialog from '@material-ui/core/Dialog';
+// import DialogActions from '@material-ui/core/DialogActions';
+// import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import 'components/mainpage/SearchModal.css'
 
-function SearchModal() {
+import 'components/mainpage/SearchBar.css'
+
+function SearchBar() {
+  // console.log('서치바 생성')
+  const history = useHistory()
+
   //비밀번호 입력 창 open state
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+
   // 비밀번호 입력 모달 오픈,클로즈
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  const [letterCode, setLetterCode] = useState('')
+
   // 엔터키 이벤트
-  const onEnter = (e) => {
-    // e.preventDefault();
+  const handleEnter = (e) => {
+    // e.preventDefault()
     if(e.key == 'Enter'){
-      handleOpen()
+      console.log('엔터 입력')
+      // console.log(letterCode)
+      history.push('letter/detail/' + letterCode)
     } 
   }
+
+  // 돋보기 클릭 이벤트
+  const handleClick = (e) => {
+    e.preventDefault()
+    // console.log('돋보기 클릭')
+    // console.log(letterCode)
+    history.push('letter/detail/' + letterCode)
+  }
+
+
   return (
     <div style={{marginTop:"", marginBottom:"20px"}}>
       <Paper component="form" className="searchbar"> 
-      <InputBase className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={onEnter} />
-        <input type="text" style={{display:"none"}}/> 
-        <IconButton className="" type="button" aria-label="search" onClick={handleOpen}>
+      <InputBase className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleEnter} />
+        <input onChange={(e) => setLetterCode(e.target.value)} type="text" style={{display:"none"}}/> 
+        <IconButton className="" type="button" aria-label="search" onClick={handleClick}>
           <SearchIcon />
         </IconButton>
       </Paper>
       <div style={{color:"white",fontSize:"15px",marginTop:"10px"}}>전송 받은 레터 번호를 입력해주세요.</div>
-      <Dialog
+      {/* <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
@@ -65,8 +85,9 @@ function SearchModal() {
             제출하기
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }
-export default SearchModal;
+
+export default SearchBar;
