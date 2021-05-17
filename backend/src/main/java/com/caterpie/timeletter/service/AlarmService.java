@@ -7,6 +7,6 @@ import com.caterpie.timeletter.dto.LetterInfoDto;
 
 public interface AlarmService {
 
-	List<LetterInfoDto> getAlarms(int userId);
+	List<Map<LetterInfoDto, Object>> getAlarms(int userId);
 
 }

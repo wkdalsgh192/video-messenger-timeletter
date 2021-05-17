@@ -17,15 +17,16 @@ public class AlarmServiceImpl implements AlarmService{
 	private AlarmRepository alarmRepository;
 
 	@Override
-	public List<LetterInfoDto> getAlarms(int userId) {
-		List<LetterInfoDto> lid = new ArrayList<LetterInfoDto>();
-		List<Alarm> myAlarms = alarmRepository.findALLByUserId(userId);
-		
+	public List<Map<LetterInfoDto, Object>> getAlarms(int userId) {
+		List<Alarm> myAlarms = alarmRepository.findALLByUserId(userId);	//alarm테이블에서 user_id에 해당되는 알람들(letter_id)
+		List<Map<LetterInfoDto, Object>> list = new ArrayList<Map<LetterInfoDto, Object>>();
 		for(int i=0, l=myAlarms.size(); i<l; i++) {
-			lid.add(alarmRepository.getLetter(myAlarms.get(i).getLetter_id()));
+			//알람들(letter_id)에 해당되는 레터정보들 리스트로 셋팅
+			list.add(alarmRepository.getLetter((int) myAlarms.get(i).getLetter_id()));
 		}
-		return lid;
+		return list;
 	}
+	
 	
 	
 	

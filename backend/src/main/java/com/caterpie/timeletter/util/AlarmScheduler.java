@@ -27,15 +27,25 @@ public class AlarmScheduler {
 
 	@Scheduled(cron = "0 1 0 * * *")	//매일 00시01분 실행
 //	@Scheduled(cron = "0/10 * * * * *")	//10초에 한번씩 실행
+//	@Scheduled(cron = "0 0/10 * * * *")	//1분에 한번씩 실행
     public void cronJob() {
     	logger.info("scheduled");
-    	List<Map<Alarm, Object>> alarms = alarmRepository.findClosedLetters();
     	
-    	for(int i=0, l=alarms.size(); i<l; i++) {
+    	//알람테이블에 넣을 비오픈레터이면서 오늘 오픈될레터들 조회
+    	List<Map<Alarm, Object>> alarms = alarmRepository.findClosedLetters();	
+    	
+    	//알람테이블에 하나씩 셋팅
+    	for(int i=0, l=alarms.size(); i<l; i++) {		
     		int userId = (int) alarms.get(i).get("user_id");
     		int letterId = (int) alarms.get(i).get("letter_id");
-//    		alarmRepository.updateLetter(letterId);
-    		alarmRepository.insertAlarm(userId, letterId);
+    		alarmRepository.insertAlarm(userId, letterId);	
+    		alarmRepository.updateLetter(letterId);	//비공개->공개 처리
     	}
+    	
+    	
+    	//문자 보내기(letter_code)
+    	
+    	
+    	
 	}
 }

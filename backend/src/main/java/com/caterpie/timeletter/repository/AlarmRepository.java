@@ -32,6 +32,6 @@ public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
 	List<Alarm> findALLByUserId(int userId);
 	
 	@Query(value="select letter_id, title, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where letter_id= ?", nativeQuery=true)
-	LetterInfoDto getLetter(int letterId);
+	Map<LetterInfoDto, Object> getLetter(int letterId);
 }
 	
