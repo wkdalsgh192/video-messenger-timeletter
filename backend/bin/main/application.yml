@@ -9,12 +9,12 @@ spring:
       maxRequestSize : 500MB
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://k4d105.p.ssafy.io/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8
-#    username: caterpie
-#    password: password
-    url: jdbc:mysql://localhost:3306/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8
-    username: root
-    password: 1234
+    url: jdbc:mysql://k4d105.p.ssafy.io/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8
+    username: caterpie
+    password: password
+    # url: jdbc:mysql://localhost:3306/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8
+    # username: root
+    # password: 1234
 
   jpa:
     hibernate:
