@@ -163,17 +163,16 @@ function Signup() {
                     onClick={() => {
                       if (EmailOk) {
                       setEmailCheck(true);
-                      swal("Good job!", "이메일로 인증번호가 전송되었습니다.", "success");}
+                      swal("Good job!", "이메일을 사용할 수 있습니다.", "success");}
                       else {
-                        swal('warn you','이메일형식이 옳바르지 않습니다.',"error")
+                        swal('warn you','중복된 이메일입니다.',"error")
                       }
                     }}
                     style={{backgroundColor:"#2D0968"}}
                   >
-                    <span style={{color:"white",fontSize:"17px"}}>인증하기</span>
+                    <span style={{color:"white",fontSize:"17px"}}>중복 확인</span>
                   </Button>
                 </Grid>
-                {emailCheckForm}
               </Grid>
 
               <TextField

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -14,8 +14,23 @@ import "./css/Mypage.css";
 import "../css/main.scss";
 
 import LetterCardlist from "../../components/mypage/LetterCardlist";
-
+import axios from 'axios';
+import { BASE_URL,TOKEN } from '../../constants';
+import { useDispatch } from "react-redux";
+import { mypage } from "_actions/user";
+import MyLetter from "../../components/mypage/MyLetter";
 function Mypage() {
+  const dispatch = useDispatch();
+  const [state, setstate] = useState([])
+  useEffect(() => {
+    console.log(TOKEN,'token');
+    axios.get(BASE_URL+"user/get",{headers:{"Authorization":TOKEN}})
+      .then((res)=> {setstate(res.data); console.log(res.data,'옴')})
+      .catch((err)=> console.log(err))
+    // dispatch(mypage())
+  }, [])
+
+  // const cardlist = state.
   return (
     <div className="mypage">
       <div className="night">
@@ -31,12 +46,12 @@ function Mypage() {
           {/* <CardMedia image="/static/images/cards/live-from-space.jpg" title="Live from space album cover" /> */}
           <div>
             <CardContent>
-              <div class="myimg imgpop"></div>
+              <div className="myimg imgpop"></div>
               <Typography component="h5" variant="h5">
-                이름
+                {state.name}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                전화번호
+                {state.phone}
               </Typography>
             </CardContent>
             </div>
@@ -52,24 +67,9 @@ function Mypage() {
           </CardActions>
         </Grid>
       </Card>
-
-      {/* <Grid container>
-        <Grid item sm={4} md={7} class="myimg" />
-        <Grid item sm={8} md={5} square>
-          <Typography component="h5" variant="h5">
-            이름
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            전화번호
-          </Typography>
-          <Button variant="outlined" color="primary">
-            회원정보 수정
-          </Button>
-        </Grid>
-      </Grid>
-      <Divider variant="middle" /> */}
       <h3>나의 전체 레터 조회</h3>
-      <LetterCardlist></LetterCardlist>
+      {/* <LetterCardlist></LetterCardlist> */}
+      <MyLetter letterList={state.letters}></MyLetter>
       </Container>
     </div>
   );

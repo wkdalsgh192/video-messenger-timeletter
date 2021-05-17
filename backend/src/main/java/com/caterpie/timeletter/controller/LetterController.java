@@ -47,12 +47,13 @@ public class LetterController {
 	@GetMapping("/retrieve/{letterCode}")
 	public ResponseEntity<Map<String, Letter>> retrieveLetter(@PathVariable String letterCode) throws FileNotFoundException {
 		// 유저 아이디 확인 및 레터 아이디 확인
-		Optional<User> opt = userService.getCurrentUserWithAuthorities();
 		// 일치하는 경우 url 가져오기
 		Optional<Letter> letter = letterService.retrieveLetter(letterCode);
-		if (!letter.isPresent() || !opt.isPresent()) return ResponseEntity.noContent().build();
+		if (!letter.isPresent()) return ResponseEntity.noContent().build();
+		Optional<User> user = userService.getUserById(letter.get().getUserId());
+		if (!user.isPresent()) return ResponseEntity.noContent().build();
 		Map<String, Letter> map = new HashMap<>();
-		map.put(opt.get().getName(), letter.get());
+		map.put(user.get().getName(), letter.get());
 		return new ResponseEntity<>(map,HttpStatus.OK);
 	}
 	
@@ -83,9 +84,10 @@ public class LetterController {
 
 	@PostMapping(path="/create")
 	public ResponseEntity<?> createLetter(@RequestBody LetterDto letterDto) {
+		Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElseThrow());
 		
 		int letterId;
-		letterId = letterService.createLetter(letterDto);
+		letterId = letterService.createLetter(letterDto, opt.get().getUserId());
 		if (letterId < 0) return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		return new ResponseEntity<>(letterId,HttpStatus.OK);
 	}
