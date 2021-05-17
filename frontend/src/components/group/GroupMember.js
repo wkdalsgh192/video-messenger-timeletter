@@ -1,36 +1,158 @@
-import React, { useState } from 'react';
-import './GroupMember.css';
-import {Chip} from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
-
-
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import "./GroupMember.css";
+import { Chip } from "@material-ui/core";
+import axios from "axios";
+import { BASE_URL, TOKEN } from "../../constants";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import { Link } from 'react-router-dom';
 function GroupMember(props) {
-    const [groupMembers, setGroupMembers] = useState(['장민호','이대헌', '이혜진', '안세익','조현섭']);
-    const handleDelete = () => {
-        alert('그룹 멤버를 삭제 하시겠습니까?');
+  const { id } = useParams();
+  const [isAdd, setIsAdd] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
+  const [tmpUserId, setTmpUserId] = useState(0);
+  const [groupMembers, setGroupMembers] = useState([]);
+  const handleDelete = (userId) => {
+    // alert("그룹 멤버를 삭제 하시겠습니까?");
+    setIsDelete(true);
+    setTmpUserId(userId);
+};
+
+const addMember = () => {
+    setIsAdd(true);
+}
+const handleClose = () => {
+    setIsAdd(false);
+}
+const deleteOk = () => {
+    console.log(tmpUserId, id);
+    let body = { clubId: id, userId: tmpUserId };
+    axios.delete(
+        BASE_URL + "club/delMember",
+        { data: body },
+        { Authorization: TOKEN }
+      )
+      .then((res) => {console.log(res.data, "성공");window.location.reload()})
+      .catch((err) => console.log(err));
+    setIsDelete(false);
+  }
+  const deleteNo = () => {
+    setIsDelete(false);
+  }
+  const onEnter = (e) => {
+    // e.preventDefault();
+    if(e.key == 'Enter'){
+        axios.get(BASE_URL+"club/findWord?word="+e.target.value)
+        .then((res)=>{console.log(res.data); setGroupMembers(res.data)})
+        .catch((err)=>console.log(err))
     }
-    // console.log(props.members,'12312')
-    let member = null;
-    if (props.members) {
+}
+const onNameHandler = (e) => {
+    console.log(e.target.value)
+    if (e.target.value) {
 
-        member = props.members.map((groupMember) => (
-            <div className="item" key={groupMember.user_id} style={{marginTop:"10px"}}>
+        axios.get(BASE_URL+"club/findWord?word="+e.target.value)
+        .then((res)=>{console.log(res.data); setGroupMembers(res.data); })
+        .catch((err)=>console.log(err))
+    } else { setGroupMembers([])}
+  }
 
-            <Chip className="member-chip" size="medium" label={groupMember.name}  onDelete={handleDelete}/>
-
-        </div>
-     ))
-    }
-    return (
-        <div className="member">
-                  {member}
-                  <div className="item" style={{marginTop:"10px"}}> 
-                  <Chip className="member-chip" label="+" />
-                  </div>
-            
-        </div>
-        
-    )
+  let member = null;
+  if (props.members) {
+    member = props.members.map((groupMember) => (
+      <div
+        className="item"
+        key={groupMember.user_id}
+        style={{ marginTop: "10px" }}
+      >
+        <Chip
+          className="member-chip"
+          size="medium"
+          label={groupMember.name}
+          onDelete={() => handleDelete(groupMember.user_id)}
+        />
+      </div>
+    ));
+  };
+  const nameChange = (target) => {
+      document.getElementById("name").value = target.name;
+      setTmpUserId(target.user_id);
+      setGroupMembers([]);
+  }
+  const onAddMember = () => {
+      axios.post(BASE_URL+"club/join",{clubId:id,userId:tmpUserId},
+      {Authorizaton:TOKEN})
+      .then((res)=>{console.log(res.data);window.location.reload()})
+      .catch((err)=>console.log(err))
+      
+  }
+  const addMemberList = groupMembers.map((gmember) => (
+      <div key={gmember.user_id} onClick={()=>nameChange(gmember)}>{gmember.name} {gmember.email}</div>
+  ));
+  const memberDeleteModal = (
+    <Dialog
+    open={isDelete}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+  >
+    <DialogTitle id="alert-dialog-title">{"멤버를 삭제하시겠습니까?"}</DialogTitle>
+    <DialogActions>
+      <Button onClick={deleteOk} color="primary" style={{fontWeight:"bold"}}>
+        예
+      </Button>
+      <Button onClick={deleteNo} color="primary" style={{fontWeight:"bold"}}>
+        아니오
+      </Button>
+    </DialogActions>
+  </Dialog>
+  )
+  const memberModal = (
+    <Dialog
+    open={isAdd}
+    onClose={handleClose}
+    aria-labelledby="alert-dialog-title"
+    aria-describedby="alert-dialog-description"
+  >
+    <DialogTitle id="alert-dialog-title">{"추가할 멤버 이름을 검색해보세요"}</DialogTitle>
+    <DialogContent>
+      <TextField
+        autoFocus
+        id="name"
+        label="이름"
+        type="text"
+        fullWidth
+        onKeyPress={onEnter}
+        onChange={onNameHandler}
+        autoComplete="off"
+      />
+      <div style={{position:"absolute",backgroundColor:"black",width:"100%",color:"white"}}>
+        {addMemberList}
+      </div>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={onAddMember} color="primary" style={{fontWeight:"bold"}}>
+        제출하기
+      </Button>
+    </DialogActions>
+  </Dialog>
+  )
+  return (
+    <div className="member">
+      {member}
+      <div className="item" style={{ marginTop: "10px" }}>
+        <Chip className="member-chip" label="+" onClick={addMember}/>
+      </div>
+      {isDelete ? memberDeleteModal : null}
+      {isAdd ? memberModal : null}
+    </div>
+  );
 }
 
-export default GroupMember
+export default GroupMember;

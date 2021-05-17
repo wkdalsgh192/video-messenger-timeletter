@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const { createAsyncThunk } = require('@reduxjs/toolkit');
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { BASE_URL,TOKEN } from '../constants';
 
 const delay = (time, value) => new Promise((resolve, reject) => {
   setTimeout(() => {
@@ -16,10 +16,11 @@ const delay = (time, value) => new Promise((resolve, reject) => {
 //   });
 // });
 
-export const signUp = createAsyncThunk('user/signUp', async (data, thunkAPI) => {
+export const mypage = createAsyncThunk('user/mypage', async (data, thunkAPI) => {
   console.log(data,'1232131')
-  const response = await axios.post('https://k4d105.p.ssafy.io/timeletter/user/join',data).then((res)=>console.log(res)).catch((err)=>console.log(err))
-  console.log(data)
+  const response = await axios.get(BASE_URL+"user/get",{headers:{"Authorization":TOKEN}})
+  // .then((res)=> setstate(res.data))
+  // .catch((err)=> console.log(err))
   return response.data;
 
 });
