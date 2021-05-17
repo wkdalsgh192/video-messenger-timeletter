@@ -117,6 +117,7 @@ const LetterDetail = () => {
                       // playing
                       controls
                       playsinline
+                      playing={true}
                     />
                   : null
                 }
