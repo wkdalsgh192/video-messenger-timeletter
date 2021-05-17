@@ -101,6 +101,7 @@ const LetterDetail = () => {
     setMapOpen(!mapOpen)
   }
 
+
   return (
     <div>
       {letter !== null
@@ -110,15 +111,21 @@ const LetterDetail = () => {
               {/* 영상재생 */}
               <div className={classes.video}>
                 {fileUrl !== '' 
-                  ? <ReactPlayer
-                      url={fileUrl}
-                      width='100%'
-                      height='100%'
-                      // playing
-                      controls
-                      playsinline
-                      playing={true}
-                    />
+                  ? 
+                    // <ReactPlayer
+                    //   url={fileUrl}
+                    //   width='100%'
+                    //   height='100%'
+                    //   // playing
+                    //   controls
+                    //   playsinline
+                    //   playing={true}
+                    // />
+                    <video controls width="100%" height="100%" playsInline>
+                      <source src={fileUrl} type="video/mp4" />
+                      <source src={fileUrl} type="video/ogg" />
+                      <source src={fileUrl} type="video/webm" />
+                    </video>
                   : null
                 }
               </div>
@@ -133,7 +140,7 @@ const LetterDetail = () => {
               </Card>
               <Typography variant="subtitle1">- 오픈날짜 : {letter.openDate}</Typography>
               <Typography variant="subtitle1" style={{display: 'flex', alignItems: 'center'}}><span>- 추억장소</span><MapIcon onClick={handleMap} style={{marginLeft: '5px'}} /></Typography>
-              {mapOpen === true ? <MapDetail lat={letter.latitude} lng={letter.longitude} /> : null}
+              {mapOpen === true && Number(letter.latitude) !== 0 ? <MapDetail lat={letter.latitude} lng={letter.longitude} /> : null}
             </div>
           </Container>
         : null
