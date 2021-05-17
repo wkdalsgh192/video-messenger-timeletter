@@ -8,7 +8,9 @@ import {
 
 import bgImage from 'pages/images/sky2.jpg'
 import LetterListItem from 'components/timeletter/LetterListItem'
-// import MapList from "components/timeletter/MapList"
+import { FaBullseye } from 'react-icons/fa'
+import { BASE_URL, TOKEN } from 'constants/index.js'
+import axios from 'axios'
 
 
 // 스타일
@@ -38,86 +40,113 @@ const LetterList = () => {
 
   // axios요청을 통해 letterList를 받는다.
   // API 구현 전이므로 더미 데이터로 대체한다.
-  const [letterList, setLetterList] = useState([
-    {
-      letterId: 1,
-      userId: 1,
-      userName: '안세익',
-      title: 'title1',
-      message: 'message1',
-      file: '',
-      private: true,
-      openDate: '2021-05-14',
-      latitude: 33.450705,
-      longitude: 126.570677,
-      alert: true,
-      target: 2,
-      isOpen: true,
-    },
-    {
-      letterId: 2,
-      userId: 1,
-      userName: '안세익',
-      title: 'title2',
-      message: 'message2',
-      file: '',
-      private: true,
-      openDate: '2021-05-14',
-      latitude: 33.450105,
-      longitude: 126.570223,
-      alert: true,
-      target: 2,
-      isOpen: true,
-    },
-    {
-      letterId: 3,
-      userId: 1,
-      userName: '안세익',
-      title: 'title3',
-      message: 'message3',
-      file: '',
-      private: true,
-      openDate: '2022-06-14',
-      latitude: 33.450465,
-      longitude: 126.570452,
-      alert: true,
-      target: 2,
-      isOpen: false,
-    },
-    {
-      letterId: 4,
-      userId: 1,
-      userName: '안세익',
-      title: 'title4',
-      message: 'message4',
-      file: '',
-      private: true,
-      openDate: '2022-06-14',
-      latitude: 33.450103,
-      longitude: 126.570546,
-      alert: true,
-      target: 2,
-      isOpen: false,
-    }
-  ])
+  // const [letterList, setLetterList] = useState([
+  //   {'안세익' : {
+  //       letterId: 1,
+  //       userId: 1,
+  //       title: 'title1',
+  //       message: 'message1',
+  //       file: '',
+  //       private: true,
+  //       openDate: '2021-05-14',
+  //       latitude: 33.450705,
+  //       longitude: 126.570677,
+  //       open: true,
+  //       letterCode: '12345qwert'
+  //     }
+  //   },
+  //   {'안세익' : {
+  //       letterId: 2,
+  //       userId: 1,
+  //       title: 'title2',
+  //       message: 'message2',
+  //       file: '',
+  //       private: true,
+  //       openDate: '2021-05-14',
+  //       latitude: 33.450105,
+  //       longitude: 126.570223,
+  //       open: true,
+  //       letterCode: '12345qwert'
+  //     }
+  //   },
+  //   {'안세익': {
+  //       letterId: 3,
+  //       userId: 1,
+  //       title: 'title3',
+  //       message: 'message3',
+  //       file: '',
+  //       private: false,
+  //       openDate: '2022-06-14',
+  //       latitude: 33.450465,
+  //       longitude: 126.570452,
+  //       open: false,
+  //       letterCode: '12345qwert'
+  //     }
+  //   },
+  //   {'안세익': {
+  //       letterId: 4,
+  //       userId: 1,
+  //       title: 'title4',
+  //       message: 'message4',
+  //       file: '',
+  //       private: true,
+  //       openDate: '2022-06-14',
+  //       latitude: 33.450103,
+  //       longitude: 126.570546,
+  //       open: false,
+  //       letterCode: '12345qwert'
+  //     }
+  //   }
+  // ])
+
+  // useEffect(() => {
+  //   axios.get(BASE_URL + 'letter/retrieve', {
+  //     headers: {
+  //       Authorization: TOKEN
+  //     }
+  //   })
+  //   .then(res => {
+  //     console.log(res)
+  //     setLetterList(res.data)
+  //   })
+  //   .catch(err => {
+  //    console.log(err)
+  //   }) 
+  // }, [])
 
   // 오픈여부에 따라 letter를 분류한다.
   const [openLetters, setOpenLetters] = useState([])
   const [notOpenLetters, setNotOpenLetters] = useState([])
 
   useEffect(() => {
-    let tmpOpenLetters = []
-    let tmpNotOpenLetters = []
-    for (let i = 0; i < letterList.length; i++) {
-      if (letterList[i].isOpen === true) {
-        tmpOpenLetters.push(letterList[i])
-      } else {
-        tmpNotOpenLetters.push(letterList[i])
+    axios.get(BASE_URL + 'letter/retrieve', {
+      headers: {
+        Authorization: TOKEN
       }
-    }
-    setOpenLetters(tmpOpenLetters)
-    setNotOpenLetters(tmpNotOpenLetters)
-  }, [letterList])
+    })
+    .then(res => {
+      console.log(res)
+      const letterList = res.data
+      let tmpOpenLetters = []
+      let tmpNotOpenLetters = []
+      console.log(letterList.length)
+      for (const [key, value] of Object.entries(letterList)) {
+        // console.log(key)
+        // console.log(value)
+        if (value.open === true) {
+          tmpOpenLetters.push({name: key, letter: value})
+          // console.log(letterList[i][key])
+        } else if (value.private === false) {
+          tmpNotOpenLetters.push({name: key, letter: value})
+        }
+      }
+      setOpenLetters(tmpOpenLetters)
+      setNotOpenLetters(tmpNotOpenLetters)
+    })
+    .catch(err => {
+     console.log(err)
+    })
+  }, [])
 
 
   return (
@@ -140,10 +169,10 @@ const LetterList = () => {
       {/* 오픈, 비오픈레터 전환 */}
       {value === 0
         ? openLetters.map((openLetter, index) => {
-          return <LetterListItem key={index} letter={openLetter} /> 
+          return <LetterListItem key={index} item={openLetter} /> 
         })
         : notOpenLetters.map((notOpenLetter, index) => {
-          return <LetterListItem key={index} letter={notOpenLetter} />
+          return <LetterListItem key={index} item={notOpenLetter} />
         }) 
       }
     </Container>
