@@ -100,21 +100,6 @@ const LetterList = () => {
   //   }
   // ])
 
-  // useEffect(() => {
-  //   axios.get(BASE_URL + 'letter/retrieve', {
-  //     headers: {
-  //       Authorization: TOKEN
-  //     }
-  //   })
-  //   .then(res => {
-  //     console.log(res)
-  //     setLetterList(res.data)
-  //   })
-  //   .catch(err => {
-  //    console.log(err)
-  //   }) 
-  // }, [])
-
   // 오픈여부에 따라 letter를 분류한다.
   const [openLetters, setOpenLetters] = useState([])
   const [notOpenLetters, setNotOpenLetters] = useState([])
@@ -149,26 +134,6 @@ const LetterList = () => {
     })
   }, [])
 
-  const items = () => {
-    if (value === 0) {
-      if (openLetters.length === 0) {
-        return <div>생성된 레터가 없습니다.</div>
-      } else {
-        openLetters.map((openLetter, index) => {
-          return <LetterListItem key={index} item={openLetter} /> 
-        })
-      }
-    } else {
-      if (notOpenLetters.length === 0) {
-        return <div>생성된 레터가 없습니다.</div>
-      } else {
-        notOpenLetters.map((notOpenLetter, index) => {
-          return <LetterListItem key={index} item={notOpenLetter} />
-        })
-      }
-    }
-  }
-
   return (
     <Container className={classes.container} maxWidth="xs">
       {/* 오픈, 비오픈 구분 탭 */}
@@ -200,7 +165,6 @@ const LetterList = () => {
           })
           : <Typography variant="h5" style={{textAlign: "center", marginTop: '100px'}}>조회 가능한 레터가 없습니다.</Typography>
       }
-        
     </Container>
   );
 };
