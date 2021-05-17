@@ -1,63 +1,48 @@
 import React,{useEffect, useState} from "react";
 import './GroupDetail.css';
-import GroupCapsule from '../../components/group/GroupCapsule';
 import GroupMember from '../../components/group/GroupMember';
 import { Container, Typography } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import LetterCardlist from "../../components/mypage/LetterCardlist";
-
+import GroupLetter from "../../components/group/GroupLetter";
 import './GroupDetail.css';
 import './GroupList.css';
 import axios from 'axios';
 import { BASE_URL,TOKEN } from "../../constants";
-
+import { useParams } from "react-router";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
 function GroupDetail(props) {
+  const { id } = useParams();
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [info, setInfo] = useState({});
+  const [isDelete, setIsDelete] = useState(false);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
-
-  let letterform = null;
-
-  if (value===0) {
-    letterform = (
-      <div className="trashnone">
-        <LetterCardlist></LetterCardlist>
-      </div>
-    )
+  const onDeleteClub = () => {
+    axios.delete(BASE_URL+"club/delClub?id="+id)
+    .then((res)=>{console.log(res); window.location.replace('/group/list')})
+    .catch((err)=>console.log(err))
   }
-  else {
-    letterform = (
-    <div className="trashnone">
-
-    <LetterCardlist></LetterCardlist>
-  </div>
-    )
-  }
-
   useEffect(()=>{
     let club_id = props.match.params.id;
     axios.get(BASE_URL+"club/findDetail?id="+club_id,{"Authorization":TOKEN})
       .then((res)=> {
-        // console.log(res.data);
+        console.log(res.data);
         setInfo(res.data);
       })
       .catch((err)=> {
@@ -70,8 +55,6 @@ function GroupDetail(props) {
       <div>
         <div className="GroupMember fill">
           <Typography className="GroupMember-title">/그룹이름/</Typography>
-          {/* <button onClick={()=>alert('멤버관리')} style={{borderRadius:"20px"}}>멤버관리</button>
-          <button onClick={()=>alert('그룹삭제')} style={{borderRadius:"20px"}}>그룹삭제</button> */}
           <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{color:"white"}}>
         그룹설정
       </Button>
@@ -82,8 +65,21 @@ function GroupDetail(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>멤버추가</MenuItem>
-        <MenuItem onClick={handleClose}>그룹삭제</MenuItem>
+        {/* <MenuItem onClick={handleClose}>멤버추가</MenuItem> */}
+        <MenuItem onClick={()=>setIsDelete(true)}>그룹삭제</MenuItem>
+        <Dialog
+        open={isDelete}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"그룹 삭제하시겠습니까?"}</DialogTitle>
+        <DialogActions>
+          <Button onClick={onDeleteClub} color="primary" style={{fontWeight:"bold"}}>
+            예
+          </Button>
+        </DialogActions>
+      </Dialog>
       </Menu>
 
         </div>
@@ -91,26 +87,7 @@ function GroupDetail(props) {
 
       </div>
   
-  <Tabs
-    value={value}
-    indicatorColor="primary"
-    onChange={handleChange}
-    aria-label="disabled tabs example"
-    style={{marginBottom:"15px", color:"bisque"}}
-  >
-    <Tab label="오픈된 레터" />
-    <Tab label="비오픈된 레터" />
-  </Tabs>
-  {letterform}
-{/* 
-      <div>
-        <Typography>오픈된 캡슐</Typography>
-        <GroupCapsule></GroupCapsule>
-      </div>
-      <div>
-        <Typography>비오픈 캡슐</Typography>
-        <GroupCapsule></GroupCapsule>
-      </div> */}
+  <GroupLetter></GroupLetter>
     </Container>
   );
 }

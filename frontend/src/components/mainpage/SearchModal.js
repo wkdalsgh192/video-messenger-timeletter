@@ -11,14 +11,11 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
 import 'components/mainpage/SearchModal.css'
 
 function SearchModal() {
-
   //비밀번호 입력 창 open state
   const [open, setOpen] = useState(false);
-
   // 비밀번호 입력 모달 오픈,클로즈
   const handleOpen = () => {
     setOpen(true);
@@ -26,7 +23,6 @@ function SearchModal() {
   const handleClose = () => {
     setOpen(false);
   };
-
   // 엔터키 이벤트
   const onEnter = (e) => {
     // e.preventDefault();
@@ -73,5 +69,4 @@ function SearchModal() {
     </div>
   );
 }
-
 export default SearchModal;
