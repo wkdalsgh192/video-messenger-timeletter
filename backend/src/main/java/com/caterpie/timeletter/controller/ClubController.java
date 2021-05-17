@@ -22,9 +22,12 @@ import com.caterpie.timeletter.dto.ClubDetailDto;
 import com.caterpie.timeletter.dto.ClubDto;
 import com.caterpie.timeletter.dto.ClubJoinDto;
 import com.caterpie.timeletter.dto.ClubLettersDto;
+import com.caterpie.timeletter.dto.ClubUser;
+import com.caterpie.timeletter.dto.ClubWord;
 import com.caterpie.timeletter.dto.LetterDto;
 import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.entity.ClubList;
+import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.repository.ClubRepository;
 import com.caterpie.timeletter.service.ClubService;
 
@@ -173,9 +176,9 @@ public class ClubController {
 	 * @apiNote 글자가 포함된 유저이름,email 조회
 	 * @return ClubLetters
 	 */
-//	@GetMapping("/find")
-//	@ApiOperation(value = "club_id로 클럽 디테일 정보 조회", notes = "클럽 디테일 페이지에서 사용될 API")
-//	public ClubLettersDto findLetters(@RequestParam("id") int clubId) {
-//		return service.findLetters(clubId);
-//	}
+	@GetMapping("/findWord")
+	@ApiOperation(value = "글자가 포함된 유저이름,email 조회", notes = "글자로 유저 조회(Keyboard On API")
+	public List<Map<ClubUser, Object>> findUserName(@RequestParam String word) {
+		return clubRepository.findUserName(word);
+	}
 }

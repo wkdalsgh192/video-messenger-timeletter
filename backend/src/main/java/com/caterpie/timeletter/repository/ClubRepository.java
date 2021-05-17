@@ -8,13 +8,15 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.caterpie.timeletter.dto.ClubLetterDto;
-import com.caterpie.timeletter.dto.LetterDto;
+import com.caterpie.timeletter.dto.ClubUser;
 import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.entity.ClubDetailUser;
 import com.caterpie.timeletter.entity.ClubList;
+import com.caterpie.timeletter.entity.User;
 
 @Repository
 public interface ClubRepository extends JpaRepository<Club, Integer> {
@@ -59,6 +61,9 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
 	
 	@Query(value="select letter_id, title, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where club_id= ? and is_open = 0;", nativeQuery=true)
 	List<Map<ClubLetterDto, Object>> findClosedLetters(int clubId);
+
+	@Query(value="select user_id, name, email from user where name like :word%", nativeQuery=true)
+	List<Map<ClubUser, Object>> findUserName(@Param("word") String word);
 		
 }
 
