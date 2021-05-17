@@ -4,6 +4,7 @@ import {
   Container,
   Tabs, 
   Tab,
+  Typography,
 } from '@material-ui/core'
 
 import bgImage from 'pages/images/sky2.jpg'
@@ -99,21 +100,6 @@ const LetterList = () => {
   //   }
   // ])
 
-  // useEffect(() => {
-  //   axios.get(BASE_URL + 'letter/retrieve', {
-  //     headers: {
-  //       Authorization: TOKEN
-  //     }
-  //   })
-  //   .then(res => {
-  //     console.log(res)
-  //     setLetterList(res.data)
-  //   })
-  //   .catch(err => {
-  //    console.log(err)
-  //   }) 
-  // }, [])
-
   // 오픈여부에 따라 letter를 분류한다.
   const [openLetters, setOpenLetters] = useState([])
   const [notOpenLetters, setNotOpenLetters] = useState([])
@@ -144,10 +130,9 @@ const LetterList = () => {
       setNotOpenLetters(tmpNotOpenLetters)
     })
     .catch(err => {
-     console.log(err)
+    console.log(err)
     })
   }, [])
-
 
   return (
     <Container className={classes.container} maxWidth="xs">
@@ -168,12 +153,17 @@ const LetterList = () => {
 
       {/* 오픈, 비오픈레터 전환 */}
       {value === 0
-        ? openLetters.map((openLetter, index) => {
-          return <LetterListItem key={index} item={openLetter} /> 
-        })
-        : notOpenLetters.map((notOpenLetter, index) => {
-          return <LetterListItem key={index} item={notOpenLetter} />
-        }) 
+        ? openLetters.length > 0 
+          ? openLetters.map((openLetter, index) => {
+              return <LetterListItem key={index} item={openLetter} /> 
+            })
+          : <Typography variant="h5" style={{textAlign: "center", marginTop: '100px'}}>조회 가능한 레터가 없습니다.</Typography>
+          
+        : notOpenLetters.length > 0
+          ? notOpenLetters.map((notOpenLetter, index) => {
+            return <LetterListItem key={index} item={notOpenLetter} />
+          })
+          : <Typography variant="h5" style={{textAlign: "center", marginTop: '100px'}}>조회 가능한 레터가 없습니다.</Typography>
       }
     </Container>
   );
