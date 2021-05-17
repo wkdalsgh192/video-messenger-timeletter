@@ -121,7 +121,7 @@ const LetterDetail = () => {
                     //   playsinline
                     //   playing={true}
                     // />
-                    <video preload="auto" loop controls={true} width="100%" height="100%" playsInline src={fileUrl} type="video/mp4">
+                    <video preload="auto" muted autoPlay={true} loop controls={true} width="100%" height="100%" playsInline src={fileUrl} type="video/mp4">
                       {/* <source src={fileUrl} type="video/mp4" /> */}
                       {/* <source src={fileUrl} type="video/ogg" />
                       <source src={fileUrl} type="video/webm" /> */}
