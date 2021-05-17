@@ -1,5 +1,6 @@
 package com.caterpie.timeletter.service;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class LetterServiceImpl implements LetterService {
 	private TargetRepository targetRepo;
 	
 	@Override
-	public int createLetter(LetterDto letterDto){
+	public int createLetter(LetterDto letterDto, int userId){
 		
 		// user_has_letter에 업데이트
 		Letter letter = Letter.builder()
@@ -48,7 +49,7 @@ public class LetterServiceImpl implements LetterService {
 				.longitude(new BigDecimal(letterDto.getLongitude()))
 				.isPrivate(letterDto.isPrivate())
 				.isOpen(letterDto.isOpen())
-				.userId(letterDto.getUserId())
+				.userId(userId)
 				.clubId(letterDto.getClubId())
 				.letterCode(new RandomStringUtil().rand())
 				.build();
@@ -58,7 +59,7 @@ public class LetterServiceImpl implements LetterService {
 			Letter result = letterRepo.save(letter);
 			letterId = result.getLetterId();
 			
-			User user = userRepo.findById(letterDto.getUserId()).get();
+			User user = userRepo.findById(userId).get();
 			List<Letter> letters = user.getLetters();
 			letters.add(letter);
 			user.setLetters(letters);
@@ -120,6 +121,16 @@ public class LetterServiceImpl implements LetterService {
 		});
 		
 		return map;
+	}
+
+	@Override
+	public File retrieveFile(int letterId) {
+		Optional<Letter> opt = letterRepo.findById(letterId);
+		if (!opt.isPresent()) return null;
+		String url = opt.get().getUrl();
+		File file = new File(url);
+		if (!file.canRead()) return null;
+		return file;
 	}
 
 }

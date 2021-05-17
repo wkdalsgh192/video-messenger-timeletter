@@ -1,13 +1,16 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Chip from "@material-ui/core/Chip";
 import FaceIcon from "@material-ui/icons/Face";
 import { Link } from 'react-router-dom';
-
+import {useSelector} from 'react-redux';
 import './css/LetterCard.css';
 
 function NewLetter() {
+  const letters = useSelector(state => state.default.user.data.letters);
+  console.log(letters,'dldldl');
+  // useEffect(()=> {
+  // },[letters])
   return (
-
       <div className="night2">
         <span className="moon"></span>
         <span className="spot1"></span>

@@ -8,7 +8,7 @@ import React, { useEffect, useState, useRef } from "react";
 // import IconButton from "@material-ui/core/IconButton";
 // import SearchIcon from "@material-ui/icons/Search";
 
-import SearchModal from "../components/mainpage/SearchModal";
+import SearchBar from "../components/mainpage/SearchBar";
 import img1 from "./UserPage/images/종이비행기.gif";
 
 import { IoIosArrowDown } from "react-icons/all";
@@ -72,11 +72,9 @@ function Main() {
         {/* 두번째 메인 */}
 
         <div className="section section-2">
-          <div style={{ color: "white", fontSize: "30px" }}>기분 좋은,</div>
-          <div style={{ color: "white", fontSize: "30px", marginLeft: "70px" }}>
-            설레임 <span style={{ fontSize: "15px" }}>with timeletter</span>
-          </div>
-          <SearchModal></SearchModal>
+          <div style={{ color: "white", fontSize:"30px" }}>기분 좋은,</div>
+          <div style={{ color: "white" , fontSize:"30px", marginLeft:"70px" }}>설레임 <span style={{fontSize:"15px"}}>with timeletter</span></div>
+          <SearchBar></SearchBar>
           <div className="child"></div>
           <Grid container justify="center" alignItems="center" spacing={3}>
             <Grid item xs={5}>
