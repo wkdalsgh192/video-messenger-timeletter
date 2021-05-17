@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius:"10px",
     width: '100%',
     height: '250px',
+    marginTop: '40px',
   }
 }))
 
@@ -115,6 +116,7 @@ const LetterDetail = () => {
                       height='100%'
                       // playing
                       controls
+                      playsinline
                     />
                   : null
                 }
