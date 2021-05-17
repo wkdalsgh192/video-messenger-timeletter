@@ -34,7 +34,7 @@ public class AlarmScheduler {
     	for(int i=0, l=alarms.size(); i<l; i++) {
     		int userId = (int) alarms.get(i).get("user_id");
     		int letterId = (int) alarms.get(i).get("letter_id");
-    		alarmRepository.updateLetter(letterId);
+//    		alarmRepository.updateLetter(letterId);
     		alarmRepository.insertAlarm(userId, letterId);
     	}
 	}

@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.caterpie.timeletter.dto.ClubLetterDto;
+import com.caterpie.timeletter.dto.LetterInfoDto;
 import com.caterpie.timeletter.dto.ClubUser;
 import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.entity.ClubDetailUser;
@@ -57,10 +57,10 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
 	List<Map<ClubDetailUser, Object>> findDetailUser(int clubId);
 	
 	@Query(value="select letter_id, title, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where club_id= ? and is_open = 1;", nativeQuery=true)
-	List<Map<ClubLetterDto, Object>> findOpenedLetters(int clubId);
+	List<Map<LetterInfoDto, Object>> findOpenedLetters(int clubId);
 	
 	@Query(value="select letter_id, title, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where club_id= ? and is_open = 0;", nativeQuery=true)
-	List<Map<ClubLetterDto, Object>> findClosedLetters(int clubId);
+	List<Map<LetterInfoDto, Object>> findClosedLetters(int clubId);
 
 	@Query(value="select user_id, name, email from user where name like :word%", nativeQuery=true)
 	List<Map<ClubUser, Object>> findUserName(@Param("word") String word);

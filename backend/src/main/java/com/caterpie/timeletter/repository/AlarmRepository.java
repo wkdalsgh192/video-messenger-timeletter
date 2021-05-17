@@ -10,11 +10,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.caterpie.timeletter.dto.LetterInfoDto;
 import com.caterpie.timeletter.entity.Alarm;
 
 @Repository
 public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
-	@Query(value="select letter_id, user_id from letter where is_open = 0 and open_date = curdate()", nativeQuery=true)
+	@Query(value="select u.user_id, t.letter_id from user u, target t, letter l where u.phone_number=t.phone_number and t.letter_id=l.letter_id and l.is_open = 0 and l.open_date = curdate();", nativeQuery=true)
 	List<Map<Alarm, Object>> findClosedLetters();
 	
 	@Transactional
@@ -26,4 +27,11 @@ public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
 	@Modifying
 	@Query(value="insert into alarm values (? , ?)", nativeQuery=true)
 	void insertAlarm(int userId, int letterId);
+	
+	@Query(value="select * from alarm where user_id= ?", nativeQuery=true)
+	List<Alarm> findALLByUserId(int userId);
+	
+	@Query(value="select letter_id, title, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where letter_id= ?", nativeQuery=true)
+	LetterInfoDto getLetter(int letterId);
 }
+	

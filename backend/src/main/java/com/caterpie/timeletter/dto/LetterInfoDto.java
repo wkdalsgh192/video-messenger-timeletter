@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ClubLetterDto {
+public class LetterInfoDto {
 	private int userId;
 	private String userName;
 	private int clubId;
