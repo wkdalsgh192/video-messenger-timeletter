@@ -8,10 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name="target")
 @NoArgsConstructor
 public class Target {
@@ -28,8 +31,9 @@ public class Target {
 	
 	
 	@Builder
-	public Target(String phoneNumber, int letterId) {
+	public Target(int targetId, String phoneNumber, int letterId) {
 		super();
+		this.targetId = targetId;
 		this.phoneNumber = phoneNumber;
 		this.letterId = letterId;
 	}

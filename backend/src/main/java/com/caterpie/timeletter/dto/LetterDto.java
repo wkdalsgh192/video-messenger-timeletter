@@ -17,7 +17,6 @@ public class LetterDto {
 	private String openDate;
 	private String latitude;
 	private String longitude;
-	private boolean alert;
 	private boolean isPrivate;
 	private boolean isOpen;
 	private List<String> phoneNumber;

@@ -18,8 +18,12 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 const LetterListItem = (props) => {
   // const history = useHistory()
 
-  const sender = 'From.' + props.letter.userName
-  const letterUrl = 'detail/' + props.letter.letterId
+  let name = props.item.name
+  let letter = props.item.letter
+
+  const sender = 'From. ' + name
+
+  const letterUrl = 'detail/' + letter.letterCode
 
   // video
   const [videoOpen, setVideoOpen] = useState(false)
@@ -28,7 +32,7 @@ const LetterListItem = (props) => {
   }
 
   const handleClick = () => {
-    if (props.letter.isOpen === true) {
+    if (letter.isOpen === true) {
       setVideoOpen(true)
       // alert('레터 상세조회로 이동합니다.')
       // history.push(letterUrl)
@@ -37,7 +41,7 @@ const LetterListItem = (props) => {
     }
   }
 
-  const [openInfo, setOpenInfo] = useState('오픈날짜 ' + props.letter.openDate)
+  const [openInfo, setOpenInfo] = useState('오픈날짜 ' + letter.openDate)
   const [closeInfo, setCloseInfo] = useState('')
 
   
@@ -53,7 +57,7 @@ const LetterListItem = (props) => {
   }
 
   const dDayCounter = () => {
-    let dDay = toDate(props.letter.openDate)
+    let dDay = toDate(letter.openDate)
     setInterval(function() {
 			let now = new Date() //현재 날짜 가져오기
 			let distance = dDay - now;
@@ -66,7 +70,7 @@ const LetterListItem = (props) => {
 				s = '0' + s
 			}
 			if (distance < 0) {
-				setOpenInfo('오픈날짜 ' + props.letter.openDate)
+				setOpenInfo('오픈날짜 ' + letter.openDate)
 			} else {
 				if (d > 0) {
 					view = view + d + '일 '
@@ -91,7 +95,7 @@ const LetterListItem = (props) => {
   // console.log(closeInfo)
 
   const getInfo = () => {
-    if (props.letter.isOpen) {
+    if (letter.isOpen) {
       return <div style={{fontSize:"20px", color: '#fff'}}> {openInfo}</div>
     } else {
       return <div style={{fontSize:"20px", color: '#fff'}}> {closeInfo}</div>
@@ -117,7 +121,7 @@ const LetterListItem = (props) => {
               <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
                 <Chip variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />
               </div>
-              <div style={{fontSize:"20px", color: '#fff'}}>{props.letter.title}</div>
+              <div style={{fontSize:"20px", color: '#fff'}}>{letter.title}</div>
               {getInfo()}
             </div>
           </div>

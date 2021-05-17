@@ -1,4 +1,4 @@
-// import React, { useCallback, useState } from "react";
+
 import React, { useEffect, useState, useRef } from "react";
 
 // import { useDispatch, useSelector } from "react-redux";
@@ -12,16 +12,14 @@ import SearchModal from "../components/mainpage/SearchModal";
 import img1 from "./UserPage/images/종이비행기.gif";
 
 import { IoIosArrowDown } from "react-icons/all";
-// import Grid from '@material-ui/core/Grid';
 import { Link } from "react-router-dom";
 import "./css/main.css";
 import "./css/main.scss";
-import { StopOutlined } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
-import { BsPencil } from 'react-icons/bs'; 
-import { HiOutlineBookOpen } from 'react-icons/hi'; 
+import { BsPencil } from "react-icons/bs";
+import { HiOutlineBookOpen } from "react-icons/hi";
 
-
+import { RiMailSendLine } from "react-icons/ri";
 
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
@@ -44,7 +42,7 @@ function Main() {
     <div className="main-wrap">
       <div className="main-html carousel-wrapper ">
         <div className="section section-1">
-           {/* 별똥별 */}
+          {/* 별똥별 */}
           <div className="night">
             <div className="shooting_star"></div>
             <div className="shooting_star"></div>
@@ -52,11 +50,14 @@ function Main() {
             <div className="shooting_star"></div>
           </div>
           <div>
-            <div style={{ color: "white", paddingTop: "250px", fontSize: "1.7rem", fontWeight: "bold" }}>실시간 생성된 타임 레터</div>
-            <div style={{ color: "white", fontSize: "3rem" }}> ★ {num}</div>
+            <div style={{ color: "white", paddingTop: "35vh", fontSize: "1.7rem", fontWeight: "" }}>이동중인 타임 레터</div>
+            <div style={{ color: "white", fontSize: "2rem" }}>
+              {" "}
+              <RiMailSendLine /> <span style={{ fontSize: "3rem" }}>{num}</span>
+            </div>
 
             <div onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
-              <button className="fill" style={{ width: "170px", height: "40px", borderRadius: "20px", paddingBottom: "10px", fontWeight: "bold" }}>
+              <button className="fill" style={{ width: "170px", height: "40px", borderRadius: "20px", paddingBottom: "10px", marginTop:"15px" }}>
                 레터 찾으러가기
               </button>
             </div>
@@ -71,22 +72,27 @@ function Main() {
         {/* 두번째 메인 */}
 
         <div className="section section-2">
-          <div style={{ color: "white", fontSize:"30px" }}>기분 좋은,</div>
-          <div style={{ color: "white" , fontSize:"30px", marginLeft:"70px" }}>설레임 <span style={{fontSize:"15px"}}>with timeletter</span></div>
+          <div style={{ color: "white", fontSize: "30px" }}>기분 좋은,</div>
+          <div style={{ color: "white", fontSize: "30px", marginLeft: "70px" }}>
+            설레임 <span style={{ fontSize: "15px" }}>with timeletter</span>
+          </div>
           <SearchModal></SearchModal>
           <div className="child"></div>
-          <Grid container  justify="center"
-  alignItems="center" spacing={3}>
+          <Grid container justify="center" alignItems="center" spacing={3}>
             <Grid item xs={5}>
               <Link to="/signup">
-                <div style={{color: "white",textAlign:"center",fontSize:"20px"}}><BsPencil /></div>
-                <div style={{ color: "white",textAlign:"center" ,fontSize:"17px"}}>답장하기</div>
+                <div style={{ color: "white", textAlign: "center", fontSize: "20px" }}>
+                  <BsPencil />
+                </div>
+                <div style={{ color: "white", textAlign: "center", fontSize: "17px" }}>답장하기</div>
               </Link>
             </Grid>
             <div className="updown"></div>
             <Grid item xs={5}>
-              <div style={{color: "white",textAlign:"center",fontSize:"20px"}}><HiOutlineBookOpen /></div>
-              <div style={{ color: "white",textAlign:"center",fontSize:"17px"}} onClick={scrolling}>
+              <div style={{ color: "white", textAlign: "center", fontSize: "20px" }}>
+                <HiOutlineBookOpen />
+              </div>
+              <div style={{ color: "white", textAlign: "center", fontSize: "17px" }} onClick={scrolling}>
                 사이트 둘러보기
               </div>
             </Grid>
