@@ -19,7 +19,8 @@ import "./css/main.scss";
 import { StopOutlined } from "@material-ui/icons";
 import Grid from "@material-ui/core/Grid";
 import { BsPencil } from 'react-icons/bs'; 
-import { HiOutlineBookOpen } from 'react-icons/hi'; 
+import { HiOutlineBookOpen } from 'react-icons/hi';
+import CountLetters from 'components/mainpage/CountLetters'
 
 
 
@@ -27,18 +28,10 @@ const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
 
 function Main() {
-  const [num, setNum] = useState(333);
-  const numRef = useRef(333);
   const scrolling = () => {
     window.scrollTo({ top: "1300", behavior: "smooth" });
     console.log("눌림");
   };
-
-  useEffect(() => {
-    setInterval(() => {
-      setNum((numRef.current += 1));
-    }, 1000);
-  }, []);
 
   return (
     <div className="main-wrap">
@@ -52,9 +45,7 @@ function Main() {
             <div className="shooting_star"></div>
           </div>
           <div>
-            <div style={{ color: "white", paddingTop: "250px", fontSize: "1.7rem", fontWeight: "bold" }}>실시간 생성된 타임 레터</div>
-            <div style={{ color: "white", fontSize: "3rem" }}> ★ {num}</div>
-
+            <CountLetters />
             <div onClick={() => window.scrollTo({ top: "680", behavior: "smooth" })}>
               <button className="fill" style={{ width: "170px", height: "40px", borderRadius: "20px", paddingBottom: "10px", fontWeight: "bold" }}>
                 레터 찾으러가기
@@ -75,8 +66,7 @@ function Main() {
           <div style={{ color: "white" , fontSize:"30px", marginLeft:"70px" }}>설레임 <span style={{fontSize:"15px"}}>with timeletter</span></div>
           <SearchBar></SearchBar>
           <div className="child"></div>
-          <Grid container  justify="center"
-  alignItems="center" spacing={3}>
+          <Grid container  justify="center" alignItems="center" spacing={3}>
             <Grid item xs={5}>
               <Link to="/signup">
                 <div style={{color: "white",textAlign:"center",fontSize:"20px"}}><BsPencil /></div>
