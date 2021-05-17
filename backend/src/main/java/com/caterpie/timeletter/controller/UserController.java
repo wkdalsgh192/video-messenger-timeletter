@@ -75,7 +75,7 @@ public class UserController {
 		try {
 			userService.insertUser(joinDto);
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();	
+			return new ResponseEntity<>("Already Signed Up!", HttpStatus.BAD_REQUEST);	
 		}
 		return ResponseEntity.ok("Congrats, You are signed up!");
 	}
@@ -125,15 +125,6 @@ public class UserController {
 	 * @return JWT
 	 */
 	@ApiOperation(value= "Login", notes = "로그인")
-//	@ApiImplicitParams({
-//	    @ApiImplicitParam(
-//	        name = "contents",
-//	        dataTypeClass = LoginDto.class,
-//	        examples = @io.swagger.annotations.Example(
-//	            value = {
-//	                @ExampleProperty(value = "{'email': 'ssafy1@ssafy.com','password':'ssafy1'}", mediaType = "application/json")
-//	            })) 
-//	})
 	@PostMapping("/login")
     public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto) {
 		

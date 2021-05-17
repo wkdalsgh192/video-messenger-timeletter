@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 	
-	
 	@Override
 	public void insertUser(JoinDto joinDto) {
 		if (userRepo.findOneWithAuthoritiesByEmail(joinDto.getEmail()).orElse(null) != null) {
@@ -84,5 +83,10 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getCurrentUserWithAuthorities() {
         return SecurityUtil
         		.getCurrentUsername().flatMap(userRepo::findOneWithAuthoritiesByEmail);
+	}
+
+	@Override
+	public Optional<User> getUserById(int userId) {
+		return userRepo.findById(userId);
 	}
 }
