@@ -13,7 +13,7 @@ import com.caterpie.timeletter.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 	
-	User findByEmail(String email);
+	Optional<User> findByEmail(String email);
 	
 	User findByEmailAndPassword(String email, String password);
 

@@ -38,7 +38,7 @@ public class LetterServiceImpl implements LetterService {
 	private TargetRepository targetRepo;
 	
 	@Override
-	public int createLetter(LetterDto letterDto){
+	public int createLetter(LetterDto letterDto, int userId){
 		
 		// user_has_letter에 업데이트
 		Letter letter = Letter.builder()
@@ -49,7 +49,7 @@ public class LetterServiceImpl implements LetterService {
 				.longitude(new BigDecimal(letterDto.getLongitude()))
 				.isPrivate(letterDto.isPrivate())
 				.isOpen(letterDto.isOpen())
-				.userId(letterDto.getUserId())
+				.userId(userId)
 				.clubId(letterDto.getClubId())
 				.letterCode(new RandomStringUtil().rand())
 				.build();
@@ -59,7 +59,7 @@ public class LetterServiceImpl implements LetterService {
 			Letter result = letterRepo.save(letter);
 			letterId = result.getLetterId();
 			
-			User user = userRepo.findById(letterDto.getUserId()).get();
+			User user = userRepo.findById(userId).get();
 			List<Letter> letters = user.getLetters();
 			letters.add(letter);
 			user.setLetters(letters);

@@ -10,7 +10,7 @@ import com.caterpie.timeletter.entity.User;
 
 public interface LetterService {
 	/* C :: 레터 생성 */
-	int createLetter(LetterDto letterDto);
+	int createLetter(LetterDto letterDto, int userId);
 	
 	/* R :: 레터 조회 */
 	Optional<Letter> retrieveLetter(String letterCode);
