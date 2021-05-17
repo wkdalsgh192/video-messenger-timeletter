@@ -1,5 +1,6 @@
 package com.caterpie.timeletter.service;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,6 +121,16 @@ public class LetterServiceImpl implements LetterService {
 		});
 		
 		return map;
+	}
+
+	@Override
+	public File retrieveFile(int letterId) {
+		Optional<Letter> opt = letterRepo.findById(letterId);
+		if (!opt.isPresent()) return null;
+		String url = opt.get().getUrl();
+		File file = new File(url);
+		if (!file.canRead()) return null;
+		return file;
 	}
 
 }
