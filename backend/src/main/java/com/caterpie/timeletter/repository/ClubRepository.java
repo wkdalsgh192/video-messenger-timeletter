@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.caterpie.timeletter.dto.ClubLetterDto;
 import com.caterpie.timeletter.dto.LetterDto;
 import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.entity.ClubDetailUser;
@@ -53,11 +54,11 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
 	@Query(value="select u.user_id, name from (user u inner join club_has_member m on u.user_id = m.user_id) where club_id = ?", nativeQuery=true)
 	List<Map<ClubDetailUser, Object>> findDetailUser(int clubId);
 	
-	@Query(value="select * from letter where club_id = ? and is_open = 1", nativeQuery=true)
-	List<Map<LetterDto, Object>> findOpenedLetters(int clubId);
+	@Query(value="select letter_id, title, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where club_id= ? and is_open = 1;", nativeQuery=true)
+	List<Map<ClubLetterDto, Object>> findOpenedLetters(int clubId);
 	
-	@Query(value="select * from letter where club_id = ? and is_open = 0", nativeQuery=true)
-	List<Map<LetterDto, Object>> findClosedLetters(int clubId);
+	@Query(value="select letter_id, title, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where club_id= ? and is_open = 0;", nativeQuery=true)
+	List<Map<ClubLetterDto, Object>> findClosedLetters(int clubId);
 		
 }
 
