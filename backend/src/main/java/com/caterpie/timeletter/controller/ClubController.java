@@ -163,9 +163,19 @@ public class ClubController {
 	 * @return ClubLetters
 	 */
 	@GetMapping("/findLetters")
-	@ApiOperation(value = "club_id로 클럽 디테일 정보 조회", notes = "클럽 디테일 페이지에서 사용될 API")
+	@ApiOperation(value = "club_id로 클럽 레터들 조회", notes = "클럽 디테일 페이지에서 레터조회 API")
 	public ClubLettersDto findLetters(@RequestParam("id") int clubId) {
 		return service.findLetters(clubId);
 	}
 	
+	
+	/**
+	 * @apiNote 글자가 포함된 유저이름,email 조회
+	 * @return ClubLetters
+	 */
+//	@GetMapping("/find")
+//	@ApiOperation(value = "club_id로 클럽 디테일 정보 조회", notes = "클럽 디테일 페이지에서 사용될 API")
+//	public ClubLettersDto findLetters(@RequestParam("id") int clubId) {
+//		return service.findLetters(clubId);
+//	}
 }
