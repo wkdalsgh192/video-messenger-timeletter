@@ -226,7 +226,7 @@ const LetterCreate = () => {
   const handleSaveClick = () => {
     let tmpNumber = []
     let valid = true
-    const regex = /^[0-9\b -]{13}$/;
+    const regex = /^[0-9]{11}$/;
     for (let i = 0; i < phoneNumberList.length; i++) {
       if (regex.test(phoneNumberList[i].phoneNumber)) {
         tmpNumber.push(phoneNumberList[i].phoneNumber)
@@ -240,7 +240,7 @@ const LetterCreate = () => {
       setPhoneNumbers(tmpNumber)
       setOtherOpen(false)
     } else {
-      alert('010-0000-0000 형태로 번호를 입력해주세요')
+      alert('01012345678 형태로 번호를 입력해주세요')
     }
   }
 
@@ -460,7 +460,7 @@ const LetterCreate = () => {
                   style={{marginTop: '4px'}}
                   name="files"
                   required
-                  accept="video/*"
+                  accept="video/mp4"
                 />
               </FormControl>
             </Grid>
@@ -593,7 +593,7 @@ const LetterCreate = () => {
                             value={x.phoneNumber}
                             onChange={(e) => handleInputChange(e, i)}
                             id="phonenumber"
-                            placeholder="010-0000-0000"
+                            placeholder="01012345678"
                             autoFocus
                             startAdornment={
                               <InputAdornment position="start">
