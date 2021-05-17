@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
@@ -14,7 +14,9 @@ import TextField from '@material-ui/core/TextField';
 
 import 'components/mainpage/SearchBar.css'
 
-function SearchModal() {
+function SearchBar() {
+  // console.log('서치바 생성')
+  const history = useHistory()
 
   //비밀번호 입력 창 open state
   // const [open, setOpen] = useState(false);
@@ -27,28 +29,33 @@ function SearchModal() {
   //   setOpen(false);
   // };
 
-  const [inputValue, setInputValue] = useState('')
-
-  const handleInput = (e) => {
-    setInputValue(e.target.value)
-  }
+  const [letterCode, setLetterCode] = useState('')
 
   // 엔터키 이벤트
-  const handleSearch = (e) => {
-    // e.preventDefault();
+  const handleEnter = (e) => {
+    // e.preventDefault()
     if(e.key == 'Enter'){
-      // handleOpen()
-      console.log('서치 실행')
+      console.log('엔터 입력')
+      // console.log(letterCode)
+      history.push('letter/detail/' + letterCode)
     } 
+  }
+
+  // 돋보기 클릭 이벤트
+  const handleClick = (e) => {
+    e.preventDefault()
+    // console.log('돋보기 클릭')
+    // console.log(letterCode)
+    history.push('letter/detail/' + letterCode)
   }
 
 
   return (
     <div style={{marginTop:"", marginBottom:"20px"}}>
       <Paper component="form" className="searchbar"> 
-      <InputBase className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleSearch} />
-        <input onChange={handleInput} value={inputValue} type="text" style={{display:"none"}}/> 
-        <IconButton className="" type="button" aria-label="search" onClick={handleSearch}>
+      <InputBase className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleEnter} />
+        <input onChange={(e) => setLetterCode(e.target.value)} type="text" style={{display:"none"}}/> 
+        <IconButton className="" type="button" aria-label="search" onClick={handleClick}>
           <SearchIcon />
         </IconButton>
       </Paper>
@@ -83,4 +90,4 @@ function SearchModal() {
   );
 }
 
-export default SearchModal;
+export default SearchBar;
