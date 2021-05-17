@@ -4,6 +4,7 @@ import {
   Container,
   Tabs, 
   Tab,
+  Typography,
 } from '@material-ui/core'
 
 import bgImage from 'pages/images/sky2.jpg'
@@ -144,10 +145,29 @@ const LetterList = () => {
       setNotOpenLetters(tmpNotOpenLetters)
     })
     .catch(err => {
-     console.log(err)
+    console.log(err)
     })
   }, [])
 
+  const items = () => {
+    if (value === 0) {
+      if (openLetters.length === 0) {
+        return <div>생성된 레터가 없습니다.</div>
+      } else {
+        openLetters.map((openLetter, index) => {
+          return <LetterListItem key={index} item={openLetter} /> 
+        })
+      }
+    } else {
+      if (notOpenLetters.length === 0) {
+        return <div>생성된 레터가 없습니다.</div>
+      } else {
+        notOpenLetters.map((notOpenLetter, index) => {
+          return <LetterListItem key={index} item={notOpenLetter} />
+        })
+      }
+    }
+  }
 
   return (
     <Container className={classes.container} maxWidth="xs">
@@ -168,13 +188,19 @@ const LetterList = () => {
 
       {/* 오픈, 비오픈레터 전환 */}
       {value === 0
-        ? openLetters.map((openLetter, index) => {
-          return <LetterListItem key={index} item={openLetter} /> 
-        })
-        : notOpenLetters.map((notOpenLetter, index) => {
-          return <LetterListItem key={index} item={notOpenLetter} />
-        }) 
+        ? openLetters.length > 0 
+          ? openLetters.map((openLetter, index) => {
+              return <LetterListItem key={index} item={openLetter} /> 
+            })
+          : <Typography variant="h5" style={{textAlign: "center", marginTop: '100px'}}>조회 가능한 레터가 없습니다.</Typography>
+          
+        : notOpenLetters.length > 0
+          ? notOpenLetters.map((notOpenLetter, index) => {
+            return <LetterListItem key={index} item={notOpenLetter} />
+          })
+          : <Typography variant="h5" style={{textAlign: "center", marginTop: '100px'}}>조회 가능한 레터가 없습니다.</Typography>
       }
+        
     </Container>
   );
 };
