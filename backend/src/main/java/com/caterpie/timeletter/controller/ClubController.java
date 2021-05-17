@@ -46,7 +46,7 @@ public class ClubController {
 	@Transactional()
 	@PostMapping(path="/insert")
 	@ApiOperation(value = "클럽생성하기", notes = "클럽생성")
-	public ResponseEntity<?> insertClub(@RequestBody ClubDto clubReq) {
+	public ResponseEntity<String> insertClub(@RequestBody ClubDto clubReq) {
 		try {
 			service.insertClub(clubReq);	//클럽생성
 			
@@ -81,7 +81,7 @@ public class ClubController {
 	 */
 	@PostMapping(path="/join")
 	@ApiOperation(value = "클럽가입(초대)하기", notes = "가입 클럽하기")
-	public ResponseEntity<?> insertClub(@RequestBody ClubJoinDto joinReq) {
+	public ResponseEntity<String> insertClub(@RequestBody ClubJoinDto joinReq) {
 		try {
 			service.joinClub(joinReq.getUserId(), joinReq.getClubId());
 		}catch (Exception e) {
@@ -131,7 +131,7 @@ public class ClubController {
 	 */
 	@DeleteMapping("/delClub")
 	@ApiOperation(value = "club_id로 클럽 삭제", response = String.class)
-	public ResponseEntity<?> delpost(@RequestParam("id") int clubId) {
+	public ResponseEntity<String> delpost(@RequestParam("id") int clubId) {
 		try {
 			clubRepository.delAllMember(clubId);	//club_member테이블에서 club_id로 삭제
 			clubRepository.deleteById(clubId);		//club테이블에서 club_id로 삭제
@@ -148,7 +148,7 @@ public class ClubController {
 	 */
 	@DeleteMapping("/delMember")
 	@ApiOperation(value = "user_id로 멤버 삭제", notes = "클럽 디테일 페이지에서 멤버 삭제기능")
-	public ResponseEntity<?> delMember(@RequestBody ClubJoinDto delReq) {
+	public ResponseEntity<String> delMember(@RequestBody ClubJoinDto delReq) {
 		try {
 			clubRepository.deleteMember(delReq.getClubId(), delReq.getUserId());
 		}catch (Exception e) {
