@@ -51,7 +51,7 @@ function SearchBar() {
 
 
   return (
-    <div style={{marginTop:"", marginBottom:"20px"}}>
+    <div style={{marginTop:"50px", marginBottom:"80px"}}>
       <Paper component="form" className="searchbar"> 
       <InputBase className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleEnter} />
         <input onChange={(e) => setLetterCode(e.target.value)} type="text" style={{display:"none"}}/> 
@@ -69,7 +69,6 @@ function SearchBar() {
         <DialogTitle id="alert-dialog-title">{"레터 암호를 입력해주세요!"}</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="Password"

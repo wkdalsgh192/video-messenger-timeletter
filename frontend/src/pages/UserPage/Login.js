@@ -97,13 +97,9 @@ function Login() {
                             <span style={{color:"white",fontSize:"20px"}}>Login</span>
               </Button>
               <Grid container style={{ marginTop: "20px" }}>
-                <Grid item xs>
-                  <Link to="#" variant="body2">
-                  <span style={{fontWeight:"bold"}}>{"Forgot password?"}</span>
-                  </Link>
-                </Grid>
+             
                 <Grid item>
-                <Link to="/signup"><span style={{fontWeight:"bold",fontSize:"15px"}} className="sratfont">{"회원가입"}</span></Link>
+                <Link to="/signup">회원이 아니신가요? <span style={{marginLeft:"5px",fontWeight:"bold",fontSize:"15px"}} className="sratfont">{"회원가입"}</span></Link>
                 </Grid>
               </Grid>
             </form>
