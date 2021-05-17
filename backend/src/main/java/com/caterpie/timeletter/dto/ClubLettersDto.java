@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ClubLettersDto {
-	private List<Map<ClubLetterDto, Object>> openedLetter;
-	private List<Map<ClubLetterDto, Object>> closedLetter;
+	private List<Map<LetterInfoDto, Object>> openedLetter;
+	private List<Map<LetterInfoDto, Object>> closedLetter;
 }
 
