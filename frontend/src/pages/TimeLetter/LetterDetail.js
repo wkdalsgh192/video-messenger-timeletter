@@ -50,8 +50,8 @@ const LetterDetail = () => {
   const classes = useStyles()
 
 
-  const [name, setName] = useState()
-  const [letter, setLetter] = useState()
+  const [name, setName] = useState('')
+  const [letter, setLetter] = useState(null)
   const [fileUrl, setFileUrl] = useState('')
 
   const [url, setUrl] = useState()
@@ -64,6 +64,8 @@ const LetterDetail = () => {
       for (const [key, value] of Object.entries(res.data)) {
         setName(key)
         setLetter(value)
+        console.log(name)
+        console.log(letter)
         setFileUrl(BASE_URL + 'letter/load/' + value.letterId)
       }
     })
@@ -94,42 +96,42 @@ const LetterDetail = () => {
     setMapOpen(!mapOpen)
   }
 
-  console.log(url)
-  const fileUrl = `http://localhost:8080/timeletter/letter/load/${url}`
-  console.log(fileUrl)
-
   return (
-    <Container className={classes.container} maxWidth="xs">
-      <Typography className={classes.title} variant="h6">레터 상세조회</Typography>
-      <div className={classes.paper}>
-        {/* 영상재생 */}
-        <div className={classes.video}>
-          {fileUrl !== '' 
-            ? <ReactPlayer
-                url={fileUrl}
-                width='100%'
-                height='100%'
-                // playing
-                controls
-              />
-            : null
-          }
-        </div>
-        <Typography variant="subtitle1">- 이름 : {letter.title}</Typography>
-        <Typography variant="subtitle1">- 보낸 사람 : {name}</Typography>
-        {/* {letter.isOpen ? content : null} */}
-        <Typography variant="subtitle1">- 내용</Typography>
-        <Card>
-          <CardContent>
-            <Typography>{letter.message}</Typography> 
-          </CardContent>
-        </Card>
-        <Typography variant="subtitle1">- 오픈날짜 : {letter.openDate}</Typography>
-        <Typography variant="subtitle1" style={{display: 'flex', alignItems: 'center'}}><span>- 추억장소</span><MapIcon onClick={handleMap} style={{marginLeft: '5px'}} /></Typography>
-        {mapOpen === true ? <MapDetail lat={letter.latitude} lng={letter.longitude} /> : null}
-        
-      </div>
-    </Container>
+    <div>
+      {letter !== null
+        ? <Container className={classes.container} maxWidth="xs">
+            <Typography className={classes.title} variant="h6">레터 상세조회</Typography>
+            <div className={classes.paper}>
+              {/* 영상재생 */}
+              <div className={classes.video}>
+                {fileUrl !== '' 
+                  ? <ReactPlayer
+                      url={fileUrl}
+                      width='100%'
+                      height='100%'
+                      // playing
+                      controls
+                    />
+                  : null
+                }
+              </div>
+              <Typography variant="subtitle1">- 이름 : {letter.title}</Typography>
+              <Typography variant="subtitle1">- 보낸 사람 : {name}</Typography>
+              {/* {letter.isOpen ? content : null} */}
+              <Typography variant="subtitle1">- 내용</Typography>
+              <Card>
+                <CardContent>
+                  <Typography>{letter.message}</Typography> 
+                </CardContent>
+              </Card>
+              <Typography variant="subtitle1">- 오픈날짜 : {letter.openDate}</Typography>
+              <Typography variant="subtitle1" style={{display: 'flex', alignItems: 'center'}}><span>- 추억장소</span><MapIcon onClick={handleMap} style={{marginLeft: '5px'}} /></Typography>
+              {mapOpen === true ? <MapDetail lat={letter.latitude} lng={letter.longitude} /> : null}
+            </div>
+          </Container>
+        : null
+      }
+    </div>
   )
 }
 
