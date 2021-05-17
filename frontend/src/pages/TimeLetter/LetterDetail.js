@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 // 함수형 컴포넌트
 const LetterDetail = () => {
+  // console.log('detail!!!!!')
   let { code } = useParams()
   // console.log(code)
   const classes = useStyles()
@@ -52,6 +53,8 @@ const LetterDetail = () => {
   const [name, setName] = useState()
   const [letter, setLetter] = useState()
   const [fileUrl, setFileUrl] = useState('')
+
+  const [url, setUrl] = useState()
 
   useEffect(() => {
     // letterCode를 파라미터로 letter정보를 받아 오는 axios 요청
@@ -90,6 +93,10 @@ const LetterDetail = () => {
   const handleMap = () => {
     setMapOpen(!mapOpen)
   }
+
+  console.log(url)
+  const fileUrl = `http://localhost:8080/timeletter/letter/load/${url}`
+  console.log(fileUrl)
 
   return (
     <Container className={classes.container} maxWidth="xs">

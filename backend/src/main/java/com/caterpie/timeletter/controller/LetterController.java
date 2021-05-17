@@ -1,13 +1,18 @@
 package com.caterpie.timeletter.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,21 +45,29 @@ public class LetterController {
 	private static final Logger logger = LoggerFactory.getLogger(LetterController.class);
 	
 	@GetMapping("/retrieve/{letterCode}")
-	public ResponseEntity<Letter> retrieveLetter(@PathVariable String letterCode) throws FileNotFoundException {
+	public ResponseEntity<Map<String, Letter>> retrieveLetter(@PathVariable String letterCode) throws FileNotFoundException {
 		// 유저 아이디 확인 및 레터 아이디 확인
+		Optional<User> opt = userService.getCurrentUserWithAuthorities();
 		// 일치하는 경우 url 가져오기
 		Optional<Letter> letter = letterService.retrieveLetter(letterCode);
-		// url에 맞게 file 가져오기
-//		File file = new File(url);
-//		System.out.println(file.toString());
-//		InputStream inputStream = new FileInputStream(url);
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.set("Accept-Ranges", "bytes");
-//		headers.set("Content-Type", "video/mp4");
-//		headers.set("Content-Range", "bytes 50-1025/17839845");
-//		headers.set("Content-Length", String.valueOf(file.length()));
-		if (!letter.isPresent()) return ResponseEntity.noContent().build();
-		return new ResponseEntity<>(letter.get(),HttpStatus.OK);
+		if (!letter.isPresent() || !opt.isPresent()) return ResponseEntity.noContent().build();
+		Map<String, Letter> map = new HashMap<>();
+		map.put(opt.get().getName(), letter.get());
+		return new ResponseEntity<>(map,HttpStatus.OK);
+	}
+	
+	@GetMapping(path="/load/{letterId}")
+	public ResponseEntity<InputStreamResource> loadFile(@PathVariable("letterId") int letterId) throws FileNotFoundException {
+		File file = letterService.retrieveFile(letterId);
+		if (file == null) return ResponseEntity.noContent().build();
+		System.out.println(file.toString());
+		InputStream inputStream = new FileInputStream(file.getAbsoluteFile());
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept-Ranges", "bytes");
+		headers.set("Content-Type", "video/mp4");
+		headers.set("Content-Range", "bytes 50-1025/17839845");
+		headers.set("Content-Length", String.valueOf(file.length()));
+		return new ResponseEntity<InputStreamResource>(new InputStreamResource(inputStream),headers,HttpStatus.OK);
 	}
 	
 	@GetMapping(path="/retrieve")
