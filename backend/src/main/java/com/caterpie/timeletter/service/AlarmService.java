@@ -9,4 +9,6 @@ public interface AlarmService {
 
 	List<Map<LetterInfoDto, Object>> getAlarms(int userId);
 
+	void deleteAlarm(int userId, int letterId);
+
 }
