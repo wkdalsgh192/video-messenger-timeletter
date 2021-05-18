@@ -84,9 +84,11 @@ public class LetterServiceImpl implements LetterService {
 
 	@Override
 	public void saveFile(int letterId, String url) throws Exception {
+		
 		Letter letter = letterRepo.findById(letterId).get();
 		letter.setUrl(url);
 		letterRepo.save(letter);
+		
 	}
 
 	@Override
@@ -131,6 +133,11 @@ public class LetterServiceImpl implements LetterService {
 		File file = new File(url);
 		if (!file.canRead()) return null;
 		return file;
+	}
+
+	@Override
+	public void deleteLetter(int letterId) {
+		letterRepo.deleteById(letterId);
 	}
 
 }
