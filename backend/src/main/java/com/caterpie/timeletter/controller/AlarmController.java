@@ -8,8 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.caterpie.timeletter.dto.LetterInfoDto;
@@ -24,9 +27,6 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/alarm")
 public class AlarmController {
 	static final Logger logger = LoggerFactory.getLogger(AlarmController.class);
-	
-	@Autowired
-	private AlarmRepository alarmRepository;
 	@Autowired
 	AlarmService alarmService;
 	@Autowired
@@ -45,5 +45,16 @@ public class AlarmController {
 		return alarmService.getAlarms(opt.get().getUserId());
 	}
 	
-	
+	/**
+	 * @apiNote 알람창에서 레터조회시 해당 알람 삭제
+	 * @return 
+	 */
+	@DeleteMapping("/letter")
+	@ApiOperation(value = "확인한 알람 삭제", notes = "알람창에서 알람 클릭시 letter_id를 받아 해당 알람삭제")
+	public ResponseEntity<String> deleteAlarm(@RequestParam("id") int letterId){
+		Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElse(null));
+		if (opt == null) throw new RuntimeException("User Not Found");
+		alarmService.deleteAlarm(opt.get().getUserId(), letterId);
+		return new ResponseEntity<String>("success",HttpStatus.OK);
+	}
 }

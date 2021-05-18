@@ -37,7 +37,7 @@ public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query(value="delete from alarm where user_id= ?", nativeQuery=true)
-	void deleteAlarm(int userId);
+	@Query(value="delete from alarm where user_id= ? and letter_id= ?", nativeQuery=true)
+	void deleteAlarm(int userId, int letterId);
 }
 	

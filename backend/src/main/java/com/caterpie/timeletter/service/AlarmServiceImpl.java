@@ -26,10 +26,16 @@ public class AlarmServiceImpl implements AlarmService{
 		for(int i=0, l=myAlarms.size(); i<l; i++) {
 			list.add(alarmRepository.getLetter((int) myAlarms.get(i).get("letter_id")));
 		}
-		
-		alarmRepository.deleteAlarm(userId);
 		return list;
 	}
+
+	@Override
+	public void deleteAlarm(int userId, int letterId) {
+		alarmRepository.deleteAlarm(userId, letterId);
+	}
+	
+	
+	
 	
 	
 	
