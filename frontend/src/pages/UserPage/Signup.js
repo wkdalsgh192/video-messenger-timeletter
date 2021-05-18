@@ -91,7 +91,7 @@ function Signup() {
       email: Email,
       name: Name,
       password: Password,
-      phone: PhoneNumber
+      phoneNumber: PhoneNumber
     };
     console.log(body, "!!!!!!");
     axios.post(BASE_URL+"user/join",body)

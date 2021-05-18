@@ -2,6 +2,7 @@ package com.caterpie.timeletter.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -30,6 +31,7 @@ import com.caterpie.timeletter.entity.ClubList;
 import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.repository.ClubRepository;
 import com.caterpie.timeletter.service.ClubService;
+import com.caterpie.timeletter.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -41,6 +43,8 @@ public class ClubController {
 	private ClubRepository clubRepository;
 	@Autowired
 	ClubService service;
+	@Autowired
+	private UserService userService;
 	
 	/**
 	 * @apiNote 클럽 생성 기능
@@ -51,6 +55,10 @@ public class ClubController {
 	@ApiOperation(value = "클럽생성하기", notes = "클럽생성")
 	public ResponseEntity<String> insertClub(@RequestBody ClubDto clubReq) {
 		try {
+			Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElse(null));
+			if (opt == null) throw new RuntimeException("User Not Found");
+			clubReq.setMasterId(opt.get().getUserId());	//Master_id 설정
+			
 			service.insertClub(clubReq);	//클럽생성
 			
 			Club newClub = clubRepository.findByClubName(clubReq.getClubName());	//생성된 클럽
@@ -100,8 +108,10 @@ public class ClubController {
 	 */
 	@GetMapping("/findMyClub")
 	@ApiOperation(value = "user_id로 가입된 클럽 찾기", notes = "가입된 클럽조회")
-	public List<Club> findByUserId(@RequestParam("id") int userId) {
-		List<Integer> clubList = clubRepository.findMyClub(userId);
+	public List<Club> findByUserId() {
+		Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElse(null));
+		if (opt == null) throw new RuntimeException("User Not Found");
+		List<Integer> clubList = clubRepository.findMyClub(opt.get().getUserId());
 		return clubRepository.findByClubIdIn(clubList);
 	}
 	
@@ -174,7 +184,7 @@ public class ClubController {
 	
 	/**
 	 * @apiNote 글자가 포함된 유저이름,email 조회
-	 * @return ClubLetters
+	 * @return ClubUser
 	 */
 	@GetMapping("/findWord")
 	@ApiOperation(value = "글자가 포함된 유저이름,email 조회", notes = "글자로 유저 조회(Keyboard On API")

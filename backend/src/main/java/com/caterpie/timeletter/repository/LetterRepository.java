@@ -1,6 +1,7 @@
 package com.caterpie.timeletter.repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,8 @@ public interface LetterRepository extends JpaRepository<Letter, Integer> {
 	Optional<Letter> findOneByLetterId(int letterId);
 	
 	Optional<Letter> findByLetterCode(String letterCode);
+
+	Set<Letter> findAllByIsOpenEqualsAndOpenDateEquals(boolean isOpen, String time);
+
+	Set<Letter> findAllByIsOpenEqualsAndOpenDateEqualsAndClubIdGreaterThan(boolean isOpen, String time, int clubId);
 }
