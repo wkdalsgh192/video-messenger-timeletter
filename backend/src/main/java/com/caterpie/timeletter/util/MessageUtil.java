@@ -17,10 +17,10 @@ public class MessageUtil {
         Message coolsms = new Message(api_key, api_secret);
         HashMap<String, String> params = new HashMap<String, String>();
 
-        params.put("to", "01071262965");
+        params.put("to", "01033076586");
         params.put("from", "01047539502");
-        params.put("type", "SMS");
-        params.put("text", "[TimeLetter] ssafy1님께서 보낸 타임레터가 도착하였습니다. ");
+        params.put("type", "LMS");
+        params.put("text", "[TimeLetter] ssafy1님께서 보낸 타임레터가 도착하였습니다. 접속하기 >> https://k4d105.p.ssafy.io/letter/detail/L5l6P6N4a5");
         params.put("app_version", "test app 1.2");
 
         try {

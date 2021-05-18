@@ -37,5 +37,8 @@ public class AlarmScheduler {
     		alarmRepository.updateLetter(letterId);
     		alarmRepository.insertAlarm(userId, letterId);
     	}
+    	
+    	// 알람 LetterId 가지고 Letter랑 Target 가지고 와서 Iterate하면서 문자 발송.
+    	
 	}
 }
