@@ -15,7 +15,7 @@ import com.caterpie.timeletter.entity.Alarm;
 
 @Repository
 public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
-	@Query(value="select u.user_id, t.letter_id from user u, target t, letter l where u.phone_number=t.phone_number and t.letter_id=l.letter_id and l.is_open = 0 and l.open_date = curdate();", nativeQuery=true)
+	@Query(value="select u.user_id, t.letter_id, l.letter_code, t.phone_number from user u, target t, letter l where u.phone_number=t.phone_number and t.letter_id=l.letter_id and l.is_open = 0 and l.open_date = curdate();", nativeQuery=true)
 	List<Map<Alarm, Object>> findClosedLetters();
 	
 	@Transactional

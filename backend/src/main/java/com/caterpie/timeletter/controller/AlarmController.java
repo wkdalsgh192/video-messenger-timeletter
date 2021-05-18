@@ -34,7 +34,9 @@ public class AlarmController {
 	@GetMapping("/letters")
 	@ApiOperation(value = "알람 조회 기능", notes = "종버튼 클릭시 API 요청")
 	public List<Map<LetterInfoDto, Object>> getAlarms(@RequestParam("id") int userId){
+		
 		return alarmService.getAlarms(userId);
+		
 		
 	}
 	
