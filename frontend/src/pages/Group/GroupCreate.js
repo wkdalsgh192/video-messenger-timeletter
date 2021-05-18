@@ -24,8 +24,8 @@ function GroupCreate() {
     setDescription(event.currentTarget.value);
   };
   const onMemberControl = (member) => {
-    setMembers(members=>[...members,member.name]);
-    setMembersId(membersId=>[...membersId,member.user_id]);
+    setMembers(members=>[...members, member.name]);
+    setMembersId(membersId=>[...membersId, member.user_id]);
     setEmail('');
   };
 
@@ -37,7 +37,7 @@ function GroupCreate() {
       let body = {
         "clubName":name,
         "desc":description,
-        'masterId':USER_ID,
+        'masterId':0,
         // 'masterId':2,
         "membersId":membersId,
         "profile":"없음"

@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Container, Tabs, Tab } from "@material-ui/core";
+import { Container, Tabs, Tab, Typography } from "@material-ui/core";
 import axios from 'axios';
 
 import bgImage from "pages/images/sky2.jpg";
 import GroupLetterItem from "./GroupLetterItem";
 import { BASE_URL,TOKEN } from "../../constants";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 // import MapList from "components/timeletter/MapList"
 // 스타일
 const useStyles = makeStyles((theme) => ({
   container: {
-    backgroundImage: `url(${bgImage})`,
+    // backgroundImage: `url(${bgImage})`,
     height: "100%",
     width: "100%",
-    paddingTop: "70px",
-    paddingBottom: "700px",
+    // paddingTop: "70px",
+    // paddingBottom: "700px",
     color: "#ffcc80",
   },
 }));
 // 컴포넌트
 const GroupLetter = () => {
   const classes = useStyles();
-  const {id} = useParams();
+  const {clubId} = useParams();
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -32,8 +32,9 @@ const GroupLetter = () => {
   // 오픈여부에 따라 letter를 분류한다.
   const [openLetters, setOpenLetters] = useState([]);
   const [notOpenLetters, setNotOpenLetters] = useState([]);
+
   useEffect(() => {
-    axios.get(BASE_URL+"club/findLetters?id="+id,{Authorization:TOKEN})
+    axios.get(BASE_URL+"club/findLetters?id="+clubId, {headers: {Authorization:TOKEN}})
     .then((res)=> {
       console.log(res.data,'letter')
       setOpenLetters(res.data.openedLetter);
@@ -55,12 +56,17 @@ const GroupLetter = () => {
         <Tab label="비오픈된 레터" />
       </Tabs>
       {value === 0
-        ? openLetters.map((openLetter, index) => {
-            return <GroupLetterItem key={index} letter={openLetter} />;
-          })
-        : notOpenLetters.map((notOpenLetter, index) => {
-            return <GroupLetterItem key={index} letter={notOpenLetter} />;
-          })}
+        ? openLetters.length > 0 
+          ? openLetters.map((openLetter, index) => {
+              return <GroupLetterItem key={index} letter={openLetter} />;
+            })
+          : <Typography variant="h5" style={{textAlign: "center", marginTop: '100px'}}>조회 가능한 레터가 없습니다.</Typography>
+        : notOpenLetters.length > 0
+          ? notOpenLetters.map((notOpenLetter, index) => {
+              return <GroupLetterItem key={index} letter={notOpenLetter} />;
+            })
+          : <Typography variant="h5" style={{textAlign: "center", marginTop: '100px'}}>조회 가능한 레터가 없습니다.</Typography>
+      }
     </Container>
   );
 };
