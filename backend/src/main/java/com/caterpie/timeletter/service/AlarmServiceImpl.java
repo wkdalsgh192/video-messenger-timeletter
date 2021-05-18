@@ -18,11 +18,12 @@ public class AlarmServiceImpl implements AlarmService{
 
 	@Override
 	public List<Map<LetterInfoDto, Object>> getAlarms(int userId) {
-		List<Alarm> myAlarms = alarmRepository.findALLByUserId(userId);	//alarm테이블에서 user_id에 해당되는 알람들(letter_id)
+		List<Map<Alarm, Object>> myAlarms = alarmRepository.findALLByUserId(userId);	//alarm테이블에서 user_id에 해당되는 알람들(letter_id)
+		
 		List<Map<LetterInfoDto, Object>> list = new ArrayList<Map<LetterInfoDto, Object>>();
 		for(int i=0, l=myAlarms.size(); i<l; i++) {
 			//알람들(letter_id)에 해당되는 레터정보들 리스트로 셋팅
-			list.add(alarmRepository.getLetter((int) myAlarms.get(i).getLetter_id()));
+			list.add(alarmRepository.getLetter((int) myAlarms.get(i).get("letter_id")));
 		}
 		
 		
