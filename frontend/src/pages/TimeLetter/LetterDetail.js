@@ -138,7 +138,7 @@ const LetterDetail = () => {
                 </CardContent>
               </Card>
               <Typography variant="subtitle1">- 오픈날짜 : {letter.openDate}</Typography>
-              <Typography variant="subtitle1" style={{display: 'flex', alignItems: 'center'}}><span>- 추억장소</span><MapIcon onClick={handleMap} style={{marginLeft: '5px'}} /></Typography>
+              {letter.latitude ? <Typography variant="subtitle1" style={{display: 'flex', alignItems: 'center'}}><span>- 추억장소</span><MapIcon onClick={handleMap} style={{marginLeft: '5px'}} /></Typography>:null}
               {mapOpen === true && Number(letter.latitude) !== 0 ? <MapDetail lat={letter.latitude} lng={letter.longitude} /> : null}
             </div>
           </Container>

@@ -288,8 +288,8 @@ const LetterCreate = () => {
     // 본인이 속한 그룹 목록을 받아오는 axios 요청
     // console.log(USER_ID)
     axios.get(BASE_URL + 'club/findMyClub', {
-      params: {
-        id: 1,
+      headers: {
+        Authorization: TOKEN,
       }
     })
       .then(res => {
