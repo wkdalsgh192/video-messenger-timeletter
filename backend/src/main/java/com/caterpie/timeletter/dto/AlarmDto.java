@@ -1,6 +1,5 @@
 package com.caterpie.timeletter.dto;
 
-import javax.persistence.Column;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

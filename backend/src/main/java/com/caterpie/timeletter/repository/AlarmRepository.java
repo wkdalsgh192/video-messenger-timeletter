@@ -32,7 +32,12 @@ public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
 	@Query(value="select * from alarm where user_id= ?", nativeQuery=true)
 	List<Map<Alarm, Object>> findALLByUserId(int userId);
 	
-	@Query(value="select letter_id, title, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where letter_id= ?", nativeQuery=true)
+	@Query(value="select letter_id, title, letter_code, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where letter_id= ?", nativeQuery=true)
 	Map<LetterInfoDto, Object> getLetter(int letterId);
+
+	@Transactional
+	@Modifying
+	@Query(value="delete from alarm where user_id= ?", nativeQuery=true)
+	void deleteAlarm(int userId);
 }
 	
