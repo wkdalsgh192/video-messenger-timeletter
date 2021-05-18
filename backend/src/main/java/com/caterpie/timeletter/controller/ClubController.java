@@ -174,7 +174,7 @@ public class ClubController {
 	
 	/**
 	 * @apiNote 글자가 포함된 유저이름,email 조회
-	 * @return ClubLetters
+	 * @return ClubUser
 	 */
 	@GetMapping("/findWord")
 	@ApiOperation(value = "글자가 포함된 유저이름,email 조회", notes = "글자로 유저 조회(Keyboard On API")

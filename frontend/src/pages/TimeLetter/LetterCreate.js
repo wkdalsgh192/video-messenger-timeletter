@@ -41,6 +41,8 @@ import { BASE_URL, TOKEN } from 'constants/index.js'
 import axios from 'axios'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import LoadingCreate from 'components/loading/LoadingCreate'
+import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined'
+import './css/lettercreate.css'
 
 // 테마
 const theme = createMuiTheme({
@@ -82,6 +84,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '24px',
     width: '100%',
   },
+  upload: {
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '10px',
+  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -118,6 +126,27 @@ const LetterCreate = () => {
   // 첨부한 영상
   const [file, setFile] = useState(null)
   // console.log(file[0])
+
+  const removeFile = () => {
+    // console.log('파일제거')
+    setFile(null)
+  }
+
+  const handleFile = (e) => {
+    // console.log('파일 변경')
+    // console.log(e.target.files.length)
+    if (e.target.files && e.target.files[0].size > (500 * 1024 * 1024)) {
+      alert('파일첨부는 최대 500MB까지 가능합니다.')
+    } else if (e.target.files.length > 0) {
+      setFile(e.target.files)
+    }
+  }
+
+  const showFileName = () => {
+    if (file !== null) {
+      return <div style={{marginLeft: '0px'}} onClick={removeFile}>{file[0].name}&nbsp;&nbsp;&nbsp;삭제</div>
+    }
+  }
 
   // 비공개여부
   const [isPrivate, setIsPrivate] = useState('')
@@ -226,7 +255,7 @@ const LetterCreate = () => {
   const handleSaveClick = () => {
     let tmpNumber = []
     let valid = true
-    const regex = /^[0-9\b -]{13}$/;
+    const regex = /^[0-9]{11}$/;
     for (let i = 0; i < phoneNumberList.length; i++) {
       if (regex.test(phoneNumberList[i].phoneNumber)) {
         tmpNumber.push(phoneNumberList[i].phoneNumber)
@@ -240,7 +269,7 @@ const LetterCreate = () => {
       setPhoneNumbers(tmpNumber)
       setOtherOpen(false)
     } else {
-      alert('010-0000-0000 형태로 번호를 입력해주세요')
+      alert('01012345678 형태로 번호를 입력해주세요')
     }
   }
 
@@ -305,7 +334,7 @@ const LetterCreate = () => {
     if (target !== '2') {
       // 나에게, 타인에게
       let body = {
-        userId: 1,
+        // userId: 1,
         title: title,
         message: message,
         private: Boolean(isPrivate),
@@ -319,7 +348,11 @@ const LetterCreate = () => {
 
       console.log(body)
 
-      axios.post(BASE_URL + 'letter/create', body)
+      axios.post(BASE_URL + 'letter/create', body, {
+        headers: {
+          Authorization: TOKEN
+        }
+      })
       .then(res => {
         console.log(res)
         // 파일 업로드
@@ -343,7 +376,7 @@ const LetterCreate = () => {
     } else {
       // 그룹에게
       let body = {
-        userId: 1,
+        // userId: 1,
         title: title,
         message: message,
         private: Boolean(isPrivate),
@@ -356,12 +389,16 @@ const LetterCreate = () => {
 
       console.log(body)
 
-      axios.post(BASE_URL + 'letter/create', body)
+      axios.post(BASE_URL + 'letter/create', body, {
+        headers: {
+          Authorization: TOKEN
+        }
+      })
       .then(res => {
         console.log(res)
         // 파일 업로드
         // 생성된 letterId를 받아서 요청 주소에 넣는다.
-        axios.post(BASE_URL + `letter/save/${1}`, formData, {
+        axios.post(BASE_URL + `letter/save/${res.data}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -400,6 +437,8 @@ const LetterCreate = () => {
   const handleVideoClose = () => {
     setVideoOpen(false)
   }
+
+  
 
   // ************** return ****************
   return (
@@ -451,6 +490,29 @@ const LetterCreate = () => {
             <Grid item>
               <FormControl className={classes.field}>
                 <FormLabel>영상 업로드*</FormLabel>
+                <div className={classes.upload}>
+                  <label className="custom-file-upload" style={{minWidth: '90px'}}>
+                    <input
+                      onChange={handleFile}
+                      type="file"
+                      id="file-upload"
+                      required
+                      variant="outlined"
+                      style={{marginTop: '4px'}}
+                      name="file-upload"
+                      accept="video/mp4"
+                    />
+                    <CloudUploadOutlinedIcon size="large" style={{marginRight: '10px'}} /> 업로드
+                  </label>
+                  {showFileName()}
+                </div>
+              </FormControl>
+            </Grid>
+
+            {/* 파일 업로드 */}
+            {/* <Grid item>
+              <FormControl className={classes.field}>
+                <FormLabel>영상 업로드*</FormLabel>
                 <input 
                   onChange={(e) => setFile(e.target.files)}
                   type="file"
@@ -458,13 +520,12 @@ const LetterCreate = () => {
                   required
                   variant="outlined"
                   style={{marginTop: '4px'}}
-                  name="files"
-                  required
-                  accept="video/*"
+                  name="file"
+                  accept="video/mp4"
                 />
               </FormControl>
-            </Grid>
-            
+            </Grid> */}
+
             {/* 비공개설정 */}
             <Grid item>
               <FormControl className={classes.field}>
@@ -510,10 +571,19 @@ const LetterCreate = () => {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                   >
-                    <DialogTitle id="alert-dialog-title">레터 오픈 장소를 설정하시겠습니까?</DialogTitle>
+                    {/* 오픈 장소 설정 ver */}
+                    {/* <DialogTitle id="alert-dialog-title">레터 오픈 장소를 설정하시겠습니까?</DialogTitle>
                     <DialogContent>
                       <DialogContentText id="alert-dialog-description">
                         오픈 장소를 설정하면 사용자의 위치를 GPS로 확인하여 해당 장소 부근에서만 레터를 열어볼 수 있습니다.
+                      </DialogContentText>
+                    </DialogContent> */}
+
+                    {/* 추억의 장소 저장 ver */}
+                    <DialogTitle id="alert-dialog-title">추억의 장소를 저장하시겠습니까?</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        추억의 장소를 저장하시면 레터 조회 시 해당 위치가 지도에 표시됩니다.
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -534,7 +604,7 @@ const LetterCreate = () => {
                           <CloseIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.barTitle}>
-                          오픈 장소 설정
+                          추억의 장소
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleMapSave}>
                           저장
@@ -593,7 +663,7 @@ const LetterCreate = () => {
                             value={x.phoneNumber}
                             onChange={(e) => handleInputChange(e, i)}
                             id="phonenumber"
-                            placeholder="010-0000-0000"
+                            placeholder="01012345678"
                             autoFocus
                             startAdornment={
                               <InputAdornment position="start">
