@@ -43,6 +43,7 @@ public class AlarmController {
 		if (opt == null) throw new RuntimeException("User Not Found");
 		return alarmService.getAlarms(opt.get().getUserId());
 		
+		
 	}
 	
 	

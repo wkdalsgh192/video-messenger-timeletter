@@ -25,6 +25,8 @@ public class AlarmServiceImpl implements AlarmService{
 			//알람들(letter_id)에 해당되는 레터정보들 리스트로 셋팅
 			list.add(alarmRepository.getLetter((int) myAlarms.get(i).get("letter_id")));
 		}
+		
+		
 		return list;
 	}
 	
