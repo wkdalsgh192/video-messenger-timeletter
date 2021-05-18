@@ -16,7 +16,7 @@ function GroupItem() {
   ]);
 
   useEffect(()=>{
-    axios.get(BASE_URL+"club/findMyClub?id="+USER_ID,{headers:{"Authorization":TOKEN}})
+    axios.get(BASE_URL+"club/findMyClub",{headers:{"Authorization":TOKEN}})
       .then((res)=> {setItems(res.data);})
       .catch((err)=>{console.log(err); setItems([])})
   },[])

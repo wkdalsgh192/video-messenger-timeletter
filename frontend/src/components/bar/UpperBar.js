@@ -61,7 +61,7 @@ export default function UpperBar() {
   //   setBarStyle(null);
   // }
 
-  console.log(barStyle)
+  // console.log(barStyle)
 
 
   // 알림
