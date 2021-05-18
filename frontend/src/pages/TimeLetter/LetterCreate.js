@@ -42,6 +42,8 @@ import axios from 'axios'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import LoadingCreate from 'components/loading/LoadingCreate'
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined'
+import DatePicker from 'react-datetime';
+import moment from 'moment';
 import './css/lettercreate.css'
 
 // 테마
@@ -134,9 +136,13 @@ const LetterCreate = () => {
 
   const handleFile = (e) => {
     // console.log('파일 변경')
-    // console.log(e.target.files.length)
+    let len = e.target.files[0].name.length
+    let extension = e.target.files[0].name.substring(len - 4, len)
+    // console.log(e.target.files[0].name.substring(len - 4, len))
     if (e.target.files && e.target.files[0].size > (500 * 1024 * 1024)) {
       alert('파일첨부는 최대 500MB까지 가능합니다.')
+    } else if (extension !== '.mp4') {
+      alert('.mp4 파일만 첨부 가능합니다.')
     } else if (e.target.files.length > 0) {
       setFile(e.target.files)
     }
@@ -154,14 +160,14 @@ const LetterCreate = () => {
   // ''는 공개, 'true'는 비공개
 
   // 오픈 날짜
-  const getToday = () => {
+  const getDefaultDay = () => {
     let date = new Date();
     let year = date.getFullYear();
     let month = ("0" + (1 + date.getMonth())).slice(-2);
-    let day = ("0" + date.getDate()).slice(-2);
+    let day = ("0" + (date.getDate())).slice(-2);
     return year + "-" + month + "-" + day;
   }
-  const [openDate, setOpenDate] = useState(getToday())
+  const [openDate, setOpenDate] = useState(getDefaultDay())
   // console.log(openDate)
 
   // 오픈 장소(위경도)
@@ -427,8 +433,6 @@ const LetterCreate = () => {
     } else {
       alert('필수 요소를 모두 입력해주세요')
     }
-
-    
   }
 
   // video
@@ -555,6 +559,9 @@ const LetterCreate = () => {
                       shrink: true,
                     }}
                     style={{paddingTop: '8px'}}
+                    inputProps={{ 
+                      min: getDefaultDay()
+                    }}
                   />
                 </Grid>
                 <Grid item>
