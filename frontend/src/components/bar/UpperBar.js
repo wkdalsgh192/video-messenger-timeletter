@@ -116,8 +116,8 @@ export default function UpperBar() {
     setAlarmOpen(false);
     // console.log(location)
     deleteAlarmAxios(alarm)
-    history.push('/letter/detail/' + alarm.letter_code)
     getAlarmAxios()
+    history.push('/letter/detail/' + alarm.letter_code)
   }
 
 
