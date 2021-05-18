@@ -32,7 +32,7 @@ const LetterListItem = (props) => {
   }
 
   const handleClick = () => {
-    if (letter.isOpen === true) {
+    if (letter.open === true) {
       setVideoOpen(true)
       // alert('레터 상세조회로 이동합니다.')
       // history.push(letterUrl)
@@ -95,7 +95,7 @@ const LetterListItem = (props) => {
   // console.log(closeInfo)
 
   const getInfo = () => {
-    if (letter.isOpen) {
+    if (letter.open) {
       return <div style={{fontSize:"20px", color: '#fff'}}> {openInfo}</div>
     } else {
       return <div style={{fontSize:"20px", color: '#fff'}}> {closeInfo}</div>
