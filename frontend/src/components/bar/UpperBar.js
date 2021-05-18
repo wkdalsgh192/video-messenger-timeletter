@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useHistory ,useLocation, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MailOutlineOutlinedIcon from '@material-ui/icons/MailOutlineOutlined';
@@ -22,8 +22,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListItemAvatar,
-  Avatar,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -43,7 +41,6 @@ const useStyles = makeStyles(theme => ({
 export default function UpperBar() {
   const classes = useStyles()
   const history = useHistory()
-  const location = useLocation()
 
   const updateScroll = () => {
     setBarStyle(window.scrollY);
@@ -68,27 +65,12 @@ export default function UpperBar() {
 
 
   // 알림
-  const [alarmList, setAlarmList] = useState([
-    {
-      letterCode: 'L5l6P6N4a5',
-      title: 'title1',
-      userName: '안세익'
-    },
-    {
-      letterCode: 'L5l6P6N4a5',
-      title: 'title1',
-      userName: '안세익'
-    },
-    {
-      letterCode: 'L5l6P6N4a5',
-      title: 'title1',
-      userName: '안세익'
-    }
-  ])
+  const [alarmList, setAlarmList] = useState([])
 
   const [alarmOpen, setAlarmOpen] = useState(false)
 
-  const alarmAxios = () => {
+  // 알림 목록 요청
+  const getAlarmAxios = () => {
     axios.get(BASE_URL + 'alarm/letters', {
       headers: {
         Authorization: TOKEN
@@ -104,26 +86,44 @@ export default function UpperBar() {
     })
   }
 
+  // 확인한 알림 삭제
+  const deleteAlarmAxios = (alarm) => {
+    axios.delete(BASE_URL + 'alarm/letter', {
+      headers: {
+        Authorization: TOKEN
+      },
+      params: {
+        id: alarm.letter_id
+      }
+    })
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   const handleDialogClose = () => {
     setAlarmOpen(false);
-  };
+  }
 
   const handleDialogOpen = () => {
     setAlarmOpen(true);
-    alarmAxios()
-  };
+  }
 
   const handleClickAlarm = (alarm, e) => {
     setAlarmOpen(false);
     // console.log(location)
-    history.push('/letter/detail/' + alarm.letterCode)
+    deleteAlarmAxios(alarm)
+    history.push('/letter/detail/' + alarm.letter_code)
+    getAlarmAxios()
   }
-
 
 
   useEffect(() => {
     window.addEventListener("scroll", updateScroll);
-  });
+  })
 
   useEffect(() => {
     if (TOKEN) {
@@ -132,7 +132,7 @@ export default function UpperBar() {
   }, []);
 
   useEffect(() => {
-    alarmAxios()
+    getAlarmAxios()
   }, [])
 
 
@@ -153,6 +153,7 @@ export default function UpperBar() {
             onClose={handleDialogClose}
             aria-labelledby="alarm-dialog-title"
             aria-describedby="alarm-dialog-description"
+            fullWidth
           >
             <DialogTitle id="alarm-dialog-title">알림 조회</DialogTitle>
             <DialogContent>
@@ -169,7 +170,7 @@ export default function UpperBar() {
                               <ListItemIcon>
                                 <MailOutlineOutlinedIcon />
                               </ListItemIcon>
-                              <ListItemText primary={alarm.title} secondary={'From. ' + alarm.name} />
+                              <ListItemText primary={'From. ' + alarm.name + ' / 제목 : ' + alarm.title} secondary={'오픈날짜 : ' + alarm.open_date} />
                             </ListItem>
                           // </Link>
                         )
