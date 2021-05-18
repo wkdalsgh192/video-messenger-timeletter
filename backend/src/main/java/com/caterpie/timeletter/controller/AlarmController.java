@@ -41,9 +41,8 @@ public class AlarmController {
 	public List<Map<LetterInfoDto, Object>> getAlarms(){
 		Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElse(null));
 		if (opt == null) throw new RuntimeException("User Not Found");
+		
 		return alarmService.getAlarms(opt.get().getUserId());
-		
-		
 	}
 	
 	

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.caterpie.timeletter.entity.Alarm;
+import com.caterpie.timeletter.dto.AlarmDto;
 import com.caterpie.timeletter.repository.AlarmRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class AlarmScheduler {
     	logger.info("scheduled");
     	
     	//알람테이블에 넣을 비오픈레터이면서 오늘 오픈될레터들 조회
-    	List<Map<Alarm, Object>> alarms = alarmRepository.findClosedLetters();	
+    	List<Map<AlarmDto, Object>> alarms = alarmRepository.findClosedLetters();	
     	
     	//알람테이블에 하나씩 셋팅
     	for(int i=0, l=alarms.size();i<l; i++) {		
