@@ -98,6 +98,7 @@ export default function UpperBar() {
     })
     .then(res => {
       console.log(res)
+      getAlarmAxios()
     })
     .catch(err => {
       console.log(err)
@@ -116,7 +117,6 @@ export default function UpperBar() {
     setAlarmOpen(false);
     // console.log(location)
     deleteAlarmAxios(alarm)
-    getAlarmAxios()
     history.push('/letter/detail/' + alarm.letter_code)
   }
 
@@ -133,7 +133,7 @@ export default function UpperBar() {
 
   useEffect(() => {
     getAlarmAxios()
-  }, [])
+  }, [alarmOpen])
 
 
   // 로그인한 유저일 경우 보여줄 상단바
