@@ -29,7 +29,7 @@ public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
 	void insertAlarm(int userId, int letterId);
 	
 	@Query(value="select * from alarm where user_id= ?", nativeQuery=true)
-	List<Alarm> findALLByUserId(int userId);
+	List<Map<Alarm, Object>> findALLByUserId(int userId);
 	
 	@Query(value="select letter_id, title, url, message, open_date, latitude, longitude, is_private, is_open, user.user_id, name from letter inner join user on letter.user_id = user.user_id where letter_id= ?", nativeQuery=true)
 	Map<LetterInfoDto, Object> getLetter(int letterId);
