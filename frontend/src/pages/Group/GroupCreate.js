@@ -29,8 +29,8 @@ function GroupCreate() {
     setDescription(event.currentTarget.value);
   };
   const onMemberControl = (member) => {
-    setMembers(members=>[...members,member.name]);
-    setMembersId(membersId=>[...membersId,member.user_id]);
+    setMembers(members=>[...members, member.name]);
+    setMembersId(membersId=>[...membersId, member.user_id]);
     setEmail('');
   };
 

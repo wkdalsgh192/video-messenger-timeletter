@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
 function GroupMember(props) {
-  const { id } = useParams();
+  const { clubId } = useParams();
   const [isAdd, setIsAdd] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [tmpUserId, setTmpUserId] = useState(0);
@@ -22,24 +22,32 @@ function GroupMember(props) {
     // alert("그룹 멤버를 삭제 하시겠습니까?");
     setIsDelete(true);
     setTmpUserId(userId);
-};
+  }
 
-const addMember = () => {
-    setIsAdd(true);
-}
-const handleClose = () => {
-    setIsAdd(false);
-}
-const deleteOk = () => {
-    console.log(tmpUserId, id);
-    let body = { clubId: id, userId: tmpUserId };
-    axios.delete(
-        BASE_URL + "club/delMember",
-        { data: body },
-        { Authorization: TOKEN }
-      )
-      .then((res) => {console.log(res.data, "성공");window.location.reload()})
-      .catch((err) => console.log(err));
+  const addMember = () => {
+      setIsAdd(true);
+  }
+
+  const handleClose = () => {
+      setIsAdd(false);
+  }
+
+  const deleteOk = () => {
+    console.log(tmpUserId, clubId);
+    let body = { clubId: clubId, userId: tmpUserId };
+    axios.delete(BASE_URL + "club/delMember", {
+      data: body,
+      headers: {
+        Authorization: TOKEN
+      }
+    })
+    .then(res => {
+      console.log(res.data, "성공")
+      window.location.reload()
+    })
+    .catch(err => {
+      console.log(err)
+    })
     setIsDelete(false);
   }
   const deleteNo = () => {
@@ -52,15 +60,16 @@ const deleteOk = () => {
         .then((res)=>{console.log(res.data); setGroupMembers(res.data)})
         .catch((err)=>console.log(err))
     }
-}
-const onNameHandler = (e) => {
+  }
+  const onNameHandler = (e) => {
     console.log(e.target.value)
     if (e.target.value) {
-
-        axios.get(BASE_URL+"club/findWord?word="+e.target.value)
-        .then((res)=>{console.log(res.data); setGroupMembers(res.data); })
-        .catch((err)=>console.log(err))
-    } else { setGroupMembers([])}
+      axios.get(BASE_URL+"club/findWord?word="+e.target.value)
+      .then((res)=>{console.log(res.data); setGroupMembers(res.data); })
+      .catch((err)=>console.log(err))
+    } else { 
+      setGroupMembers([])
+    }
   }
 
   let member = null;
@@ -86,10 +95,23 @@ const onNameHandler = (e) => {
       setGroupMembers([]);
   }
   const onAddMember = () => {
-      axios.post(BASE_URL+"club/join",{clubId:id,userId:tmpUserId},
-      {Authorizaton:TOKEN})
-      .then((res)=>{console.log(res.data);window.location.reload()})
-      .catch((err)=>console.log(err))
+    let body = {
+      clubId: Number(clubId),
+      userId: tmpUserId,
+    }
+    console.log(body)
+    axios.post(BASE_URL + "club/join", body, {
+      headers: {
+        Authorizaton: TOKEN
+      }
+    })
+    .then(res => {
+      console.log(res.data)
+      window.location.reload()
+    })
+    .catch(err => {
+      console.log(err)
+    })
       
   }
   const addMemberList = groupMembers.map((gmember) => (
@@ -104,11 +126,11 @@ const onNameHandler = (e) => {
   >
     <DialogTitle id="alert-dialog-title">{"멤버를 삭제하시겠습니까?"}</DialogTitle>
     <DialogActions>
-      <Button onClick={deleteOk} color="primary" style={{fontWeight:"bold"}}>
-        예
-      </Button>
       <Button onClick={deleteNo} color="primary" style={{fontWeight:"bold"}}>
         아니오
+      </Button>
+      <Button onClick={deleteOk} color="primary" style={{fontWeight:"bold"}}>
+        예
       </Button>
     </DialogActions>
   </Dialog>
