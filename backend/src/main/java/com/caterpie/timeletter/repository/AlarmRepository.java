@@ -10,13 +10,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.caterpie.timeletter.dto.AlarmDto;
 import com.caterpie.timeletter.dto.LetterInfoDto;
 import com.caterpie.timeletter.entity.Alarm;
 
 @Repository
 public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
 	@Query(value="select u.user_id, t.letter_id, l.letter_code, t.phone_number from user u, target t, letter l where u.phone_number=t.phone_number and t.letter_id=l.letter_id and l.is_open = 0 and l.open_date = curdate();", nativeQuery=true)
-	List<Map<Alarm, Object>> findClosedLetters();
+	List<Map<AlarmDto, Object>> findClosedLetters();
 	
 	@Transactional
 	@Modifying
