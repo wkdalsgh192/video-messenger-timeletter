@@ -1,14 +1,20 @@
+import axios from "axios";
+import { BASE_URL,TOKEN } from "../../constants";
 import React, { useEffect, useState, useRef } from "react";
 import { RiMailSendLine } from "react-icons/ri";
 
 const CountLetters = () => {
   const [num, setNum] = useState(333);
-  const numRef = useRef(333);
-
+  // const numRef = useRef(0);
+  
   useEffect(() => {
-    setInterval(() => {
-      setNum((numRef.current += 1));
-    }, 1000);
+    axios.get(BASE_URL+"letter/count",{headers:{Authorization:TOKEN}})
+    .then((res)=>{setNum(res.data);})
+    .catch((err)=>console.log(err))
+
+    // setInterval(() => {
+    //   setNum((numRef.current += 1));
+    // }, 1000);
   }, []);
 
   return (

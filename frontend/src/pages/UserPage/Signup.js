@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 import { Container } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
-import swal from "sweetalert";
+// import swal from "sweetalert";
 
 import "./css/Login.css";
 import "./css/Signup.css";
@@ -21,30 +21,30 @@ import { useHistory } from "react-router";
 import ScrollToTop from '../../components/Scroll/ScrollToTop';
 
 // import { Link } from "react-router-dom";
-const { signUp } = require("../../_actions/user");
+// const { signUp } = require("../../_actions/user");
 
 function Signup() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const history = useHistory();
   const [Email, setEmail] = useState("");
-  const [EmailCheck, setEmailCheck] = useState(false);
+  // const [EmailCheck, setEmailCheck] = useState(false);
   const [Password, setPassword] = useState("");
   const [CheckPassword, setCheckPassword] = useState("");
   const [Name, setName] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
-  const [EmailOk, setEmailOk] = useState(false);
+  // const [EmailOk, setEmailOk] = useState(false);
   const [formState, setFormState] = useState(false);
   const regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
   const onEmailHandler = event => {
     setEmail(event.currentTarget.value);
-    console.log(Email);
+    // console.log(Email);
     const emailVal = document.getElementById("email").value;
     if (emailVal.match(regExp) != null) {
-      setEmailOk(true);
+      // setEmailOk(true);
       setFormState(false);
     } else {
-      setEmailOk(false);
+      // setEmailOk(false);
       setFormState(true);
     }
   };
@@ -93,29 +93,29 @@ function Signup() {
       password: Password,
       phoneNumber: PhoneNumber
     };
-    console.log(body, "!!!!!!");
+    // console.log(body, "!!!!!!");
     axios.post(BASE_URL+"user/join",body)
-      .then((res)=>{console.log(res.data); alert('회원가입완료'); history.push("/login")})
-      .catch((err)=>console.log(err))
+      .then((res)=>{ alert('회원가입완료'); history.push("/login")})
+      .catch((err)=>{ alert('아이디가 중복되었습니다.')})
   };
 
-  let emailCheckForm = null;
+  // let emailCheckForm = null;
 
-  if (EmailCheck) {
-    emailCheckForm = (
-      <>
-        <Grid item xs={12} sm={6}>
-          <TextField variant="outlined" margin="normal" required fullWidth label="인증번호 입력" autoFocus type="text" onChange={setEmailCheck} />
-        </Grid>
-        <Grid item xs={12} sm={6}>
+  // if (EmailCheck) {
+  //   emailCheckForm = (
+  //     <>
+  //       <Grid item xs={12} sm={6}>
+  //         <TextField variant="outlined" margin="normal" required fullWidth label="인증번호 입력" autoFocus type="text" onChange={setEmailCheck} />
+  //       </Grid>
+  //       <Grid item xs={12} sm={6}>
           
-          <Button fullWidth variant="contained" color="primary" style={{backgroundColor:"#2D0968"}}>
-          <span style={{color:"white",fontSize:"17px"}}>확인</span>
-          </Button>
-        </Grid>
-      </>
-    );
-  }
+  //         <Button fullWidth variant="contained" color="primary" style={{backgroundColor:"#2D0968"}}>
+  //         <span style={{color:"white",fontSize:"17px"}}>확인</span>
+  //         </Button>
+  //       </Grid>
+  //     </>
+  //   );
+  // }
 
   return (
     <div className="signupwrap">
@@ -152,10 +152,10 @@ function Signup() {
                     autoComplete="email"
                     type="email"
                     onChange={onEmailHandler}
-                  />
+                  />  
                   {/* {EmailOk ? <></> : <p>이메일 형식을 입력해주세요</p>} */}
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                {/* <Grid item xs={12} sm={6}>
                   <Button
                     fullWidth
                     variant="contained"
@@ -172,7 +172,7 @@ function Signup() {
                   >
                     <span style={{color:"white",fontSize:"17px"}}>중복 확인</span>
                   </Button>
-                </Grid>
+                </Grid> */}
               </Grid>
 
               <TextField
