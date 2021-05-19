@@ -7,6 +7,7 @@ import BottomBar from './components/bar/BottomBar';
 import LoadingCreate from './components/loading/LoadingCreate';
 import LoadingOpen from './components/loading/LoadingOpen';
 import * as All from './pages';
+import { BrowserView, MobileView } from "react-device-detect";
 
 
 const theme = createMuiTheme({
@@ -23,27 +24,34 @@ function App() {
     <div className='app'>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <UpperBar></UpperBar>
-        <Switch>
-          <Route path="/" exact={true} component={All.Main} />
+        <BrowserView>
+          모바일에서 접속해주세요.
+        </BrowserView>
 
-          <Route path="/signup" exact={true} component={All.Signup} />
-          <Route path="/login" exact={true} component={All.Login} />
-          <Route path="/mypage" exact={true} component={All.Mypage} />
-          <Route path="/userupdate" exact={true} component={All.UserUpdate} />
-          <Route path="/loading/create" exact={true} component={LoadingCreate} />
-          <Route path="/loading/open" exact={true} component={LoadingOpen} />
+        <MobileView>
+          <UpperBar></UpperBar>
+          <Switch>
+            <Route path="/" exact={true} component={All.Main} />
 
-          <Route path="/letter/create" exact={true} component={All.LetterCreate} />
-          <Route path="/letter/list" exact={true} component={All.LetterList} />
-          <Route path="/letter/detail/:code" exact={true} component={All.LetterDetail} />
+            <Route path="/signup" exact={true} component={All.Signup} />
+            <Route path="/login" exact={true} component={All.Login} />
+            <Route path="/mypage" exact={true} component={All.Mypage} />
+            <Route path="/userupdate" exact={true} component={All.UserUpdate} />
+            <Route path="/loading/create" exact={true} component={LoadingCreate} />
+            <Route path="/loading/open" exact={true} component={LoadingOpen} />
 
-          <Route path="/group/create" exact={true} component={All.GroupCreate} />
-          <Route path="/group/detail/:clubId" exact={true} component={All.GroupDetail} />
-          <Route path="/group/list" exact={true} component={All.GroupList} />
-          <Route component={All.NotFound} />
-        </Switch>
-        <BottomBar></BottomBar>
+            <Route path="/letter/create" exact={true} component={All.LetterCreate} />
+            <Route path="/letter/list" exact={true} component={All.LetterList} />
+            <Route path="/letter/detail/:code" exact={true} component={All.LetterDetail} />
+
+            <Route path="/group/create" exact={true} component={All.GroupCreate} />
+            <Route path="/group/detail/:clubId" exact={true} component={All.GroupDetail} />
+            <Route path="/group/list" exact={true} component={All.GroupList} />
+            <Route component={All.NotFound} />
+          </Switch>
+          <BottomBar></BottomBar>
+        </MobileView>
+
       </ThemeProvider>
     </div>
   );
