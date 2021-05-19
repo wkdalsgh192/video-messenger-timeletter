@@ -130,4 +130,12 @@ public class LetterController {
 		return ResponseEntity.ok("File Uploaded Successfully!");
 	}
 	
+	@GetMapping(path="/count")
+	public ResponseEntity<Integer> countLetter() {
+		int cnt = (int) letterService.countLetter();
+		logger.info(""+cnt);
+		
+		return new ResponseEntity<>(cnt,HttpStatus.OK);
+	}
+	
 }	
