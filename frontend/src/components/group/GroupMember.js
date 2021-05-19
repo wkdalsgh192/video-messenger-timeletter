@@ -18,6 +18,8 @@ function GroupMember(props) {
   const [isDelete, setIsDelete] = useState(false);
   const [tmpUserId, setTmpUserId] = useState(0);
   const [groupMembers, setGroupMembers] = useState([]);
+  const [isMember, setIsMember] = useState([true]);
+
   const handleDelete = (userId) => {
     // alert("그룹 멤버를 삭제 하시겠습니까?");
     setIsDelete(true);
@@ -57,16 +59,32 @@ function GroupMember(props) {
     // e.preventDefault();
     if(e.key == 'Enter'){
         axios.get(BASE_URL+"club/findWord?word="+e.target.value)
-        .then((res)=>{console.log(res.data); setGroupMembers(res.data)})
-        .catch((err)=>console.log(err))
+        .then((res)=>{
+          if (res.data.length===0) {
+            console.log('길이가 0')
+            setIsMember(false);
+          } else {
+            console.log(res.data); setGroupMembers(res.data);
+            setIsMember(true);
+          }
+        
+        })
+        .catch((err)=>{console.log(err); setGroupMembers([])})
     }
   }
   const onNameHandler = (e) => {
     console.log(e.target.value)
     if (e.target.value) {
       axios.get(BASE_URL+"club/findWord?word="+e.target.value)
-      .then((res)=>{console.log(res.data); setGroupMembers(res.data); })
-      .catch((err)=>console.log(err))
+      .then((res)=>{
+        if (res.data.length===0) {
+          console.log('길이가 0')
+          setIsMember(false);
+          } else {
+            console.log(res.data); setGroupMembers(res.data);
+            setIsMember(true);
+          }})
+      .catch((err)=>{console.log(err); setGroupMembers([])})
     } else { 
       setGroupMembers([])
     }
@@ -111,6 +129,7 @@ function GroupMember(props) {
     })
     .catch(err => {
       console.log(err)
+      alert("이미 그룹에 속한 멤버입니다.")
     })
       
   }
@@ -160,7 +179,7 @@ function GroupMember(props) {
         autoComplete="off"
       />
       <div style={{marginTop:"2px",paddingTop:"2px",position:"relative",backgroundColor:"rgba(0,0,0,0.1)",opacity:"0.8",width:"100%",color:"black",borderRadius:"4px"}}>
-        {addMemberList}
+      {isMember ? addMemberList : <div style={{fontSize:"1rem", fontWeight:"bold"}}>찾으시는 회원이 없습니다.</div>}
       </div>
     </DialogContent>
     <DialogActions>
