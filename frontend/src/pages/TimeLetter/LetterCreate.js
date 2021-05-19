@@ -161,7 +161,7 @@ const LetterCreate = () => {
     // console.log(e.target.files[0].name.substring(len - 4, len))
     if (e.target.files && e.target.files[0].size > (500 * 1024 * 1024)) {
       alert('파일첨부는 최대 500MB까지 가능합니다.')
-    } else if (extension === '.mp4' || extension === '.mov') {
+    } else if (extension === '.mp4' || extension === '.MOV') {
       setFile(e.target.files)
     } else if (e.target.files.length > 0) {
       alert('.mp4 또는 .mov 파일만 첨부 가능합니다.')
