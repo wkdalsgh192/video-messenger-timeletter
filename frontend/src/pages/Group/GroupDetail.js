@@ -72,6 +72,7 @@ function GroupDetail(props) {
     <Container className="GroupDetail" style={{color:"white"}} className="grouplist" maxWidth="xs">
       <ScrollToTop />
       <div>
+        <Typography variant="h6">그룹 상세 조회</Typography>
         <div className="GroupMember">
           <Typography className="GroupMember-title">그룹이름 : {info.clubName}</Typography>
           <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleOpen} style={{color:"white"}}>
@@ -94,11 +95,7 @@ function GroupDetail(props) {
             </DialogActions>
           </Dialog>
         </div>
-        <Card style={{}}>
-          <CardContent>
-
-          </CardContent>
-        </Card>
+        <Typography style={{overflowWrap: 'normal'}}>{info.clubDesc}</Typography>
         <GroupMember members={info.members}></GroupMember>
       </div>
       <GroupLetter></GroupLetter>

@@ -11,7 +11,8 @@ import SearchIcon from "@material-ui/icons/Search";
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
+import { BASE_URL, TOKEN } from 'constants/index.js'
+import axios from 'axios'
 import 'components/mainpage/SearchBar.css'
 
 function SearchBar() {
@@ -34,10 +35,22 @@ function SearchBar() {
   // 엔터키 이벤트
   const handleEnter = (e) => {
     // e.preventDefault()
-    if(e.key == 'Enter'){
-      console.log('엔터 입력')
+    if(e.key == 'Enter') {
+      // console.log('엔터 입력')
       // console.log(letterCode)
-      history.push('letter/detail/' + letterCode)
+      axios.get(BASE_URL + `letter/retrieve/${letterCode}`, {
+        headers: {
+          Authorization: TOKEN
+        }
+      })
+      .then(res => {
+        // console.log(res.data)
+        if (res.data == []) {
+          alert('해당 레터번호에 대한 정보가 없습니다.')
+        } else {
+          history.push('letter/detail/' + letterCode)
+        }
+      })
     } 
   }
 
@@ -46,15 +59,27 @@ function SearchBar() {
     e.preventDefault()
     // console.log('돋보기 클릭')
     // console.log(letterCode)
-    history.push('letter/detail/' + letterCode)
+    axios.get(BASE_URL + `letter/retrieve/${letterCode}`, {
+      headers: {
+        Authorization: TOKEN
+      }
+    })
+    .then(res => {
+      // console.log(res.data)
+      if (res.data == []) {
+        alert('해당 레터번호에 대한 정보가 없습니다.')
+      } else {
+        history.push('letter/detail/' + letterCode)
+      }
+    })
   }
 
 
   return (
     <div style={{marginTop:"50px", marginBottom:"80px"}}>
-      <Paper component="form" className="searchbar"> 
-      <InputBase onChange={(e) => setLetterCode(e.target.value)} className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleEnter} />
-        {/* <input type="text" style={{display:"none"}}/>  */}
+      <Paper component="form" className="searchbar">
+        <InputBase onChange={(e) => setLetterCode(e.target.value)} className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleEnter} />
+        <input type="text" style={{display:"none"}}/> 
         <IconButton className="" type="button" aria-label="search" onClick={handleClick}>
           <SearchIcon />
         </IconButton>

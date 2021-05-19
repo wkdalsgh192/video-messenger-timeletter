@@ -42,7 +42,7 @@ function Mypage() {
       <Container  maxWidth="xs" className="">
       <h2>mypage</h2>
       <Card style={{marginTop:"50px"}}>
-       
+      
           {/* <CardMedia image="/static/images/cards/live-from-space.jpg" title="Live from space album cover" /> */}
           <div>
             <CardContent>
@@ -75,7 +75,7 @@ function Mypage() {
       <MyLetter letterList={state.letters}></MyLetter>
       </Container>
     </div>
-  );
+  )
 }
 
-export default Mypage;
+export default Mypage
