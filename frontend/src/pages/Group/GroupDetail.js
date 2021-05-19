@@ -8,6 +8,8 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  Card,
+  CardContent,
 } from '@material-ui/core'
 import GroupLetter from "components/group/GroupLetter"
 import GroupMember from 'components/group/GroupMember'
@@ -90,6 +92,11 @@ function GroupDetail(props) {
             </DialogActions>
           </Dialog>
         </div>
+        <Card style={{}}>
+          <CardContent>
+
+          </CardContent>
+        </Card>
         <GroupMember members={info.members}></GroupMember>
       </div>
       <GroupLetter></GroupLetter>
