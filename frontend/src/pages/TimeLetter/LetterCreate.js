@@ -43,6 +43,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import LoadingCreate from 'components/loading/LoadingCreate'
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined'
 import './css/lettercreate.css'
+import ScrollToTop from 'components/Scroll/ScrollToTop'
 
 
 // 테마
@@ -499,6 +500,7 @@ const LetterCreate = () => {
   // ************** return ****************
   return (
     <Container className={classes.container} maxWidth="xs">
+      <ScrollToTop />
       <Typography className={classes.title} variant="h6">레터생성</Typography>
       {/* 캡슐 정보 */}
       <div className={classes.paper}>

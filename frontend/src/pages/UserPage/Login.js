@@ -15,6 +15,7 @@ import Paper from "@material-ui/core/Paper";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {BASE_URL} from "../../constants";
+import ScrollToTop from "components/Scroll/ScrollToTop";
 function Login() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -45,6 +46,7 @@ function Login() {
 
   return (
     <div className="login-wrap" >
+      <ScrollToTop />
       <Paper className="papercs" style={{ marginTop: "80px" }}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />

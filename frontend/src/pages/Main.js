@@ -1,15 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-
-// import { useDispatch, useSelector } from "react-redux";
-
-// import Paper from "@material-ui/core/Paper";
-// import InputBase from "@material-ui/core/InputBase";
-// import IconButton from "@material-ui/core/IconButton";
-// import SearchIcon from "@material-ui/icons/Search";
-
 import SearchBar from "../components/mainpage/SearchBar";
 import img1 from "./UserPage/images/종이비행기.gif";
-
 import { IoIosArrowDown } from "react-icons/all";
 import { Link } from "react-router-dom";
 import "./css/main.css";
@@ -22,18 +13,19 @@ import Carousel from 'react-material-ui-carousel'
 import main1 from 'static/images/main1.jpg'
 import main2 from 'static/images/main2.jpg'
 import main3 from 'static/images/main3.jpg'
+import { TOKEN } from "../constants";
+import ScrollToTop from "components/Scroll/ScrollToTop";
 
-const { logIn } = require("../_actions/user");
-const userSlice = require("../_reducers/user");
 
 function Main() {
   const scrolling = () => {
-    window.scrollTo({ top: "1300", behavior: "smooth" });
-    console.log("눌림");
+    window.scrollTo({ top: "2000", behavior: "smooth" });
+    // console.log("눌림");
   };
 
   return (
     <div className="main-wrap">
+      <ScrollToTop />
       <div className="main-html carousel-wrapper ">
         <div className="section section-1">
           {/* 별똥별 */}
@@ -67,12 +59,20 @@ function Main() {
           <div className="child"></div>
           <Grid container justify="center" alignItems="center" spacing={3}>
             <Grid item xs={5}>
-              <Link to="/signup">
+              {TOKEN ? 
+              <Link to="/letter/create">
                 <div style={{ color: "white", textAlign: "center", fontSize: "20px" }}>
                   <BsPencil />
                 </div>
                 <div style={{ color: "white", textAlign: "center", fontSize: "17px" }}>답장하기</div>
               </Link>
+              :<Link to="/login">
+                <div style={{ color: "white", textAlign: "center", fontSize: "20px" }}>
+                  <BsPencil />
+                </div>
+                <div style={{ color: "white", textAlign: "center", fontSize: "17px" }}>답장하기</div>
+              </Link>
+              }
             </Grid>
             <div className="updown"></div>
             <Grid item xs={5} onClick={scrolling}>

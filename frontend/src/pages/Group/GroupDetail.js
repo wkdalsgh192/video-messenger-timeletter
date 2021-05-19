@@ -15,6 +15,7 @@ import GroupLetter from "components/group/GroupLetter"
 import GroupMember from 'components/group/GroupMember'
 import axios from 'axios'
 import './GroupDetail.css'
+import ScrollToTop from "components/Scroll/ScrollToTop"
 
 
 function GroupDetail(props) {
@@ -69,6 +70,7 @@ function GroupDetail(props) {
 
   return (
     <Container className="GroupDetail" style={{color:"white"}} className="grouplist" maxWidth="xs">
+      <ScrollToTop />
       <div>
         <Typography variant="h6">그룹 상세 조회</Typography>
         <div className="GroupMember">
