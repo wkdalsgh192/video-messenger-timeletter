@@ -3,6 +3,7 @@ package com.caterpie.timeletter.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +32,15 @@ import com.caterpie.timeletter.entity.Letter;
 import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.service.LetterService;
 import com.caterpie.timeletter.service.UserService;
+import com.caterpie.timeletter.util.EncoderUtil;
+
+import ws.schild.jave.Encoder;
+import ws.schild.jave.MultimediaObject;
+import ws.schild.jave.encode.AudioAttributes;
+import ws.schild.jave.encode.EncodingAttributes;
+import ws.schild.jave.encode.VideoAttributes;
+import ws.schild.jave.encode.enums.X264_PROFILE;
+import ws.schild.jave.info.VideoSize;
 
 
 @RestController
@@ -93,20 +104,23 @@ public class LetterController {
 	}
 	
 	@PostMapping(path="/save/{letterId}", consumes= {MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestPart("file") MultipartFile video) throws Exception {
-		
-		// 도착하는 곳의 url 주소
-		
-//		 String url = "C:\\Users\\multicampus\\Desktop\\test\\"+video.getOriginalFilename();
-
+	public ResponseEntity<?> saveFile(@PathVariable("letterId") int letterId, @RequestPart("file") MultipartFile origin, @RequestParam("os") boolean os) throws Exception {
 		
 		try {
-			String url = "/videos/"+video.getOriginalFilename();
-			logger.info(url);
+			// 도착하는 곳의 url 주소
+			String path = "/videos/"+letterId+"/";
+//			String path = "C:\\Users\\multicampus\\Desktop\\test\\"+letterId+"/";
+			String url = path+origin.getOriginalFilename();
 			File file = new File(url);
 			if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+			origin.transferTo(new File(url));
+			
+			if (os) {
+				EncoderUtil encoder = new EncoderUtil();
+				url = encoder.encode(origin, path);
+			}
+			
 			letterService.saveFile(letterId, url);
-			video.transferTo(file);
 		} catch (Exception e) {
 			logger.error("Error occurs!!",e);
 			letterService.deleteLetter(letterId);

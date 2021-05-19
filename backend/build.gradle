@@ -52,6 +52,9 @@ dependencies {
 	
 	// sms
 	compileOnly 'net.nurigo:javaSDK:2.2'
+	
+	// codec
+	compileOnly 'ws.schild:jave-all-deps:3.1.1'
 }
 
 test {
