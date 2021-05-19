@@ -39,7 +39,7 @@ const MyLetter = (props) => {
         for (let i = 0; i < props.letterList.length; i++) {
 
             if (props.letterList[i].targets.length && props.letterList[i].private === false) {
-                if (props.letterList[i].isOpen === true) {
+                if (props.letterList[i].open === true) {
                     tmpOpenLetters.push(props.letterList[i]);
                 } else {
                     tmpNotOpenLetters.push(props.letterList[i]);
@@ -50,7 +50,8 @@ const MyLetter = (props) => {
         setNotOpenLetters(tmpNotOpenLetters);
     }
   }, [props.letterList]);
-
+  // console.log(openLetters,'오픈')
+  // console.log(notOpenLetters,'비오픈')
   return (
     <Container className={classes.container} maxWidth="xs">
       {/* 오픈, 비오픈 구분 탭 */}

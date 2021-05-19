@@ -115,7 +115,12 @@ function GroupMember(props) {
       
   }
   const addMemberList = groupMembers.map((gmember) => (
-      <div key={gmember.user_id} onClick={()=>nameChange(gmember)}>{gmember.name} {gmember.email}</div>
+      <div key={gmember.user_id} 
+      style={{margin:"5px",fontSize:"1rem",fontWeight:"bold"}} 
+      onClick={()=>nameChange(gmember)} 
+      >★ {gmember.name} ({gmember.email})
+      <hr></hr>
+      </div>
   ));
   const memberDeleteModal = (
     <Dialog
@@ -142,7 +147,7 @@ function GroupMember(props) {
     aria-labelledby="alert-dialog-title"
     aria-describedby="alert-dialog-description"
   >
-    <DialogTitle id="alert-dialog-title">{"추가할 멤버 이름을 검색해보세요"}</DialogTitle>
+    <DialogTitle style={{fontWeight:"bold"}} id="alert-dialog-title">{"추가할 멤버 이름을 검색해보세요"}</DialogTitle>
     <DialogContent>
       <TextField
         autoFocus
@@ -154,7 +159,7 @@ function GroupMember(props) {
         onChange={onNameHandler}
         autoComplete="off"
       />
-      <div style={{position:"absolute",backgroundColor:"black",width:"100%",color:"white"}}>
+      <div style={{marginTop:"2px",paddingTop:"2px",position:"relative",backgroundColor:"rgba(0,0,0,0.1)",opacity:"0.8",width:"100%",color:"black",borderRadius:"4px"}}>
         {addMemberList}
       </div>
     </DialogContent>
