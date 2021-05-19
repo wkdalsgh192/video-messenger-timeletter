@@ -50,8 +50,11 @@ function Mypage() {
               <Typography component="h5" variant="h5">
                 {state.name}
               </Typography>
+              <Typography component="h5" variant="h5">
+                {state.email}
+              </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                {state.phone}
+                {state.phoneNumber}
               </Typography>
             </CardContent>
             </div>
@@ -60,9 +63,9 @@ function Mypage() {
             <Grid container direction="row" justify="flex-end" alignItems="center">
           <CardActions>
             <Button size="small" color="primary">
-            <Link to="/userupdate">
+            {/* <Link to="/userupdate">
               회원정보 수정
-              </Link>
+              </Link> */}
             </Button>
           </CardActions>
         </Grid>

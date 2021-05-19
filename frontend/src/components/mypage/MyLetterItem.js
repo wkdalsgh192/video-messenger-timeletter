@@ -8,7 +8,7 @@ import {
 import FaceIcon from '@material-ui/icons/Face'
 import '../timeletter/css/LetterListItem.css'
 import LoadingOpen from 'components/loading/LoadingOpen'
-
+import "./css/MyLetterItem.css"
 
 const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,9 +17,9 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 
 const MyLetterItem = (props) => {
   // const history = useHistory()
-
-  const sender = 'To.' + props.letter.userName
-  const letterUrl = 'detail/' + props.letter.letterId
+  console.log(props.letter);
+  const sender = 'To.' + props.letter.targets[0].phoneNumber+" 외 "+props.letter.targets.length;
+  const letterUrl = 'detail/' + props.letter.letterId;
 
   // video
   const [videoOpen, setVideoOpen] = useState(false)
@@ -115,7 +115,7 @@ const MyLetterItem = (props) => {
           <div onClick={handleClick}>
             <div className="lettercontent2">
               <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
-                <Chip variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />
+                <Chip className="mypageChip" variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />
               </div>
               <div style={{fontSize:"20px", color: '#fff'}}>{props.letter.title}</div>
               {getInfo()}
