@@ -19,6 +19,7 @@ import { BASE_URL,TOKEN } from '../../constants';
 import { useDispatch } from "react-redux";
 import { mypage } from "_actions/user";
 import MyLetter from "../../components/mypage/MyLetter";
+import ScrollToTop from "components/Scroll/ScrollToTop";
 function Mypage() {
   const dispatch = useDispatch();
   const [state, setstate] = useState([])
@@ -27,12 +28,11 @@ function Mypage() {
     axios.get(BASE_URL+"user/get",{headers:{"Authorization":TOKEN}})
       .then((res)=> {setstate(res.data); console.log(res.data,'옴')})
       .catch((err)=> console.log(err))
-    // dispatch(mypage())
   }, [])
 
-  // const cardlist = state.
   return (
     <div className="mypage">
+      <ScrollToTop />
       <div className="night">
         <div className="shooting_starts"></div>
         <div className="shooting_starts"></div>
