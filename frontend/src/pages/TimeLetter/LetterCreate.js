@@ -160,10 +160,10 @@ const LetterCreate = () => {
     // console.log(e.target.files[0].name.substring(len - 4, len))
     if (e.target.files && e.target.files[0].size > (500 * 1024 * 1024)) {
       alert('파일첨부는 최대 500MB까지 가능합니다.')
-    } else if (extension !== '.mp4') {
-      alert('.mp4 파일만 첨부 가능합니다.')
-    } else if (e.target.files.length > 0) {
+    } else if (extension === '.mp4' || extension === '.mov') {
       setFile(e.target.files)
+    } else if (e.target.files.length > 0) {
+      alert('.mp4 또는 .mov 파일만 첨부 가능합니다.')
     }
   }
 
@@ -173,10 +173,12 @@ const LetterCreate = () => {
     }
   }
 
+
   // 비공개여부
   const [isPrivate, setIsPrivate] = useState('')
   // console.log(private)
   // ''는 공개, 'true'는 비공개
+
 
   // 오픈 날짜
   const getDefaultDay = () => {
@@ -188,6 +190,32 @@ const LetterCreate = () => {
   }
   const [openDate, setOpenDate] = useState(getDefaultDay())
   // console.log(openDate)
+
+  // yyyy-mm-dd
+  const toDate = (date_str) => {
+    let dDay = String(date_str)
+    let sYear = dDay.substring(0, 4)
+    let sMonth = dDay.substring(5, 7)
+    let sDate = dDay.substring(8, 10)
+
+    return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate)).getTime()
+  }
+
+  const handleOpenDate = (e) => {
+    // console.log(e.target.value)
+    let dDay = toDate(e.target.value)
+    console.log(dDay)
+    let today = new Date()
+    console.log(today)
+    let distance = dDay - today
+    console.log(distance)
+    if (distance < -86400000) {
+      alert('지난 날은 오픈 조건으로 설정할 수 없습니다.')
+    } else {
+      setOpenDate(dDay)
+    }
+  }
+
 
   // 오픈 장소(위경도)
   const [locOpen, setLocOpen] = useState(false)
@@ -439,6 +467,7 @@ const LetterCreate = () => {
         })
         .catch(err => {
           console.log(err)
+          alert('해당 영상은 업로드 할 수 없습니다.')
         })
       })
       .catch(err => {
@@ -572,7 +601,7 @@ const LetterCreate = () => {
               <Grid container>
                 <Grid item>
                   <TextField
-                    onChange={(e) => setOpenDate(e.target.value)}
+                    onChange={handleOpenDate}
                     id="openDate"
                     type="date"
                     defaultValue={openDate}

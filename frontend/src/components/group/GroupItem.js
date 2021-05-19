@@ -40,6 +40,7 @@ function GroupItem() {
   }, [])
 
 
+  // 그룹이 있을 때
   const clubList = clubs.map(club => (
     <Card key={club.club_id} className="groupitem" onClick={() => history.push("/group/detail/" + club.club_id)} style={{backgroundColor: 'rgba(255, 255, 255, 0.5)'}}>
       <CardContent>
@@ -47,24 +48,21 @@ function GroupItem() {
           <Grid item xs={3}>
             <Avatar src={spaceship} className={classes.large} />
           </Grid>
-          <Grid item xs={9} alignItems="center">
-            {/* <Grid container direction="column">
-              <Grid item xs={12}> */}
-                <Typography gutterBottom variant="h5" style={{marginBottom: "0px"}}>
-                  <span style={{display: 'inlineBlock', marginLeft: 'auto'}}>
-                    <EmojiPeopleIcon  style={{marginLeft: 'auto', paddingTop: '7px'}}/>-{club.members}명
-                  </span> /
-                  {club.club_name}
-                </Typography>
-              {/* </Grid>
-            </Grid> */}
+          <Grid item xs={9}>
+            <Typography gutterBottom variant="h5" style={{marginBottom: "0px"}}>
+              <span style={{display: 'inlineBlock', marginLeft: 'auto'}}>
+                <EmojiPeopleIcon  style={{marginLeft: 'auto', paddingTop: '7px'}}/>-{club.members}명
+              </span> /
+              {club.club_name}
+            </Typography>
           </Grid>
         </Grid>
       </CardContent>
     </Card>
   ))
-  const noGroup = <div className="nogroup">생성된 그룹이 없습니다.</div>
 
+  // 그룹이 없을 때
+  const noGroup = <div className="nogroup">생성된 그룹이 없습니다.</div>
 
   return (
     <Container>

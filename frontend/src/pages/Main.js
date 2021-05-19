@@ -75,11 +75,11 @@ function Main() {
               </Link>
             </Grid>
             <div className="updown"></div>
-            <Grid item xs={5}>
+            <Grid item xs={5} onClick={scrolling}>
               <div style={{ color: "white", textAlign: "center", fontSize: "20px" }}>
                 <HiOutlineBookOpen />
               </div>
-              <div style={{ color: "white", textAlign: "center", fontSize: "17px" }} onClick={scrolling}>
+              <div style={{ color: "white", textAlign: "center", fontSize: "17px" }}>
                 사이트 둘러보기
               </div>
             </Grid>
@@ -89,10 +89,13 @@ function Main() {
         {/* 세번째 메인 */}
         <div>
           <Carousel autoPlay={false} animation="slide">
-            <div className="section section-3">사이트 이용 방법을 확인하시려면 좌우로 스와이프하세요<img src={img1}></img></div>
-            <div><img src={main1} style={{width: '100%', height: '100vh'}} /></div>
-            <div><img src={main2} style={{width: '100%', height: '100vh'}} /></div>
-            <div><img src={main3} style={{width: '100%', height: '100vh'}} /></div>
+            <div className="section section-3">
+              <img src={img1}></img><br/>
+              사이트 이용 방법을 확인하시려면 좌우로 스와이프하세요
+            </div>
+            <div><img src={main1} style={{width: '100%', height: '90vh'}} /></div>
+            <div><img src={main2} style={{width: '100%', height: '90vh'}} /></div>
+            <div><img src={main3} style={{width: '100%', height: '90vh'}} /></div>
           </Carousel>
         </div>
       </div>
