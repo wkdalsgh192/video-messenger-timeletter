@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import { createMuiTheme, ThemeProvider, Container } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import UpperBar from './components/bar/UpperBar';
 import BottomBar from './components/bar/BottomBar';
@@ -23,6 +23,7 @@ function App() {
     <div className='app'>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        {/* <Container maxWidth="xs"> */}
         <UpperBar></UpperBar>
         <Switch>
           <Route path="/" exact={true} component={All.Main} />
@@ -39,11 +40,12 @@ function App() {
           <Route path="/letter/detail/:code" exact={true} component={All.LetterDetail} />
 
           <Route path="/group/create" exact={true} component={All.GroupCreate} />
-          <Route path="/group/detail/:id" exact={true} component={All.GroupDetail} />
+          <Route path="/group/detail/:clubId" exact={true} component={All.GroupDetail} />
           <Route path="/group/list" exact={true} component={All.GroupList} />
           <Route component={All.NotFound} />
         </Switch>
         <BottomBar></BottomBar>
+        {/* </Container> */}
       </ThemeProvider>
     </div>
   );
