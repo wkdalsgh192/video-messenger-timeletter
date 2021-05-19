@@ -40,7 +40,7 @@ import com.caterpie.timeletter.repository.UserRepository;
        if (!user.isActivated()) {
           throw new RuntimeException(username + " -> 활성화되어 있지 않습니다.");
        }
-       logger.info("{}",user.toString());
+//       logger.info("{}",user.toString());
        List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
                .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
                .collect(Collectors.toList());

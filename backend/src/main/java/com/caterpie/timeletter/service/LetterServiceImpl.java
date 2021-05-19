@@ -86,6 +86,7 @@ public class LetterServiceImpl implements LetterService {
 	public void saveFile(int letterId, String url) throws Exception {
 		
 		Letter letter = letterRepo.findById(letterId).get();
+		logger.info(letter.toString());
 		letter.setUrl(url);
 		letterRepo.save(letter);
 		
