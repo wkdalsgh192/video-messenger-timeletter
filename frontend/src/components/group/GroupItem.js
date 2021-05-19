@@ -5,7 +5,7 @@ import "./GroupItem.css";
 import { Container, Card, CardActionArea, CardContent, CardMedia, Typography } from "@material-ui/core";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import axios from "axios";
-import { BASE_URL, TOKEN } from "../../constants";
+import { BASE_URL, TOKEN, USER_ID } from "../../constants";
 
 function GroupItem() {
   const history = useHistory();
@@ -28,8 +28,6 @@ function GroupItem() {
       });
   }, []);
 
-
-  // 그룹이 있을경우
   const item = items.map(i => (
     <Card key={i.clubId} className="groupitem" onClick={() => history.push("/group/detail/" + i.clubId)}>
       <CardActionArea>
@@ -52,16 +50,9 @@ function GroupItem() {
         </CardContent>
       </CardActionArea>
     </Card>
-  ))
-
-  // 그룹이 없을 경우
+  ));
   const nogroup = <div className="nogroup">생성된 그룹이 없습니다.</div>;
-
-
-  return 
-    <Container>
-      {items.length !== 0 ? item : nogroup}
-    </Container>
+  return <Container>{items.length !== 0 ? item : nogroup}</Container>;
 }
 
 export default GroupItem;

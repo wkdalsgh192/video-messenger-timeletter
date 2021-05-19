@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from "react";
 
 // import { useDispatch, useSelector } from "react-redux";
@@ -89,7 +88,7 @@ function Main() {
 
         {/* 세번째 메인 */}
         <div>
-          <Carousel autoPlay={false} animation="slide" NextIcon PrevIcon>
+          <Carousel autoPlay={false} animation="slide">
             <div className="section section-3">사이트 이용 방법을 확인하시려면 좌우로 스와이프하세요<img src={img1}></img></div>
             <div><img src={main1} style={{width: '100%', height: '100vh'}} /></div>
             <div><img src={main2} style={{width: '100%', height: '100vh'}} /></div>
