@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from "react";
 
 // import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +18,10 @@ import Grid from "@material-ui/core/Grid";
 import { BsPencil } from 'react-icons/bs'; 
 import { HiOutlineBookOpen } from 'react-icons/hi';
 import CountLetters from 'components/mainpage/CountLetters'
+import Carousel from 'react-material-ui-carousel'
+import main1 from 'static/images/main1.jpg'
+import main2 from 'static/images/main2.jpg'
+import main3 from 'static/images/main3.jpg'
 
 const { logIn } = require("../_actions/user");
 const userSlice = require("../_reducers/user");
@@ -84,12 +87,14 @@ function Main() {
         </div>
 
         {/* 세번째 메인 */}
-
-        <div className="section section-3">
-          서비스 설명 페이지
-          <img src={img1}></img>
+        <div>
+          <Carousel autoPlay={false} animation="slide">
+            <div className="section section-3">사이트 이용 방법을 확인하시려면 좌우로 스와이프하세요<img src={img1}></img></div>
+            <div><img src={main1} style={{width: '100%', height: '100vh'}} /></div>
+            <div><img src={main2} style={{width: '100%', height: '100vh'}} /></div>
+            <div><img src={main3} style={{width: '100%', height: '100vh'}} /></div>
+          </Carousel>
         </div>
-        {/* <img src={img2}></img> */}
       </div>
     </div>
   );
