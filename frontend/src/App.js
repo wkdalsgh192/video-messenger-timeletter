@@ -25,11 +25,28 @@ function App() {
     <div className='app'>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <BrowserView>
-        <Container>
-          <p style={{margin:"auto"}}>모바일에서 접속해주세요.</p>
+        <BrowserView> 
+        <Container style={{width:"100vw", height:"100vh",textAlign:"center"}}>
           <br></br>
-          <img style={{width:"100px",height:"100px", display:"flex"}} src={qrcode}></img>
+          <br></br>
+          <br></br>
+          <br></br>
+          <div className="sentences" style={{display:"flex",justifyContent:"center",fontSize:"2rem",}}>
+            <p className="character-1" style={{color:"purple"}}>타</p>
+            <p className="character-2" style={{color:"purple"}}>임</p>
+            <p className="character-3" style={{color:"purple"}}>레</p>
+            <p className="character-4" style={{color:"purple"}}>터</p>
+            <p className="character-5" style={{color:"purple"}}>페</p>
+            <p className="character-6" style={{color:"purple"}}>이</p>
+            <p className="character-7" style={{color:"purple"}}>지</p>
+          </div>
+          
+          <br></br>
+          <div style={{}}>
+            <img style={{width:"200px",height:"200px"}} src={qrcode}></img>
+            
+            <p style={{fontSize:"1rem"}}>모바일(크롬)(사파리 ㄴㄴ)에서 접속해주세요.</p>
+          </div>
         </Container>
         </BrowserView>
 

@@ -20,6 +20,8 @@ function GroupCreate() {
   const [members, setMembers] = useState([]);
   const [membersId, setMembersId] = useState([]);
 
+  const [isMember, setIsMember] = useState([true]);
+
   const onNameHandler = (event) => {
     setName(event.currentTarget.value);
   };
@@ -52,7 +54,7 @@ function GroupCreate() {
           // window.location.replace("/group/list");
           history.push("/group/list")
         })
-        .catch((err)=>{console.log(err); alert("not create")})
+        .catch((err)=>{console.log(err); alert("본인을 그룹멤버에 포함시키지 않았는지 확인해주세요")})
       }
   }
   const member = members.map((target)=>(
@@ -65,7 +67,17 @@ function GroupCreate() {
     if (e.target.value) {
 
       axios.get(BASE_URL+"club/findWord?word="+e.target.value)
-      .then((res)=>{console.log(res.data); setGroupMembers(res.data); })
+      .then((res)=>{
+        console.log(res);
+        if (res.data.length===0) {
+          setIsMember(false);
+        }
+        else {
+          console.log(res.data); 
+          setGroupMembers(res.data);
+          setIsMember(true);
+        }
+       })
       .catch((err)=>console.log(err))
     } else { setGroupMembers([])}
   };
@@ -120,7 +132,7 @@ function GroupCreate() {
             }
           />
           <div>
-            {memberList}
+            {isMember ? memberList : <div>찾으시는 회원이 없습니다.</div>}
           </div>
           
         </div>
