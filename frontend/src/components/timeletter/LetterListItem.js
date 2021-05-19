@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import {
   Chip,
   Dialog,
   Slide,
 } from '@material-ui/core'
-// import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom'
 import FaceIcon from '@material-ui/icons/Face'
 import './css/LetterListItem.css'
 import LoadingOpen from 'components/loading/LoadingOpen'
 
 
 const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+  return <Slide direction="up" ref={ref} {...props} />
+})
 
 
 const LetterListItem = (props) => {
@@ -86,7 +86,7 @@ const LetterListItem = (props) => {
 				// }
 				setCloseInfo('오픈까지 ' + view)
 			}
-		}, 1000);
+		}, 1000)
   }
 
   dDayCounter()
