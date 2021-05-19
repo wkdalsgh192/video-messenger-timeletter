@@ -12,6 +12,7 @@ import LetterListItem from 'components/timeletter/LetterListItem'
 import { FaBullseye } from 'react-icons/fa'
 import { BASE_URL, TOKEN } from 'constants/index.js'
 import axios from 'axios'
+import ScrollToTop from 'components/Scroll/ScrollToTop'
 
 
 // 스타일
@@ -136,6 +137,7 @@ const LetterList = () => {
 
   return (
     <Container className={classes.container} maxWidth="xs">
+      <ScrollToTop />
       {/* 오픈, 비오픈 구분 탭 */}
       <Tabs
         value={value}

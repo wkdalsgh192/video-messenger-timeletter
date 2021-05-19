@@ -15,6 +15,7 @@ import ReactPlayer from 'react-player'
 import MapIcon from '@material-ui/icons/Map'
 import axios from 'axios';
 import { BASE_URL, TOKEN } from 'constants/index.js'
+import ScrollToTop from 'components/Scroll/ScrollToTop';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -106,6 +107,7 @@ const LetterDetail = () => {
 
   return (
     <div>
+      <ScrollToTop />
       {letter !== null
         ? <Container className={classes.container} maxWidth="xs">
             <Typography className={classes.title} variant="h6">레터 상세조회</Typography>

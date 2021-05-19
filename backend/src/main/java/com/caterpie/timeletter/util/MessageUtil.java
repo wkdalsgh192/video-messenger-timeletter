@@ -20,7 +20,7 @@ public class MessageUtil {
         params.put("to", phoneNumber);
         params.put("from", "01047539502");
         params.put("type", "LMS");
-        params.put("text", "[TimeLetter] ssafy1님께서 보낸 타임레터가 도착하였습니다. 접속하기 >> http://k4d105.p.ssafy.io/letter/detail/"+letterCode);
+        params.put("text", "[TimeLetter] ssafy1님께서 보낸 타임레터가 도착하였습니다. 접속하기 >> http://timeletter.co.kr/letter/detail/"+letterCode);
         params.put("app_version", "test app 1.2");
 
         try {
@@ -31,8 +31,4 @@ public class MessageUtil {
             System.out.println(e.getCode());
         }
     }
-	
-//	public static void main(String[] args) {
-//		new MessageUtil().sendSms();
-//	}
 }
