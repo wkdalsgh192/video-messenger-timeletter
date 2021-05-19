@@ -14,6 +14,7 @@ public interface LetterService {
 	void saveFile(int letterId, String url) throws Exception;
 	
 	/* R :: 레터 조회 */
+	long countLetter();
 	Optional<Letter> retrieveLetter(String letterCode);
 	Map<String,Letter> getAllLetters(User user);
 	

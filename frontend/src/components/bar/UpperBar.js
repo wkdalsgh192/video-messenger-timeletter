@@ -36,9 +36,6 @@ const useStyles = makeStyles(theme => ({
   mycolor: {
     backgroundColor: "black !important",
   },
-  bar: {
-    maxWidth: '400px',
-  }
 }));
 
 export default function UpperBar() {
@@ -135,7 +132,9 @@ export default function UpperBar() {
   }, []);
 
   useEffect(() => {
-    getAlarmAxios()
+    if (TOKEN) {
+      getAlarmAxios()
+    }
   }, [alarmOpen])
 
 
@@ -233,7 +232,7 @@ export default function UpperBar() {
 
   return (
     <Container maxWidth="xs">
-    <AppBar position="fixed" className={barStyle > 1 ? "bgnav" : null} className={classes.bar}>
+    <AppBar position="fixed" className={barStyle > 1 ? "bgnav" : null}>
       <Toolbar>
         <Grid container style={{alignItems: 'center'}}>
           <Grid item xs={3}>
