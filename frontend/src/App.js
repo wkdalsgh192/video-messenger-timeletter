@@ -8,7 +8,7 @@ import LoadingCreate from './components/loading/LoadingCreate';
 import LoadingOpen from './components/loading/LoadingOpen';
 import * as All from './pages';
 import { BrowserView, MobileView } from "react-device-detect";
-
+import qrcode from "static/images/큐알코드.jpg"
 
 const theme = createMuiTheme({
   typography: {
@@ -25,7 +25,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserView>
-          모바일에서 접속해주세요.
+          <p style={{margin:"auto"}}>모바일에서 접속해주세요.</p>
+          <br></br>
+          <img style={{width:"100px",height:"100px"}} src={qrcode}></img>
         </BrowserView>
 
         <MobileView>

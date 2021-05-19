@@ -78,7 +78,7 @@ function GroupCreate() {
   return (
     <Container className="groupcreate">
       <br />
-      <Typography style={{color:"white"}}>/그룹생성/</Typography>
+      <Typography style={{color:"white",fontSize:"1.25rem"}}>/그룹생성/</Typography>
       <br />
       <div style={{padding:"10px",backgroundColor:"#e8eaf6",borderRadius:"10px"}}>
         <div>
