@@ -77,15 +77,15 @@ const MyLetterItem = (props) => {
 				if (d > 0) {
 					view = view + d + '일 '
 				}
-				if (h > 0) {
-					view = view + h + '시간 '
-				}
-				if (m > 0) {
-					view = view + m + '분 '
-				}
-        if (s > 0) {
-					view = view + s + '초'
-				}
+				// if (h > 0) {
+				// 	view = view + h + '시간 '
+				// }
+				// if (m > 0) {
+				// 	view = view + m + '분 '
+				// }
+        // if (s > 0) {
+				// 	view = view + s + '초'
+				// }
 				setCloseInfo('오픈까지 ' + view)
 			}
 		}, 1000);

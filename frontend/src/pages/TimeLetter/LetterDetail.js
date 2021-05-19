@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import { 
   Container,
@@ -50,6 +50,7 @@ const LetterDetail = () => {
   let { code } = useParams()
   // console.log(code)
   const classes = useStyles()
+  const history = useHistory()
 
 
   const [name, setName] = useState('')
@@ -66,6 +67,11 @@ const LetterDetail = () => {
     })
     .then(res => {
       console.log(res.data)
+      if (res.data == []) {
+        console.log('정보없음')
+        alert('해당 코드에 대한 레터 정보가 없습니다. 메인페이지로 이동합니다.')
+        history.push('/')
+      } 
       for (const [key, value] of Object.entries(res.data)) {
         setName(key)
         setLetter(value)
@@ -73,7 +79,7 @@ const LetterDetail = () => {
         // console.log(name)
         // console.log(letter)
         // setFileUrl(BASE_URL + 'letter/load/' + value.letterId)
-        setFileUrl('https://k4d105.p.ssafy.io' + value.url)
+        setFileUrl('https://timeletter.co.kr' + value.url)
         console.log(fileUrl)
       }
     })
