@@ -54,7 +54,7 @@ dependencies {
 	compileOnly 'net.nurigo:javaSDK:2.2'
 	
 	// codec
-	Implementation 'ws.schild:jave-all-deps:3.1.1'
+	compileOnly 'ws.schild:jave-all-deps:3.1.1'
 }
 
 test {
