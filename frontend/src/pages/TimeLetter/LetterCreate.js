@@ -46,6 +46,7 @@ import DatePicker from 'react-datetime';
 import moment from 'moment';
 import './css/lettercreate.css'
 
+
 // 테마
 const theme = createMuiTheme({
   // palette: {
@@ -366,6 +367,9 @@ const LetterCreate = () => {
         axios.post(BASE_URL + `letter/save/${res.data}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
+          },
+          params: {
+            device: false,
           }
         })
         .then(res => {
@@ -442,6 +446,29 @@ const LetterCreate = () => {
     setVideoOpen(false)
   }
 
+  // detect mobile device os
+  function getMobileOperatingSystem() {
+    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  
+        // Windows Phone must come first because its UA also contains "Android"
+      if (/windows phone/i.test(userAgent)) {
+          return "Windows Phone";
+      }
+  
+      if (/android/i.test(userAgent)) {
+          return "Android";
+      }
+  
+      // iOS detection from: http://stackoverflow.com/a/9039885/177710
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          return "iOS";
+      }
+  
+      return "unknown";
+  }
+  
+  // console.log(getMobileOperatingSystem())
+
   
 
   // ************** return ****************
@@ -450,6 +477,7 @@ const LetterCreate = () => {
       <Typography className={classes.title} variant="h6">레터생성</Typography>
       {/* 캡슐 정보 */}
       <div className={classes.paper}>
+        <Typography>OS : {getMobileOperatingSystem()}</Typography>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <Grid container direction="column">
 
