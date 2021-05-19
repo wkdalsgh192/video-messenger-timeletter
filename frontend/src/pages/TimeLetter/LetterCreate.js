@@ -44,6 +44,7 @@ import LoadingCreate from 'components/loading/LoadingCreate'
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined'
 import './css/lettercreate.css'
 import ScrollToTop from 'components/Scroll/ScrollToTop'
+import swal from 'sweetalert'
 
 
 // 테마
@@ -213,7 +214,7 @@ const LetterCreate = () => {
     if (distance < -86400000) {
       alert('지난 날은 오픈 조건으로 설정할 수 없습니다.')
     } else {
-      setOpenDate(dDay)
+      setOpenDate(e.target.value)
     }
   }
 
@@ -424,6 +425,7 @@ const LetterCreate = () => {
         })
         .catch(err => {
           console.log(err)
+          swal()
         })
       })
       .catch(err => {
@@ -483,6 +485,7 @@ const LetterCreate = () => {
 
     // 필수 요소가 모두 입력되었는지 확인하는 로직 필요
     if (title !== '' && message !== '' && file !== null) {
+      swal("레터를 생성합니다.", "잠시만 기다려 주세요", "success")
       sendAxios()
     } else {
       alert('필수 요소를 모두 입력해주세요')
@@ -644,7 +647,8 @@ const LetterCreate = () => {
                     <DialogTitle id="alert-dialog-title">추억의 장소를 저장하시겠습니까?</DialogTitle>
                     <DialogContent>
                       <DialogContentText id="alert-dialog-description">
-                        추억의 장소를 저장하시면 레터 조회 시 해당 위치가 지도에 표시됩니다.
+                        <div>추억의 장소를 저장하시면 레터 조회 시 해당 위치가 지도에 표시됩니다.</div>
+                        <div>* safari 브라우저는 지원하지 않습니다.</div>
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
