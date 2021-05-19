@@ -141,4 +141,10 @@ public class LetterServiceImpl implements LetterService {
 		letterRepo.deleteById(letterId);
 	}
 
+	@Override
+	public long countLetter() {
+		long cnt = letterRepo.count();
+		return cnt;
+	}
+
 }
