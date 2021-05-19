@@ -24,7 +24,8 @@ public interface ClubRepository extends JpaRepository<Club, Integer> {
 	
 	Club findByClubId(int clubId);
 	
-	List<Club> findByClubIdIn(List<Integer> clubList);
+	@Query(value="select c.user_id, c.club_id, c.club_profile, c.club_desc, c.club_name, count(m.user_id) members FROM club c inner join club_has_member m on c.club_id = m.club_id and  c.club_id in ( select club_id from club_has_member where user_id = ? ) group by c.club_id;", nativeQuery=true)
+	List<Map<ClubList, Object>> findClubIdIn(int userId);
 	
 	
 	@Transactional

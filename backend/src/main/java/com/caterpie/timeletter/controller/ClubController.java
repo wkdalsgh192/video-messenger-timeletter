@@ -108,11 +108,11 @@ public class ClubController {
 	 */
 	@GetMapping("/findMyClub")
 	@ApiOperation(value = "user_id로 가입된 클럽 찾기", notes = "가입된 클럽조회")
-	public List<Club> findByUserId() {
+	public List<Map<ClubList, Object>> findByUserId() {
 		Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElse(null));
 		if (opt == null) throw new RuntimeException("User Not Found");
-		List<Integer> clubList = clubRepository.findMyClub(opt.get().getUserId());
-		return clubRepository.findByClubIdIn(clubList);
+		
+		return clubRepository.findClubIdIn(opt.get().getUserId());
 	}
 	
 	
