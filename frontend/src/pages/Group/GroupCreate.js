@@ -2,7 +2,7 @@ import { Button, Container, Input,InputAdornment, Typography,Chip } from "@mater
 import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { BASE_URL, USER_ID,TOKEN } from "../../constants";
+import { BASE_URL, TOKEN } from "../../constants";
 import TitleRoundedIcon from '@material-ui/icons/TitleRounded'
 import Filter1Icon from '@material-ui/icons/Filter1';
 import Filter2Icon from '@material-ui/icons/Filter2';

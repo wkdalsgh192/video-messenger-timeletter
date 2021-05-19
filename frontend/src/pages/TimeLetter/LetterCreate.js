@@ -42,8 +42,6 @@ import axios from 'axios'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import LoadingCreate from 'components/loading/LoadingCreate'
 import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined'
-import DatePicker from 'react-datetime';
-import moment from 'moment';
 import './css/lettercreate.css'
 
 
@@ -117,6 +115,26 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 const LetterCreate = () => {
   // console.log('letter-create')
   const classes = useStyles()
+
+  // OS 확인 : ios이면 true, 나머지 os는 false
+  function getMobileOperatingSystem() {
+    let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  
+      if (/windows phone/i.test(userAgent)) {
+          return false
+      }
+  
+      if (/android/i.test(userAgent)) {
+          return false
+      }
+  
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          return true
+      }
+  
+      return false
+  }
+  // console.log(getMobileOperatingSystem())
 
   // 레터 제목
   const [title, setTitle] = useState('')
@@ -293,7 +311,6 @@ const LetterCreate = () => {
     setClubOpen(true)
 
     // 본인이 속한 그룹 목록을 받아오는 axios 요청
-    // console.log(USER_ID)
     axios.get(BASE_URL + 'club/findMyClub', {
       headers: {
         Authorization: TOKEN,
@@ -369,7 +386,7 @@ const LetterCreate = () => {
             'Content-Type': 'multipart/form-data'
           },
           params: {
-            device: false,
+            os: getMobileOperatingSystem(),
           }
         })
         .then(res => {
@@ -411,6 +428,9 @@ const LetterCreate = () => {
         axios.post(BASE_URL + `letter/save/${res.data}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
+          },
+          params: {
+            os: getMobileOperatingSystem(),
           }
         })
         .then(res => {
@@ -446,30 +466,6 @@ const LetterCreate = () => {
     setVideoOpen(false)
   }
 
-  // detect mobile device os
-  function getMobileOperatingSystem() {
-    var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-  
-        // Windows Phone must come first because its UA also contains "Android"
-      if (/windows phone/i.test(userAgent)) {
-          return "Windows Phone";
-      }
-  
-      if (/android/i.test(userAgent)) {
-          return "Android";
-      }
-  
-      // iOS detection from: http://stackoverflow.com/a/9039885/177710
-      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-          return "iOS";
-      }
-  
-      return "unknown";
-  }
-  
-  // console.log(getMobileOperatingSystem())
-
-  
 
   // ************** return ****************
   return (
@@ -477,7 +473,6 @@ const LetterCreate = () => {
       <Typography className={classes.title} variant="h6">레터생성</Typography>
       {/* 캡슐 정보 */}
       <div className={classes.paper}>
-        <Typography>OS : {getMobileOperatingSystem()}</Typography>
         <form className={classes.form} noValidate onSubmit={onSubmit}>
           <Grid container direction="column">
 
@@ -806,7 +801,7 @@ const LetterCreate = () => {
         </form>
       </div>
     </Container>
-  );
-};
+  )
+}
 
 export default LetterCreate;

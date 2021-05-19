@@ -23,7 +23,6 @@ function App() {
     <div className='app'>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {/* <Container maxWidth="xs"> */}
         <UpperBar></UpperBar>
         <Switch>
           <Route path="/" exact={true} component={All.Main} />
@@ -45,7 +44,6 @@ function App() {
           <Route component={All.NotFound} />
         </Switch>
         <BottomBar></BottomBar>
-        {/* </Container> */}
       </ThemeProvider>
     </div>
   );
