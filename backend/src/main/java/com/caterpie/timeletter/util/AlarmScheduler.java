@@ -14,8 +14,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.caterpie.timeletter.dto.AlarmDto;
+import com.caterpie.timeletter.entity.ClubDetailUser;
 import com.caterpie.timeletter.entity.Letter;
 import com.caterpie.timeletter.repository.AlarmRepository;
+import com.caterpie.timeletter.repository.ClubRepository;
 import com.caterpie.timeletter.repository.LetterRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -29,7 +31,8 @@ public class AlarmScheduler {
 
 	@Autowired
 	private AlarmRepository alarmRepository;
-	
+	@Autowired
+	private ClubRepository clubRepository;
 	@Autowired
 	private LetterRepository letterRepository;
 
@@ -50,16 +53,42 @@ public class AlarmScheduler {
 			
 	    	//알람테이블에 하나씩 셋팅
 	    	for(int i=0, l=alarms.size();i<l; i++) {
-	    		Object o = alarms.get(i).get("user_id");
+	    		Object userId = alarms.get(i).get("user_id");
 	    		int letterId = (int) alarms.get(i).get("letter_id");
+	    		int clubId = (int) alarms.get(i).get("club_id");
+	    		
+	    		//우리 서비스의 회원인 사람만 알람테이블에 삽입
+	    		if(userId == null || clubId > 0)  continue;
+	    		alarmRepository.insertAlarm((int) userId, letterId);	
 	    		
 	    		//오늘 오픈될 모든 레터들 비공개->공개 처리 & is_open = true
 	    		alarmRepository.updateLetter(letterId);	
-	    		System.out.println(letterId + ",  " + alarms.get(i).get("open_date"));
-	    		//우리 서비스의 회원인 사람만 알람테이블에 삽입
-	    		if(o == null)  continue;
-	    		alarmRepository.insertAlarm((int) o, letterId);	
 	    	}
+	    	
+	    	
+	    	
+	    	//클럽레터 오픈처리 & 클럽멤버 모두에게 문자발송 및 알람전송
+	    	Set<Letter> clubsLetters = letterRepository.findAllByIsOpenEqualsAndOpenDateEqualsAndClubIdGreaterThan(false, time, 0); //클럽 전용 레터들
+	    	logger.info("여기" +clubsLetters.size());
+	    	clubsLetters.stream().forEach(a ->{
+	    		String letterCode = (String) a.getLetterCode();
+	    		int letterId = (int) a.getLetterId();
+	    		
+	    		List<Map<ClubDetailUser, Object>> clubMembers = clubRepository.findDetailUser((int) a.getClubId());
+	    		
+	    		logger.info("" + clubMembers.size());
+	    		for(int i=0, l=clubMembers.size(); i<l; i++) {
+	    			String phoneNumber = (String) clubMembers.get(i).get("phone_number");
+	    			logger.info("" + phoneNumber);
+//		    		MessageUtil message = new MessageUtil();
+//		    		message.sendSms(phoneNumber, letterCode);
+	    			
+	    			alarmRepository.insertAlarm((int) clubMembers.get(i).get("user_id"), letterId);	
+	    		}
+	    		
+	    		alarmRepository.updateClub(letterId);
+	    	});
+	    	
 	    	
 	    	
 	    	// 알람 LetterId 가지고 Letter랑 Target 가지고 와서 Iterate하면서 회원,비회원 모두에게 문자 발송.
@@ -69,16 +98,6 @@ public class AlarmScheduler {
 //	    		MessageUtil message = new MessageUtil();
 //	    		message.sendSms(phoneNumber, letterCode);
 	    	});
-	    	
-	    	
-	    	
-	    	//클럽레터 오픈처리
-	    	Set<Letter> clubsLetters = letterRepository.findAllByIsOpenEqualsAndOpenDateEqualsAndClubIdGreaterThan(false,time,0);
-	    	clubsLetters.stream().forEach(a ->{
-	    		System.out.println(a.getLetterId() + ",  " + a.getOpenDate());
-	    		alarmRepository.updateClub(a.getLetterId());
-	    	});
-	    	
 	    	
 		} else logger.info("Empty");
 	}

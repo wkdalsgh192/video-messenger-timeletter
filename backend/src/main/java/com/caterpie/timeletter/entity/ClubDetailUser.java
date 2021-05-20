@@ -13,4 +13,5 @@ public class ClubDetailUser {
 	@Id
 	private int userId;
 	private String name;
+	private String phoneNumber;
 }
