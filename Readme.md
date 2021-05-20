@@ -8,6 +8,10 @@
 
 ![로고-removebg-preview](Readme.assets/로고-removebg-preview.png)
 
+> 메인 Page
+
+![메인페이지](https://lab.ssafy.com/s04-final/s04p31d105/raw/develop/docs/assets/홈화면.gif)
+
 
 
 ------
