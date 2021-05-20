@@ -26,26 +26,20 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserView> 
-        <Container style={{width:"100vw", height:"100vh",textAlign:"center"}}>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
+        <Container style={{width: "100%", height: "100%",textAlign: "center", marginRight: "0px"}}>
           <div className="sentences" style={{display:"flex",justifyContent:"center",fontSize:"2rem",}}>
-            <p className="character-1" style={{color:"purple"}}>타</p>
-            <p className="character-2" style={{color:"purple"}}>임</p>
-            <p className="character-3" style={{color:"purple"}}>레</p>
-            <p className="character-4" style={{color:"purple"}}>터</p>
-            <p className="character-5" style={{color:"purple"}}>페</p>
-            <p className="character-6" style={{color:"purple"}}>이</p>
-            <p className="character-7" style={{color:"purple"}}>지</p>
+            <p className="character-1" style={{color:"purple", marginTop: '10px', marginBottom: '0px'}}>타</p>
+            <p className="character-2" style={{color:"purple", marginTop: '10px', marginBottom: '0px'}}>임</p>
+            <p className="character-3" style={{color:"purple", marginTop: '10px', marginBottom: '0px'}}>레</p>
+            <p className="character-4" style={{color:"purple", marginTop: '10px', marginBottom: '0px'}}>터</p>
+            <p className="character-5" style={{color:"purple", marginTop: '10px', marginBottom: '0px'}}>페</p>
+            <p className="character-6" style={{color:"purple", marginTop: '10px', marginBottom: '0px'}}>이</p>
+            <p className="character-7" style={{color:"purple", marginTop: '10px', marginBottom: '0px'}}>지</p>
           </div>
-          
-          <br></br>
           <div style={{}}>
-            <img style={{width:"200px",height:"200px"}} src={qrcode}></img>
-            
-            <p style={{fontSize:"1rem"}}>모바일(크롬)(사파리 ㄴㄴ)에서 접속해주세요.</p>
+            <img style={{width:"100px",height:"100px"}} src={qrcode} alt="qrcode"></img>
+            <p style={{fontSize:"1rem", marginTop: '0px', marginBottom: '0px'}}>모바일에서 접속해주세요.</p>
+            <p style={{fontSize:"0.5rem", marginTop: '0px', paddingBottom: '10px'}}> * 아이폰 사파리 브라우저는 지도 기능을 지원하지 않습니다.</p>
           </div>
         </Container>
         </BrowserView>

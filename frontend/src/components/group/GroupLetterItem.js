@@ -24,8 +24,8 @@ const GroupLetterItem = (props) => {
   const handleClick = () => {
     if (props.letter.is_open) {
       setVideoOpen(true);
-      alert("레터 상세조회로 이동합니다.");
-      history.push(letterUrl);
+      // alert("레터 상세조회로 이동합니다.");
+      // history.push(letterUrl);
     } else {
       alert("비오픈 레터는 조회할 수 없습니다.");
     }
@@ -65,9 +65,9 @@ const GroupLetterItem = (props) => {
         if (d > 0) {
           view = view + d + "일 ";
         }
-        // if (h > 0) {
-        //   view = view + h + "시간 ";
-        // }
+        if (h > 0) {
+          view = view + h + "시간 ";
+        }
         // if (m > 0) {
         //   view = view + m + "분 ";
         // }
@@ -92,7 +92,7 @@ const GroupLetterItem = (props) => {
   };
 
   return (
-    <div>
+    <div onClick={handleClick}>
       <div className="trashnone">
         <div className="night2">
           <span className="moon"></span>
@@ -105,7 +105,7 @@ const GroupLetterItem = (props) => {
             <li></li>
             <li></li>
           </ul>
-          <div onClick={handleClick}>
+          <div>
             <div className="lettercontent2">
               <div
                 className="lettercontent"

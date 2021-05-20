@@ -273,7 +273,8 @@ const LetterCreate = () => {
     setPhoneNumbers([])
     setPhoneNumberList([{ phoneNumber: ""}])
     setClubId(null)
-    alert('미래의 나에게 레터를 보냅니다.')
+    // alert('미래의 나에게 레터를 보냅니다.')
+    swal("나에게", "미래의 나에게 레터를 보냅니다", "success")
   }
 
   // 타인에게
@@ -323,6 +324,7 @@ const LetterCreate = () => {
     if (valid === true) {
       setPhoneNumbers(tmpNumber)
       setOtherOpen(false)
+      swal("타인에게", "입력한 전화번호로 레터를 보냅니다.", "success")
     } else {
       alert('01012345678 형태로 번호를 입력해주세요')
     }
@@ -355,15 +357,18 @@ const LetterCreate = () => {
       })
   }
   const handleClubId = (club, e) => {
-    setSelectClubId(club.clubId)
-    alert(club.clubName+'에 레터를 생성합니다.')
+    setClubId(club.club_id)
+    // setSelectClubId(club.club_id)
+    // alert(club.club_name+'에 레터를 생성합니다.')
+    swal("그룹에게", club.club_name+"에 레터를 생성합니다.", "success")
+    setClubOpen(false)
   }
   const handleClubClose = () => {
     setClubOpen(false)
   }
   const handleClubSave = () => {
-    setClubId(selectClubId)
-    setSelectClubId(null)
+    // setClubId(selectClubId)
+    // setSelectClubId(null)
     setClubOpen(false)
   }
 
@@ -411,6 +416,7 @@ const LetterCreate = () => {
         console.log(res)
         // 파일 업로드
         // 생성된 letterId를 받아서 요청 주소에 넣는다.
+        setVideoOpen(true)
         axios.post(BASE_URL + `letter/save/${res.data}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -421,7 +427,6 @@ const LetterCreate = () => {
         })
         .then(res => {
           console.log(res)
-          setVideoOpen(true)
         })
         .catch(err => {
           console.log(err)
@@ -456,6 +461,7 @@ const LetterCreate = () => {
         console.log(res)
         // 파일 업로드
         // 생성된 letterId를 받아서 요청 주소에 넣는다.
+        setVideoOpen(true)
         axios.post(BASE_URL + `letter/save/${res.data}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -466,7 +472,6 @@ const LetterCreate = () => {
         })
         .then(res => {
           console.log(res)
-          setVideoOpen(true)
         })
         .catch(err => {
           console.log(err)
@@ -485,7 +490,7 @@ const LetterCreate = () => {
 
     // 필수 요소가 모두 입력되었는지 확인하는 로직 필요
     if (title !== '' && message !== '' && file !== null) {
-      swal("레터를 생성합니다.", "잠시만 기다려 주세요", "success")
+      // swal("레터를 생성합니다.", "잠시만 기다려 주세요", "success")
       sendAxios()
     } else {
       alert('필수 요소를 모두 입력해주세요')
@@ -779,7 +784,7 @@ const LetterCreate = () => {
                           <ListItemAvatar>
                             <Avatar alt="clubimage" src={group} />
                           </ListItemAvatar>
-                          <ListItemText primary={club.clubName} secondary={club.clubDesc} />
+                          <ListItemText primary={club.club_name} secondary={club.club_desc} />
                         </ListItem>
                       )
                     })}
