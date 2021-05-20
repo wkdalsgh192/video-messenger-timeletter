@@ -39,7 +39,7 @@ public class AlarmScheduler {
     public void cronJob() {
     	logger.info("scheduled");
     	
-    	//알람테이블에 넣을 비오픈레터이면서 오늘 오픈될레터들 조회
+    	//모든 유저에게 알람가도록 하기위해 비오픈레터이면서 오늘 오픈될레터들 조회
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String time = sdf.format(new Timestamp(System.currentTimeMillis()));
     	

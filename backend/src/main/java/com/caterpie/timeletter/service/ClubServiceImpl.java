@@ -46,12 +46,18 @@ public class ClubServiceImpl implements ClubService {
 	}
 	
 	@Override
-	public ClubDetailDto findClubDetail(int clubId) {
+	public ClubDetailDto findClubDetail(int clubId, int userId) {
 		
 		Club club = clubRepository.findByClubId(clubId);
 		List<Map<ClubDetailUser, Object>> cdUser = clubRepository.findDetailUser(clubId);
 		
+		//요청한 유저가 클럽장인지 클럽멤버인지
+		boolean isMaster = false;
+		if(club.getUserId() == userId)
+			isMaster = true;
+		
 		ClubDetailDto clubDetail = ClubDetailDto.builder()
+				.isMaster(isMaster)
 				.clubDesc(club.getClubDesc())
 				.clubName(club.getClubName())
 				.clubProfile(club.getClubProfile())

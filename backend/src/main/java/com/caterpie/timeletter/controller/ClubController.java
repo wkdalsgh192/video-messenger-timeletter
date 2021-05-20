@@ -134,7 +134,9 @@ public class ClubController {
 	@GetMapping("/findDetail")
 	@ApiOperation(value = "club_id로 클럽 디테일 정보 조회", notes = "클럽 디테일 페이지에서 사용될 API")
 	public ClubDetailDto findClubDetail(@RequestParam("id") int clubId) {
-		return service.findClubDetail(clubId);
+		Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElse(null));
+		if (opt == null) throw new RuntimeException("User Not Found");
+		return service.findClubDetail(clubId, opt.get().getUserId());
 	}
 	
 	
