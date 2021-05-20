@@ -8,8 +8,6 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  Card,
-  CardContent,
 } from '@material-ui/core'
 import GroupLetter from "components/group/GroupLetter"
 import GroupMember from 'components/group/GroupMember'

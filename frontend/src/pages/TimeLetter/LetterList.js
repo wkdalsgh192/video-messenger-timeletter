@@ -9,7 +9,6 @@ import {
 
 import bgImage from 'pages/images/sky2.jpg'
 import LetterListItem from 'components/timeletter/LetterListItem'
-import { FaBullseye } from 'react-icons/fa'
 import { BASE_URL, TOKEN } from 'constants/index.js'
 import axios from 'axios'
 import ScrollToTop from 'components/Scroll/ScrollToTop'

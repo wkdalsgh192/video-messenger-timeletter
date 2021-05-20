@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Tabs, Tab, Typography } from "@material-ui/core";
 import axios from 'axios';
-
-import bgImage from "pages/images/sky2.jpg";
 import GroupLetterItem from "./GroupLetterItem";
 import { BASE_URL,TOKEN } from "../../constants";
 import { useParams } from "react-router-dom";

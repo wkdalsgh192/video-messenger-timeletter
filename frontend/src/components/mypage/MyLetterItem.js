@@ -17,7 +17,7 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 
 
 const MyLetterItem = (props) => {
-  const history = useHistory()
+  // const history = useHistory()
   let sender = ''
   if (props.letter.targets.length > 1) {
     const num = props.letter.targets.length -1
@@ -68,7 +68,7 @@ const MyLetterItem = (props) => {
       // console.log(dDay, now, distance)
 			let d = Math.floor(distance / (1000 * 60 * 60 * 24))
 			let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-			let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+			// let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
 			let s = Math.floor((distance % (1000 * 60)) / 1000)
 			let view = ''
 			if(s < 10){

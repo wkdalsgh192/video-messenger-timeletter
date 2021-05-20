@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container, Tabs, Tab } from "@material-ui/core";
-
-import bgImage from "pages/images/sky2.jpg";
 import MyLetterItem from "./MyLetterItem";
-// import MapList from "components/timeletter/MapList"
+
 // 스타일
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -15,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#ffcc80",
   },
 }));
+
+
 // 컴포넌트
 const MyLetter = (props) => {
   const classes = useStyles();

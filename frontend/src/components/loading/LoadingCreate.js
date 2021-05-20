@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React from 'react'
 import video1 from "./CreateLetter.mp4"
 import "./LoadingCreate.css"
 import { useHistory } from 'react-router-dom';

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -8,16 +7,11 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import { Container } from "@material-ui/core";
-import { Link } from 'react-router-dom';
-
 import "./css/Mypage.css";
 import "../css/main.scss";
-
-import LetterCardlist from "../../components/mypage/LetterCardlist";
 import axios from 'axios';
 import { BASE_URL,TOKEN } from '../../constants';
 import { useDispatch } from "react-redux";
-import { mypage } from "_actions/user";
 import MyLetter from "../../components/mypage/MyLetter";
 import ScrollToTop from "components/Scroll/ScrollToTop";
 import userImg from 'static/images/userImg.png'
