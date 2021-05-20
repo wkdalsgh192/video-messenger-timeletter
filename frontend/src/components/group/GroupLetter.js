@@ -11,11 +11,10 @@ import { useParams } from "react-router-dom";
 // 스타일
 const useStyles = makeStyles((theme) => ({
   container: {
-    // backgroundImage: `url(${bgImage})`,
+    minHeight: '60vh',
     height: "100%",
     width: "100%",
-    // paddingTop: "70px",
-    // paddingBottom: "700px",
+    paddingBottom: "50px",
     color: "#ffcc80",
   },
 }));
@@ -32,7 +31,7 @@ const GroupLetter = () => {
   // 오픈여부에 따라 letter를 분류한다.
   const [openLetters, setOpenLetters] = useState([]);
   const [notOpenLetters, setNotOpenLetters] = useState([]);
-
+  
   useEffect(() => {
     axios.get(BASE_URL+"club/findLetters?id="+clubId, {headers: {Authorization:TOKEN}})
     .then((res)=> {

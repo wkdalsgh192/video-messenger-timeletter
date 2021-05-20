@@ -74,10 +74,13 @@ function GroupDetail(props) {
       <div>
         <Typography variant="h6">그룹 상세 조회</Typography>
         <div className="GroupMember">
-          <Typography className="GroupMember-title">그룹이름 : {info.clubName}</Typography>
-          <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleOpen} style={{color:"white"}}>
-            그룹삭제
-          </Button>
+          <Typography className="GroupMember-title">{info.clubName}</Typography>
+          {info.master 
+            ? <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleOpen} style={{color:"white"}}>
+                그룹삭제
+              </Button>
+            : null
+          }
           <Dialog
             open={isDelete}
             onClose={handleClose}
@@ -96,7 +99,7 @@ function GroupDetail(props) {
           </Dialog>
         </div>
         <Typography style={{overflowWrap: 'normal'}}>{info.clubDesc}</Typography>
-        <GroupMember members={info.members}></GroupMember>
+        <GroupMember members={info.members} master={info.master}></GroupMember>
       </div>
       <GroupLetter></GroupLetter>
     </Container>

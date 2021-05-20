@@ -14,6 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import { BASE_URL, TOKEN } from 'constants/index.js'
 import axios from 'axios'
 import 'components/mainpage/SearchBar.css'
+import swal from 'sweetalert'
 
 function SearchBar() {
   // console.log('서치바 생성')
@@ -46,7 +47,8 @@ function SearchBar() {
       .then(res => {
         // console.log(res.data)
         if (res.data == []) {
-          alert('해당 레터번호에 대한 정보가 없습니다.')
+          // alert('해당 레터번호에 대한 정보가 없습니다.')
+          swal("오류", "해당 레터번호에 대한 정보가 없습니다.", "error")
         } else {
           history.push('letter/detail/' + letterCode)
         }
@@ -67,7 +69,8 @@ function SearchBar() {
     .then(res => {
       // console.log(res.data)
       if (res.data == []) {
-        alert('해당 레터번호에 대한 정보가 없습니다.')
+        // alert('해당 레터번호에 대한 정보가 없습니다.')
+        swal("오류", "해당 레터번호에 대한 정보가 없습니다.", "error")
       } else {
         history.push('letter/detail/' + letterCode)
       }
