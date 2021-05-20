@@ -4,15 +4,10 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-// import Dialog from '@material-ui/core/Dialog';
-// import DialogActions from '@material-ui/core/DialogActions';
-// import DialogContent from '@material-ui/core/DialogContent';
-// import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-
+import { BASE_URL, TOKEN } from 'constants/index.js'
+import axios from 'axios'
 import 'components/mainpage/SearchBar.css'
+import swal from 'sweetalert'
 
 function SearchBar() {
   // console.log('서치바 생성')
@@ -34,10 +29,23 @@ function SearchBar() {
   // 엔터키 이벤트
   const handleEnter = (e) => {
     // e.preventDefault()
-    if(e.key == 'Enter'){
-      console.log('엔터 입력')
+    if(e.key == 'Enter') {
+      // console.log('엔터 입력')
       // console.log(letterCode)
-      history.push('letter/detail/' + letterCode)
+      axios.get(BASE_URL + `letter/retrieve/${letterCode}`, {
+        headers: {
+          Authorization: TOKEN
+        }
+      })
+      .then(res => {
+        // console.log(res.data)
+        if (res.data == []) {
+          // alert('해당 레터번호에 대한 정보가 없습니다.')
+          swal("오류", "해당 레터번호에 대한 정보가 없습니다.", "error")
+        } else {
+          history.push('letter/detail/' + letterCode)
+        }
+      })
     } 
   }
 
@@ -46,15 +54,28 @@ function SearchBar() {
     e.preventDefault()
     // console.log('돋보기 클릭')
     // console.log(letterCode)
-    history.push('letter/detail/' + letterCode)
+    axios.get(BASE_URL + `letter/retrieve/${letterCode}`, {
+      headers: {
+        Authorization: TOKEN
+      }
+    })
+    .then(res => {
+      // console.log(res.data)
+      if (res.data == []) {
+        // alert('해당 레터번호에 대한 정보가 없습니다.')
+        swal("오류", "해당 레터번호에 대한 정보가 없습니다.", "error")
+      } else {
+        history.push('letter/detail/' + letterCode)
+      }
+    })
   }
 
 
   return (
-    <div style={{marginTop:"", marginBottom:"20px"}}>
-      <Paper component="form" className="searchbar"> 
-      <InputBase className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleEnter} />
-        <input onChange={(e) => setLetterCode(e.target.value)} type="text" style={{display:"none"}}/> 
+    <div style={{marginTop:"50px", marginBottom:"80px"}}>
+      <Paper component="form" className="searchbar">
+        <InputBase onChange={(e) => setLetterCode(e.target.value)} className="searchinput" placeholder="레터 번호를 입력하세요." onKeyPress={handleEnter} />
+        <input type="text" style={{display:"none"}}/> 
         <IconButton className="" type="button" aria-label="search" onClick={handleClick}>
           <SearchIcon />
         </IconButton>
@@ -69,7 +90,6 @@ function SearchBar() {
         <DialogTitle id="alert-dialog-title">{"레터 암호를 입력해주세요!"}</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
             margin="dense"
             id="name"
             label="Password"
@@ -77,7 +97,7 @@ function SearchBar() {
             fullWidth
           />
           <DialogContentText id="alert-dialog-description">
-           <Link to="/signup" style={{color:"#000080", fontWeight:"bold"}}>회원가입</Link>하고 답장을 보내보세요 :)
+            <Link to="/signup" style={{color:"#000080", fontWeight:"bold"}}>회원가입</Link>하고 답장을 보내보세요 :)
           </DialogContentText>
         </DialogContent>
         <DialogActions>

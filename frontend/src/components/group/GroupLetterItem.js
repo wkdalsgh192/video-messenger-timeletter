@@ -10,7 +10,7 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 });
 
 const GroupLetterItem = (props) => {
-  const history = useHistory();
+  // const history = useHistory();
 
   const sender = "From." + props.letter.name;
   const letterUrl = "/letter/detail/" + props.letter.letter_code;
@@ -24,8 +24,8 @@ const GroupLetterItem = (props) => {
   const handleClick = () => {
     if (props.letter.is_open) {
       setVideoOpen(true);
-      alert("레터 상세조회로 이동합니다.");
-      history.push(letterUrl);
+      // alert("레터 상세조회로 이동합니다.");
+      // history.push(letterUrl);
     } else {
       alert("비오픈 레터는 조회할 수 없습니다.");
     }
@@ -53,7 +53,7 @@ const GroupLetterItem = (props) => {
       let distance = dDay - now;
       let d = Math.floor(distance / (1000 * 60 * 60 * 24));
       let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      // let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       let s = Math.floor((distance % (1000 * 60)) / 1000);
       let view = "";
       if (s < 10) {
@@ -68,12 +68,12 @@ const GroupLetterItem = (props) => {
         if (h > 0) {
           view = view + h + "시간 ";
         }
-        if (m > 0) {
-          view = view + m + "분 ";
-        }
-        if (s > 0) {
-          view = view + s + "초";
-        }
+        // if (m > 0) {
+        //   view = view + m + "분 ";
+        // }
+        // if (s > 0) {
+        //   view = view + s + "초";
+        // }
         setCloseInfo("오픈까지 " + view);
       }
     }, 1000);
@@ -92,7 +92,7 @@ const GroupLetterItem = (props) => {
   };
 
   return (
-    <div>
+    <div onClick={handleClick}>
       <div className="trashnone">
         <div className="night2">
           <span className="moon"></span>
@@ -105,7 +105,7 @@ const GroupLetterItem = (props) => {
             <li></li>
             <li></li>
           </ul>
-          <div onClick={handleClick}>
+          <div>
             <div className="lettercontent2">
               <div
                 className="lettercontent"

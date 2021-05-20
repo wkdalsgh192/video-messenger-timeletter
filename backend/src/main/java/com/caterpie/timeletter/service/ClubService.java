@@ -8,6 +8,6 @@ public interface ClubService {
 	void insertClub(ClubDto clubReq);
 	void deleteClub(int clubId);
 	void joinClub(int userId, int clubId);
-	ClubDetailDto findClubDetail(int clubId);
+	ClubDetailDto findClubDetail(int clubId, int userId);
 	ClubLettersDto findLetters(int clubId);
 }

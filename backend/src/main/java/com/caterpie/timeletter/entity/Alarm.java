@@ -16,14 +16,14 @@ import lombok.Setter;
 public class Alarm {
 	@Id
 	@Column(name = "user_id", columnDefinition = "INT")
-	private int user_id;
+	private int userId;
 	@Column(name = "letter_id", columnDefinition = "INT")
-	private int letter_id;
+	private int letterId;
 	
 	@Builder
 	public Alarm(int userId, int letterId) {
 		super();
-		this.user_id = userId;
-		this.letter_id = letterId;
+		this.userId = userId;
+		this.letterId = letterId;
 	}
 }

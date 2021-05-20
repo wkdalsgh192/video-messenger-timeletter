@@ -9,23 +9,23 @@ import {
 
 import bgImage from 'pages/images/sky2.jpg'
 import LetterListItem from 'components/timeletter/LetterListItem'
-import { FaBullseye } from 'react-icons/fa'
 import { BASE_URL, TOKEN } from 'constants/index.js'
 import axios from 'axios'
+import ScrollToTop from 'components/Scroll/ScrollToTop'
 
 
 // 스타일
 const useStyles = makeStyles((theme) => ({
   container: {
     backgroundImage: `url(${bgImage})`,
+    minHeight: '100vh',
     height: '100%',
     width: '100%',
     paddingTop: '70px',
-    paddingBottom: '700px',
+    paddingBottom: '140px',
     color: '#ffcc80'
   },
 }))
-
 
 
 // 컴포넌트
@@ -39,66 +39,6 @@ const LetterList = () => {
     setValue(newValue);
   };
 
-  // axios요청을 통해 letterList를 받는다.
-  // API 구현 전이므로 더미 데이터로 대체한다.
-  // const [letterList, setLetterList] = useState([
-  //   {'안세익' : {
-  //       letterId: 1,
-  //       userId: 1,
-  //       title: 'title1',
-  //       message: 'message1',
-  //       file: '',
-  //       private: true,
-  //       openDate: '2021-05-14',
-  //       latitude: 33.450705,
-  //       longitude: 126.570677,
-  //       open: true,
-  //       letterCode: '12345qwert'
-  //     }
-  //   },
-  //   {'안세익' : {
-  //       letterId: 2,
-  //       userId: 1,
-  //       title: 'title2',
-  //       message: 'message2',
-  //       file: '',
-  //       private: true,
-  //       openDate: '2021-05-14',
-  //       latitude: 33.450105,
-  //       longitude: 126.570223,
-  //       open: true,
-  //       letterCode: '12345qwert'
-  //     }
-  //   },
-  //   {'안세익': {
-  //       letterId: 3,
-  //       userId: 1,
-  //       title: 'title3',
-  //       message: 'message3',
-  //       file: '',
-  //       private: false,
-  //       openDate: '2022-06-14',
-  //       latitude: 33.450465,
-  //       longitude: 126.570452,
-  //       open: false,
-  //       letterCode: '12345qwert'
-  //     }
-  //   },
-  //   {'안세익': {
-  //       letterId: 4,
-  //       userId: 1,
-  //       title: 'title4',
-  //       message: 'message4',
-  //       file: '',
-  //       private: true,
-  //       openDate: '2022-06-14',
-  //       latitude: 33.450103,
-  //       longitude: 126.570546,
-  //       open: false,
-  //       letterCode: '12345qwert'
-  //     }
-  //   }
-  // ])
 
   // 오픈여부에 따라 letter를 분류한다.
   const [openLetters, setOpenLetters] = useState([])
@@ -111,19 +51,17 @@ const LetterList = () => {
       }
     })
     .then(res => {
-      console.log(res)
+      console.log(res.data)
       const letterList = res.data
       let tmpOpenLetters = []
       let tmpNotOpenLetters = []
-      console.log(letterList.length)
-      for (const [key, value] of Object.entries(letterList)) {
-        // console.log(key)
-        // console.log(value)
-        if (value.open === true) {
-          tmpOpenLetters.push({name: key, letter: value})
+      // console.log(letterList.length)
+      for (let i = 0; i < letterList.length; i ++) {
+        if (letterList[i].open === true) {
+          tmpOpenLetters.push(letterList[i])
           // console.log(letterList[i][key])
-        } else if (value.private === false) {
-          tmpNotOpenLetters.push({name: key, letter: value})
+        } else if (letterList[i].private === false) {
+          tmpNotOpenLetters.push(letterList[i])
         }
       }
       setOpenLetters(tmpOpenLetters)
@@ -136,6 +74,7 @@ const LetterList = () => {
 
   return (
     <Container className={classes.container} maxWidth="xs">
+      <ScrollToTop />
       {/* 오픈, 비오픈 구분 탭 */}
       <Tabs
         value={value}
@@ -155,13 +94,13 @@ const LetterList = () => {
       {value === 0
         ? openLetters.length > 0 
           ? openLetters.map((openLetter, index) => {
-              return <LetterListItem key={index} item={openLetter} /> 
+              return <LetterListItem key={index} letter={openLetter} /> 
             })
           : <Typography variant="h5" style={{textAlign: "center", marginTop: '100px'}}>조회 가능한 레터가 없습니다.</Typography>
           
         : notOpenLetters.length > 0
           ? notOpenLetters.map((notOpenLetter, index) => {
-            return <LetterListItem key={index} item={notOpenLetter} />
+            return <LetterListItem key={index} letter={notOpenLetter} />
           })
           : <Typography variant="h5" style={{textAlign: "center", marginTop: '100px'}}>조회 가능한 레터가 없습니다.</Typography>
       }

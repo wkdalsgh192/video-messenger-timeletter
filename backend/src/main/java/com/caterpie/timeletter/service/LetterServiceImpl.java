@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.caterpie.timeletter.dto.LetterDto;
+import com.caterpie.timeletter.dto.LetterInfoDto;
 import com.caterpie.timeletter.entity.Letter;
 import com.caterpie.timeletter.entity.Target;
 import com.caterpie.timeletter.entity.User;
@@ -38,7 +39,7 @@ public class LetterServiceImpl implements LetterService {
 	private TargetRepository targetRepo;
 	
 	@Override
-	public int createLetter(LetterDto letterDto){
+	public int createLetter(LetterDto letterDto, int userId){
 		
 		// user_has_letter에 업데이트
 		Letter letter = Letter.builder()
@@ -49,7 +50,7 @@ public class LetterServiceImpl implements LetterService {
 				.longitude(new BigDecimal(letterDto.getLongitude()))
 				.isPrivate(letterDto.isPrivate())
 				.isOpen(letterDto.isOpen())
-				.userId(letterDto.getUserId())
+				.userId(userId)
 				.clubId(letterDto.getClubId())
 				.letterCode(new RandomStringUtil().rand())
 				.build();
@@ -59,7 +60,7 @@ public class LetterServiceImpl implements LetterService {
 			Letter result = letterRepo.save(letter);
 			letterId = result.getLetterId();
 			
-			User user = userRepo.findById(letterDto.getUserId()).get();
+			User user = userRepo.findById(userId).get();
 			List<Letter> letters = user.getLetters();
 			letters.add(letter);
 			user.setLetters(letters);
@@ -84,9 +85,12 @@ public class LetterServiceImpl implements LetterService {
 
 	@Override
 	public void saveFile(int letterId, String url) throws Exception {
+		
 		Letter letter = letterRepo.findById(letterId).get();
+		logger.info(letter.toString());
 		letter.setUrl(url);
 		letterRepo.save(letter);
+		
 	}
 
 	@Override
@@ -97,7 +101,7 @@ public class LetterServiceImpl implements LetterService {
 	}
 	
 	@Override
-	public Map<String,Letter> getAllLetters(User user) {
+	public List<LetterInfoDto> getAllLetters(User user) {
 		
 		// 유저 휴대폰 번호 가지고 오기
 		String phoneNumber = user.getPhoneNumber();
@@ -114,13 +118,25 @@ public class LetterServiceImpl implements LetterService {
 		
 		// 해당 레터의 소유자 id를 가지고 유저 정보 찾기
 		// 둘을 매핑하여 반환?
-		Map<String, Letter> map = new HashMap<>();
+		List<LetterInfoDto> arr = new ArrayList<>();
 		letters.stream().forEach(letter -> {
 			Optional<User> opt = userRepo.findById(letter.getUserId());
-			if (opt.isPresent()) map.put(opt.get().getName(), letter);
+			if (opt.isPresent()) {
+				new LetterInfoDto();
+				LetterInfoDto letterInfo = LetterInfoDto.builder()
+									.userName(opt.get().getName())
+									.title(letter.getTitle())
+									.openDate(letter.getOpenDate())
+									.isPrivate(letter.isPrivate())
+									.isOpen(letter.isOpen())
+									.letterCode(letter.getLetterCode())
+									.build();
+				arr.add(letterInfo);
+			}
 		});
 		
-		return map;
+		
+		return arr;
 	}
 
 	@Override
@@ -131,6 +147,17 @@ public class LetterServiceImpl implements LetterService {
 		File file = new File(url);
 		if (!file.canRead()) return null;
 		return file;
+	}
+
+	@Override
+	public void deleteLetter(int letterId) {
+		letterRepo.deleteById(letterId);
+	}
+
+	@Override
+	public long countLetter() {
+		long cnt = letterRepo.count();
+		return cnt;
 	}
 
 }

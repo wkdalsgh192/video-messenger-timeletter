@@ -1,9 +1,13 @@
-import { Button, Container, Input, Typography,Chip } from "@material-ui/core";
+import { Button, Container, Input,InputAdornment, Typography,Chip } from "@material-ui/core";
 import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { BASE_URL, USER_ID,TOKEN } from "../../constants";
+import { BASE_URL, TOKEN } from "../../constants";
+import Filter1Icon from '@material-ui/icons/Filter1';
+import Filter2Icon from '@material-ui/icons/Filter2';
+import Filter3Icon from '@material-ui/icons/Filter3';
 import "./GroupCreate.css";
+import ScrollToTop from "components/Scroll/ScrollToTop";
 function GroupCreate() {
   const history = useHistory();
   const [name, setName] = useState([""]);
@@ -13,6 +17,8 @@ function GroupCreate() {
 
   const [members, setMembers] = useState([]);
   const [membersId, setMembersId] = useState([]);
+
+  const [isMember, setIsMember] = useState([true]);
 
   const onNameHandler = (event) => {
     setName(event.currentTarget.value);
@@ -24,8 +30,8 @@ function GroupCreate() {
     setDescription(event.currentTarget.value);
   };
   const onMemberControl = (member) => {
-    setMembers(members=>[...members,member.name]);
-    setMembersId(membersId=>[...membersId,member.user_id]);
+    setMembers(members=>[...members, member.name]);
+    setMembersId(membersId=>[...membersId, member.user_id]);
     setEmail('');
   };
 
@@ -37,19 +43,16 @@ function GroupCreate() {
       let body = {
         "clubName":name,
         "desc":description,
-        'masterId':USER_ID,
-        // 'masterId':2,
+        'masterId':0,
         "membersId":membersId,
         "profile":"없음"
       };
-      console.log(membersId)
-      console.log(body)
-      axios.post(BASE_URL+"club/insert",body,{"Authorization":TOKEN})
+      axios.post(BASE_URL+"club/insert",body,{headers:{"Authorization":TOKEN}})
         .then((res)=>{console.log(res.data); 
           // window.location.replace("/group/list");
           history.push("/group/list")
         })
-        .catch((err)=>{console.log(err); alert("not create")})
+        .catch((err)=>{console.log(err); alert("본인을 그룹멤버에 포함시키지 않았는지 확인해주세요")})
       }
   }
   const member = members.map((target)=>(
@@ -62,21 +65,32 @@ function GroupCreate() {
     if (e.target.value) {
 
       axios.get(BASE_URL+"club/findWord?word="+e.target.value)
-      .then((res)=>{console.log(res.data); setGroupMembers(res.data); })
+      .then((res)=>{
+        console.log(res);
+        if (res.data.length===0) {
+          setIsMember(false);
+        }
+        else {
+          console.log(res.data); 
+          setGroupMembers(res.data);
+          setIsMember(true);
+        }
+       })
       .catch((err)=>console.log(err))
     } else { setGroupMembers([])}
   };
   const memberList = groupMembers.map((groupmember) => 
-    <div key={groupmember.user_id}>{groupmember.name} {groupmember.email}
-      <Button variant="outlined" style={{ marginLeft: "3px" }} onClick={()=>onMemberControl(groupmember)}>
+    <div className="memberlistd" key={groupmember.user_id}>{groupmember.name} {groupmember.email}
+      <Button variant="text" style={{ marginLeft: "3px" }}  onClick={()=>onMemberControl(groupmember)}>
             추가
           </Button>
     </div>
   );
   return (
     <Container className="groupcreate">
+      <ScrollToTop />
       <br />
-      <Typography>그룹생성</Typography>
+      <Typography style={{color:"white",fontSize:"1.25rem"}} variant="h6">그룹생성</Typography>
       <br />
       <div style={{padding:"10px",backgroundColor:"#e8eaf6",borderRadius:"10px"}}>
         <div>
@@ -88,9 +102,16 @@ function GroupCreate() {
             autoFocus
             placeholder="이름"
             onChange={onNameHandler}
+            startAdornment={
+              <InputAdornment position="start">
+                <Filter1Icon />
+              </InputAdornment>
+            }
           />
         </div>
-
+      </div>
+      <br></br>
+      <div style={{padding:"10px",backgroundColor:"#e8eaf6",borderRadius:"10px"}}>
         <div>
           <Typography>멤버추가</Typography>
 
@@ -98,35 +119,49 @@ function GroupCreate() {
             id="member"
             style={{ width: "230px" }}
             required
-            autoFocus
+            fullWidth
             placeholder="회원의 이름"
             autoComplete="off"
             onChange={onGNameHandler}
+            startAdornment={
+              <InputAdornment position="start">
+                <Filter2Icon />
+              </InputAdornment>
+            }
           />
           <div>
-            {memberList}
+            {isMember ? memberList : <div>찾으시는 회원이 없습니다.</div>}
           </div>
           
         </div>
         {member}
 
+      </div>
+      <br></br>
+      <div style={{padding:"10px",backgroundColor:"#e8eaf6",borderRadius:"10px"}}>
         <div>
           <Typography>그룹설명</Typography>
           <Input
             fullWidth
             required
-            autoFocus
             placeholder="내용"
             onChange={onDiscriptionHandler}
+            startAdornment={
+              <InputAdornment position="start">
+                <Filter3Icon />
+              </InputAdornment>
+            }
           />
         </div>
         <br/>
+        </div>
+        <br></br>
         <div style={{textAlign:"center"}}>
-            <Button variant="outlined" style={{marginTop: "3px" }} onClick={onSubmitHandler}>
+            <Button variant="outlined" style={{backgroundColor:"white",marginTop: "3px" }} onClick={onSubmitHandler}>
             그룹 생성
             </Button>
         </div>
-      </div>
+      
     </Container>
   );
 }

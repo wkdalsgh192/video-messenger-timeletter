@@ -12,10 +12,12 @@ import Paper from "@material-ui/core/Paper";
 
 import "./css/Login.css";
 import "./css/UserUpdate.css";
+import ScrollToTop from 'components/Scroll/ScrollToTop';
 
 function UserUpdate() {
     return (
-        <div className="login-wrap" >
+      <div className="login-wrap" >
+      <ScrollToTop />
 
       <Paper className="papercs" style={{ marginTop: "80px" }}>
         <Container maxWidth="xs" className="">

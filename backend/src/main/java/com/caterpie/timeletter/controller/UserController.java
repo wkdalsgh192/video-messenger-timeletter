@@ -1,10 +1,14 @@
 package com.caterpie.timeletter.controller;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -43,6 +47,8 @@ public class UserController {
 	
 	private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     public UserController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.tokenProvider = tokenProvider;
@@ -75,7 +81,7 @@ public class UserController {
 		try {
 			userService.insertUser(joinDto);
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();	
+			return new ResponseEntity<>("Already Signed Up!", HttpStatus.BAD_REQUEST);	
 		}
 		return ResponseEntity.ok("Congrats, You are signed up!");
 	}
@@ -125,15 +131,6 @@ public class UserController {
 	 * @return JWT
 	 */
 	@ApiOperation(value= "Login", notes = "로그인")
-//	@ApiImplicitParams({
-//	    @ApiImplicitParam(
-//	        name = "contents",
-//	        dataTypeClass = LoginDto.class,
-//	        examples = @io.swagger.annotations.Example(
-//	            value = {
-//	                @ExampleProperty(value = "{'email': 'ssafy1@ssafy.com','password':'ssafy1'}", mediaType = "application/json")
-//	            })) 
-//	})
 	@PostMapping("/login")
     public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto) {
 		
@@ -152,8 +149,13 @@ public class UserController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-hh-mm-ss");
+		String time = sdf.format(new Timestamp(System.currentTimeMillis()));
+		logger.info(time);
 
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
+	
 }
 

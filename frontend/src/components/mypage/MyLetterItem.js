@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import {
   Chip,
   Dialog,
@@ -8,7 +9,7 @@ import {
 import FaceIcon from '@material-ui/icons/Face'
 import '../timeletter/css/LetterListItem.css'
 import LoadingOpen from 'components/loading/LoadingOpen'
-
+import "./css/MyLetterItem.css"
 
 const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,9 +18,14 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 
 const MyLetterItem = (props) => {
   // const history = useHistory()
-
-  const sender = 'To.' + props.letter.userName
-  const letterUrl = 'detail/' + props.letter.letterId
+  let sender = ''
+  if (props.letter.targets.length > 1) {
+    const num = props.letter.targets.length -1
+    sender = 'To.' + props.letter.targets[0].phoneNumber + " 외 "+ num;
+  } else {
+    sender = 'To.' + props.letter.targets[0].phoneNumber;
+  }
+  const letterUrl = '/letter/detail/' + props.letter.letterCode;
 
   // video
   const [videoOpen, setVideoOpen] = useState(false)
@@ -28,7 +34,7 @@ const MyLetterItem = (props) => {
   }
 
   const handleClick = () => {
-    if (props.letter.isOpen === true) {
+    if (props.letter.open === true) {
       setVideoOpen(true)
       // alert('레터 상세조회로 이동합니다.')
       // history.push(letterUrl)
@@ -39,6 +45,8 @@ const MyLetterItem = (props) => {
 
   const [openInfo, setOpenInfo] = useState('오픈날짜 ' + props.letter.openDate)
   const [closeInfo, setCloseInfo] = useState('')
+
+  // console.log(openInfo)
 
   
 
@@ -57,9 +65,10 @@ const MyLetterItem = (props) => {
     setInterval(function() {
 			let now = new Date() //현재 날짜 가져오기
 			let distance = dDay - now;
+      // console.log(dDay, now, distance)
 			let d = Math.floor(distance / (1000 * 60 * 60 * 24))
 			let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-			let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+			// let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
 			let s = Math.floor((distance % (1000 * 60)) / 1000)
 			let view = ''
 			if(s < 10){
@@ -74,12 +83,12 @@ const MyLetterItem = (props) => {
 				if (h > 0) {
 					view = view + h + '시간 '
 				}
-				if (m > 0) {
-					view = view + m + '분 '
-				}
-        if (s > 0) {
-					view = view + s + '초'
-				}
+				// if (m > 0) {
+				// 	view = view + m + '분 '
+				// }
+        // if (s > 0) {
+				// 	view = view + s + '초'
+				// }
 				setCloseInfo('오픈까지 ' + view)
 			}
 		}, 1000);
@@ -91,7 +100,7 @@ const MyLetterItem = (props) => {
   // console.log(closeInfo)
 
   const getInfo = () => {
-    if (props.letter.isOpen) {
+    if (props.letter.open) {
       return <div style={{fontSize:"20px", color: '#fff'}}> {openInfo}</div>
     } else {
       return <div style={{fontSize:"20px", color: '#fff'}}> {closeInfo}</div>
@@ -99,7 +108,7 @@ const MyLetterItem = (props) => {
   }
 
   return (
-    <div>
+    <div onClick={handleClick}>
       <div className="trashnone">
         <div className="night2">
           <span className="moon"></span>
@@ -112,10 +121,10 @@ const MyLetterItem = (props) => {
             <li></li>
             <li></li>
           </ul>
-          <div onClick={handleClick}>
+          <div>
             <div className="lettercontent2">
               <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
-                <Chip variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />
+                <Chip className="mypageChip" variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />
               </div>
               <div style={{fontSize:"20px", color: '#fff'}}>{props.letter.title}</div>
               {getInfo()}

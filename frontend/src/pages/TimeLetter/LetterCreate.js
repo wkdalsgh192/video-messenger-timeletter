@@ -32,15 +32,19 @@ import {
 import TitleRoundedIcon from '@material-ui/icons/TitleRounded'
 import CloseIcon from '@material-ui/icons/Close'
 import MapIcon from '@material-ui/icons/Map'
-import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined'
 import PhoneAndroidOutlinedIcon from '@material-ui/icons/PhoneAndroidOutlined'
 import MapCreate from '../../components/timeletter/MapCreate'
 import group from 'static/images/group.png'
 import bgImage from 'pages/images/sky2.jpg'
 import { BASE_URL, TOKEN } from 'constants/index.js'
 import axios from 'axios'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core'
+import { createMuiTheme } from '@material-ui/core'
 import LoadingCreate from 'components/loading/LoadingCreate'
+import CloudUploadOutlinedIcon from '@material-ui/icons/CloudUploadOutlined'
+import './css/lettercreate.css'
+import ScrollToTop from 'components/Scroll/ScrollToTop'
+import swal from 'sweetalert'
+
 
 // 테마
 const theme = createMuiTheme({
@@ -82,6 +86,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '24px',
     width: '100%',
   },
+  upload: {
+    textAlign: 'center',
+    display: 'flex',
+    alignItems: 'center',
+    marginTop: '10px',
+  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
@@ -107,6 +117,26 @@ const LetterCreate = () => {
   // console.log('letter-create')
   const classes = useStyles()
 
+  // OS 확인 : ios이면 true, 나머지 os는 false
+  function getMobileOperatingSystem() {
+    let userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  
+      if (/windows phone/i.test(userAgent)) {
+          return false
+      }
+  
+      if (/android/i.test(userAgent)) {
+          return false
+      }
+  
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          return true
+      }
+  
+      return false
+  }
+  // console.log(getMobileOperatingSystem())
+
   // 레터 제목
   const [title, setTitle] = useState('')
   // console.log(title)
@@ -119,21 +149,74 @@ const LetterCreate = () => {
   const [file, setFile] = useState(null)
   // console.log(file[0])
 
+  const removeFile = () => {
+    // console.log('파일제거')
+    setFile(null)
+  }
+
+  const handleFile = (e) => {
+    // console.log('파일 변경')
+    let len = e.target.files[0].name.length
+    let extension = e.target.files[0].name.substring(len - 4, len)
+    // console.log(e.target.files[0].name.substring(len - 4, len))
+    if (e.target.files && e.target.files[0].size > (500 * 1024 * 1024)) {
+      alert('파일첨부는 최대 500MB까지 가능합니다.')
+    } else if (extension === '.mp4' || extension === '.MOV') {
+      setFile(e.target.files)
+    } else if (e.target.files.length > 0) {
+      alert('.mp4 또는 .mov 파일만 첨부 가능합니다.')
+    }
+  }
+
+  const showFileName = () => {
+    if (file !== null) {
+      return <div style={{marginLeft: '0px'}} onClick={removeFile}>{file[0].name}&nbsp;&nbsp;&nbsp;삭제</div>
+    }
+  }
+
+
   // 비공개여부
   const [isPrivate, setIsPrivate] = useState('')
   // console.log(private)
   // ''는 공개, 'true'는 비공개
 
+
   // 오픈 날짜
-  const getToday = () => {
+  const getDefaultDay = () => {
     let date = new Date();
     let year = date.getFullYear();
     let month = ("0" + (1 + date.getMonth())).slice(-2);
-    let day = ("0" + date.getDate()).slice(-2);
+    let day = ("0" + (date.getDate())).slice(-2);
     return year + "-" + month + "-" + day;
   }
-  const [openDate, setOpenDate] = useState(getToday())
+  const [openDate, setOpenDate] = useState(getDefaultDay())
   // console.log(openDate)
+
+  // yyyy-mm-dd
+  const toDate = (date_str) => {
+    let dDay = String(date_str)
+    let sYear = dDay.substring(0, 4)
+    let sMonth = dDay.substring(5, 7)
+    let sDate = dDay.substring(8, 10)
+
+    return new Date(Number(sYear), Number(sMonth) - 1, Number(sDate)).getTime()
+  }
+
+  const handleOpenDate = (e) => {
+    // console.log(e.target.value)
+    let dDay = toDate(e.target.value)
+    console.log(dDay)
+    let today = new Date()
+    console.log(today)
+    let distance = dDay - today
+    console.log(distance)
+    if (distance < -86400000) {
+      alert('지난 날은 오픈 조건으로 설정할 수 없습니다.')
+    } else {
+      setOpenDate(e.target.value)
+    }
+  }
+
 
   // 오픈 장소(위경도)
   const [locOpen, setLocOpen] = useState(false)
@@ -189,7 +272,8 @@ const LetterCreate = () => {
     setPhoneNumbers([])
     setPhoneNumberList([{ phoneNumber: ""}])
     setClubId(null)
-    alert('미래의 나에게 레터를 보냅니다.')
+    // alert('미래의 나에게 레터를 보냅니다.')
+    swal("나에게", "미래의 나에게 레터를 보냅니다", "success")
   }
 
   // 타인에게
@@ -239,6 +323,7 @@ const LetterCreate = () => {
     if (valid === true) {
       setPhoneNumbers(tmpNumber)
       setOtherOpen(false)
+      swal("타인에게", "입력한 전화번호로 레터를 보냅니다.", "success")
     } else {
       alert('01012345678 형태로 번호를 입력해주세요')
     }
@@ -257,10 +342,9 @@ const LetterCreate = () => {
     setClubOpen(true)
 
     // 본인이 속한 그룹 목록을 받아오는 axios 요청
-    // console.log(USER_ID)
     axios.get(BASE_URL + 'club/findMyClub', {
-      params: {
-        id: 1,
+      headers: {
+        Authorization: TOKEN,
       }
     })
       .then(res => {
@@ -272,15 +356,18 @@ const LetterCreate = () => {
       })
   }
   const handleClubId = (club, e) => {
-    setSelectClubId(club.clubId)
-    alert(club.clubName+'에 레터를 생성합니다.')
+    setClubId(club.club_id)
+    // setSelectClubId(club.club_id)
+    // alert(club.club_name+'에 레터를 생성합니다.')
+    swal("그룹에게", club.club_name+"에 레터를 생성합니다.", "success")
+    setClubOpen(false)
   }
   const handleClubClose = () => {
     setClubOpen(false)
   }
   const handleClubSave = () => {
-    setClubId(selectClubId)
-    setSelectClubId(null)
+    // setClubId(selectClubId)
+    // setSelectClubId(null)
     setClubOpen(false)
   }
 
@@ -305,7 +392,7 @@ const LetterCreate = () => {
     if (target !== '2') {
       // 나에게, 타인에게
       let body = {
-        userId: 1,
+        // userId: 1,
         title: title,
         message: message,
         private: Boolean(isPrivate),
@@ -319,22 +406,30 @@ const LetterCreate = () => {
 
       console.log(body)
 
-      axios.post(BASE_URL + 'letter/create', body)
+      axios.post(BASE_URL + 'letter/create', body, {
+        headers: {
+          Authorization: TOKEN
+        }
+      })
       .then(res => {
         console.log(res)
         // 파일 업로드
         // 생성된 letterId를 받아서 요청 주소에 넣는다.
+        setVideoOpen(true)
         axios.post(BASE_URL + `letter/save/${res.data}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
+          },
+          params: {
+            os: getMobileOperatingSystem(),
           }
         })
         .then(res => {
           console.log(res)
-          setVideoOpen(true)
         })
         .catch(err => {
           console.log(err)
+          swal()
         })
       })
       .catch(err => {
@@ -343,7 +438,7 @@ const LetterCreate = () => {
     } else {
       // 그룹에게
       let body = {
-        userId: 1,
+        // userId: 1,
         title: title,
         message: message,
         private: Boolean(isPrivate),
@@ -356,22 +451,30 @@ const LetterCreate = () => {
 
       console.log(body)
 
-      axios.post(BASE_URL + 'letter/create', body)
+      axios.post(BASE_URL + 'letter/create', body, {
+        headers: {
+          Authorization: TOKEN
+        }
+      })
       .then(res => {
         console.log(res)
         // 파일 업로드
         // 생성된 letterId를 받아서 요청 주소에 넣는다.
-        axios.post(BASE_URL + `letter/save/${1}`, formData, {
+        setVideoOpen(true)
+        axios.post(BASE_URL + `letter/save/${res.data}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
+          },
+          params: {
+            os: getMobileOperatingSystem(),
           }
         })
         .then(res => {
           console.log(res)
-          setVideoOpen(true)
         })
         .catch(err => {
           console.log(err)
+          alert('해당 영상은 업로드 할 수 없습니다.')
         })
       })
       .catch(err => {
@@ -386,12 +489,11 @@ const LetterCreate = () => {
 
     // 필수 요소가 모두 입력되었는지 확인하는 로직 필요
     if (title !== '' && message !== '' && file !== null) {
+      // swal("레터를 생성합니다.", "잠시만 기다려 주세요", "success")
       sendAxios()
     } else {
       alert('필수 요소를 모두 입력해주세요')
     }
-
-    
   }
 
   // video
@@ -401,9 +503,11 @@ const LetterCreate = () => {
     setVideoOpen(false)
   }
 
+
   // ************** return ****************
   return (
     <Container className={classes.container} maxWidth="xs">
+      <ScrollToTop />
       <Typography className={classes.title} variant="h6">레터생성</Typography>
       {/* 캡슐 정보 */}
       <div className={classes.paper}>
@@ -451,6 +555,29 @@ const LetterCreate = () => {
             <Grid item>
               <FormControl className={classes.field}>
                 <FormLabel>영상 업로드*</FormLabel>
+                <div className={classes.upload}>
+                  <label className="custom-file-upload" style={{minWidth: '90px'}}>
+                    <input
+                      onChange={handleFile}
+                      type="file"
+                      id="file-upload"
+                      required
+                      variant="outlined"
+                      style={{marginTop: '4px'}}
+                      name="file-upload"
+                      accept="video/mp4"
+                    />
+                    <CloudUploadOutlinedIcon size="large" style={{marginRight: '10px'}} /> 업로드
+                  </label>
+                  {showFileName()}
+                </div>
+              </FormControl>
+            </Grid>
+
+            {/* 파일 업로드 */}
+            {/* <Grid item>
+              <FormControl className={classes.field}>
+                <FormLabel>영상 업로드*</FormLabel>
                 <input 
                   onChange={(e) => setFile(e.target.files)}
                   type="file"
@@ -458,13 +585,12 @@ const LetterCreate = () => {
                   required
                   variant="outlined"
                   style={{marginTop: '4px'}}
-                  name="files"
-                  required
+                  name="file"
                   accept="video/mp4"
                 />
               </FormControl>
-            </Grid>
-            
+            </Grid> */}
+
             {/* 비공개설정 */}
             <Grid item>
               <FormControl className={classes.field}>
@@ -484,7 +610,7 @@ const LetterCreate = () => {
               <Grid container>
                 <Grid item>
                   <TextField
-                    onChange={(e) => setOpenDate(e.target.value)}
+                    onChange={handleOpenDate}
                     id="openDate"
                     type="date"
                     defaultValue={openDate}
@@ -494,6 +620,9 @@ const LetterCreate = () => {
                       shrink: true,
                     }}
                     style={{paddingTop: '8px'}}
+                    inputProps={{ 
+                      min: getDefaultDay()
+                    }}
                   />
                 </Grid>
                 <Grid item>
@@ -510,10 +639,20 @@ const LetterCreate = () => {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                   >
-                    <DialogTitle id="alert-dialog-title">레터 오픈 장소를 설정하시겠습니까?</DialogTitle>
+                    {/* 오픈 장소 설정 ver */}
+                    {/* <DialogTitle id="alert-dialog-title">레터 오픈 장소를 설정하시겠습니까?</DialogTitle>
                     <DialogContent>
                       <DialogContentText id="alert-dialog-description">
                         오픈 장소를 설정하면 사용자의 위치를 GPS로 확인하여 해당 장소 부근에서만 레터를 열어볼 수 있습니다.
+                      </DialogContentText>
+                    </DialogContent> */}
+
+                    {/* 추억의 장소 저장 ver */}
+                    <DialogTitle id="alert-dialog-title">추억의 장소를 저장하시겠습니까?</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        <div>추억의 장소를 저장하시면 레터 조회 시 해당 위치가 지도에 표시됩니다.</div>
+                        <div>* safari 브라우저는 지원하지 않습니다.</div>
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
@@ -534,7 +673,7 @@ const LetterCreate = () => {
                           <CloseIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.barTitle}>
-                          오픈 장소 설정
+                          추억의 장소
                         </Typography>
                         <Button autoFocus color="inherit" onClick={handleMapSave}>
                           저장
@@ -644,7 +783,7 @@ const LetterCreate = () => {
                           <ListItemAvatar>
                             <Avatar alt="clubimage" src={group} />
                           </ListItemAvatar>
-                          <ListItemText primary={club.clubName} secondary={club.clubDesc} />
+                          <ListItemText primary={club.club_name} secondary={club.club_desc} />
                         </ListItem>
                       )
                     })}
@@ -701,7 +840,7 @@ const LetterCreate = () => {
         </form>
       </div>
     </Container>
-  );
-};
+  )
+}
 
 export default LetterCreate;

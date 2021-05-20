@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import bgImage from 'pages/images/sky2.jpg'
-import { Grid } from '@material-ui/core'
 
 const { kakao } = window
 
@@ -67,8 +66,10 @@ const MapCreate = (props) => {
       marker.setPosition(latlng);
 
       // 위경도를 갱신
-      setLat(latlng.getLat())
-      setLng(latlng.getLng())
+      if (latlng.getLat() !== NaN) {
+        setLat(latlng.getLat())
+        setLng(latlng.getLng())
+      }
     })
   }
 
@@ -93,8 +94,10 @@ const MapCreate = (props) => {
         id="map" 
         style={{width: '80%', height: '85%', marginLeft: "auto", marginRight: "auto", borderRadius:"10px"}}
         onClick={() => {
-          props.onChangeLat(lat)
-          props.onChangeLng(lng)
+          if (lat !== NaN) {
+            props.onChangeLat(lat)
+            props.onChangeLng(lng)
+          }
         }}
       ></div>
     </div>

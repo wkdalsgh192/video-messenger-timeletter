@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import { 
   Container,
@@ -9,18 +9,17 @@ import {
 } from '@material-ui/core';
 import MapDetail from "../../components/timeletter/MapDetail"
 import bgImage from 'pages/images/sky2.jpg'
-import ReactPlayer from 'react-player'
-// import sampleVideo1 from 'static/videos/sampleVideo1.mp4'
-// import sampleVideo2 from 'static/videos/sampleVideo2.mp4'
 import MapIcon from '@material-ui/icons/Map'
 import axios from 'axios';
 import { BASE_URL, TOKEN } from 'constants/index.js'
+import ScrollToTop from 'components/Scroll/ScrollToTop';
 
 const useStyles = makeStyles((theme) => ({
   container: {
     backgroundImage: `url(${bgImage})`,
     paddingTop: '20px',
     paddingBottom: '80px',
+    minHeight: '100vh',
   },
   title: {
     marginTop: '40px',
@@ -49,6 +48,7 @@ const LetterDetail = () => {
   let { code } = useParams()
   // console.log(code)
   const classes = useStyles()
+  const history = useHistory()
 
 
   const [name, setName] = useState('')
@@ -65,6 +65,11 @@ const LetterDetail = () => {
     })
     .then(res => {
       console.log(res.data)
+      if (res.data == []) {
+        console.log('정보없음')
+        alert('해당 코드에 대한 레터 정보가 없습니다. 메인페이지로 이동합니다.')
+        history.push('/')
+      } 
       for (const [key, value] of Object.entries(res.data)) {
         setName(key)
         setLetter(value)
@@ -72,7 +77,7 @@ const LetterDetail = () => {
         // console.log(name)
         // console.log(letter)
         // setFileUrl(BASE_URL + 'letter/load/' + value.letterId)
-        setFileUrl('https://k4d105.p.ssafy.io' + value.url)
+        setFileUrl('https://timeletter.co.kr' + value.url)
         console.log(fileUrl)
       }
     })
@@ -106,6 +111,7 @@ const LetterDetail = () => {
 
   return (
     <div>
+      <ScrollToTop />
       {letter !== null
         ? <Container className={classes.container} maxWidth="xs">
             <Typography className={classes.title} variant="h6">레터 상세조회</Typography>
@@ -138,7 +144,7 @@ const LetterDetail = () => {
                 </CardContent>
               </Card>
               <Typography variant="subtitle1">- 오픈날짜 : {letter.openDate}</Typography>
-              <Typography variant="subtitle1" style={{display: 'flex', alignItems: 'center'}}><span>- 추억장소</span><MapIcon onClick={handleMap} style={{marginLeft: '5px'}} /></Typography>
+              {letter.latitude ? <Typography variant="subtitle1" style={{display: 'flex', alignItems: 'center'}}><span>- 추억장소</span><MapIcon onClick={handleMap} style={{marginLeft: '5px'}} /></Typography>:null}
               {mapOpen === true && Number(letter.latitude) !== 0 ? <MapDetail lat={letter.latitude} lng={letter.longitude} /> : null}
             </div>
           </Container>

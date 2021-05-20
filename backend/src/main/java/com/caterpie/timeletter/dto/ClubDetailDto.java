@@ -22,16 +22,18 @@ public class ClubDetailDto {
 	private String clubName;
 	private String clubProfile;
 	private String clubDesc;
+	private boolean isMaster;
 	private List<Map<ClubDetailUser, Object>> members;
 	
 	
 	@Builder
-	public ClubDetailDto(int clubId, String clubName, String clubProfile, String clubDesc, List<Map<ClubDetailUser, Object>> members) {
+	public ClubDetailDto(int clubId, String clubName, String clubProfile, String clubDesc, List<Map<ClubDetailUser, Object>> members, boolean isMaster) {
 		super();
 		this.clubName = clubName;
 		this.clubDesc = clubDesc;
 		this.clubProfile = clubProfile;
 		this.clubId = clubId;
 		this.members = members;
+		this.isMaster = isMaster;
 	}
 }
