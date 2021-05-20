@@ -3,9 +3,9 @@ package com.caterpie.timeletter.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,19 +28,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.caterpie.timeletter.dto.LetterDto;
+import com.caterpie.timeletter.dto.LetterInfoDto;
 import com.caterpie.timeletter.entity.Letter;
 import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.service.LetterService;
 import com.caterpie.timeletter.service.UserService;
 import com.caterpie.timeletter.util.EncoderUtil;
-
-import ws.schild.jave.Encoder;
-import ws.schild.jave.MultimediaObject;
-import ws.schild.jave.encode.AudioAttributes;
-import ws.schild.jave.encode.EncodingAttributes;
-import ws.schild.jave.encode.VideoAttributes;
-import ws.schild.jave.encode.enums.X264_PROFILE;
-import ws.schild.jave.info.VideoSize;
 
 
 @RestController
@@ -87,8 +80,8 @@ public class LetterController {
 		Optional<User> opt = userService.getCurrentUserWithAuthorities();
 		
 		if (opt.isPresent()) {
-			Map<String,Letter> map = letterService.getAllLetters(opt.get());
-			return new ResponseEntity<>(map, HttpStatus.OK);
+			List<LetterInfoDto> arr = letterService.getAllLetters(opt.get());
+			return new ResponseEntity<>(arr, HttpStatus.OK);
 		} else return ResponseEntity.noContent().build();
 	}
 	
