@@ -461,6 +461,7 @@ const LetterCreate = () => {
         console.log(res)
         // 파일 업로드
         // 생성된 letterId를 받아서 요청 주소에 넣는다.
+        setVideoOpen(true)
         axios.post(BASE_URL + `letter/save/${res.data}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -471,7 +472,6 @@ const LetterCreate = () => {
         })
         .then(res => {
           console.log(res)
-          setVideoOpen(true)
         })
         .catch(err => {
           console.log(err)
