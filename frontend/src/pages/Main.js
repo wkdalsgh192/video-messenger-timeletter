@@ -13,6 +13,7 @@ import Carousel from 'react-material-ui-carousel'
 import main1 from 'static/images/main1.jpg'
 import main2 from 'static/images/main2.jpg'
 import main3 from 'static/images/main3.jpg'
+import main4 from 'static/images/main4.jpg'
 import { TOKEN } from "../constants";
 import ScrollToTop from "components/Scroll/ScrollToTop";
 
@@ -96,6 +97,7 @@ function Main() {
             <div><img src={main1} style={{width: '100%', height: '90vh'}} /></div>
             <div><img src={main2} style={{width: '100%', height: '90vh'}} /></div>
             <div><img src={main3} style={{width: '100%', height: '90vh'}} /></div>
+            <div><img src={main4} style={{width: '100%', height: '90vh'}} /></div>
           </Carousel>
         </div>
       </div>
