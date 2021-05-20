@@ -33,11 +33,7 @@ public class AlarmScheduler {
 	@Autowired
 	private LetterRepository letterRepository;
 
-<<<<<<< HEAD
 //	@Scheduled(cron = "0 1 0 * * *")	//매일 00시01분 실행
-=======
-	// @Scheduled(cron = "0 1 0 * * *")	//매일 00시01분 실행
->>>>>>> 973528553e0b19bab6be4f21213feccefcf7dd84
 //	@Scheduled(cron = "0/10 * * * * *")	//10초에 한번씩 실행
 	@Scheduled(cron = "0 0/1 * * * *") //1분에 한번씩 실행
     public void cronJob() {
