@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url(${bgImage})`,
     paddingTop: '20px',
     paddingBottom: '80px',
+    minHeight: '100vh',
   },
   title: {
     marginTop: '40px',
