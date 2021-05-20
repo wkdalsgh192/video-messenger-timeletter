@@ -38,7 +38,9 @@ public class AlarmScheduler {
 
 //	@Scheduled(cron = "0 1 0 * * *")	//매일 00시01분 실행
 //	@Scheduled(cron = "0/10 * * * * *")	//10초에 한번씩 실행
-	@Scheduled(cron = "0 0/1 * * * *") //1분에 한번씩 실행
+//	@Scheduled(cron = "0 0/1 * * * *") //1분에 한번씩 실행
+//  @Scheduled(cron = "0 0 5 * * *") //매일 오후 2시에 실행(시연때 사용)
+    @Scheduled(cron = "0 8 16 * * *")
     public void cronJob() {
     	logger.info("scheduled");
     	
@@ -69,19 +71,18 @@ public class AlarmScheduler {
 	    	
 	    	//클럽레터 오픈처리 & 클럽멤버 모두에게 문자발송 및 알람전송
 	    	Set<Letter> clubsLetters = letterRepository.findAllByIsOpenEqualsAndOpenDateEqualsAndClubIdGreaterThan(false, time, 0); //클럽 전용 레터들
-	    	logger.info("여기" +clubsLetters.size());
+
 	    	clubsLetters.stream().forEach(a ->{
 	    		String letterCode = (String) a.getLetterCode();
 	    		int letterId = (int) a.getLetterId();
 	    		
 	    		List<Map<ClubDetailUser, Object>> clubMembers = clubRepository.findDetailUser((int) a.getClubId());
 	    		
-	    		logger.info("" + clubMembers.size());
 	    		for(int i=0, l=clubMembers.size(); i<l; i++) {
 	    			String phoneNumber = (String) clubMembers.get(i).get("phone_number");
-	    			logger.info("" + phoneNumber);
-//		    		MessageUtil message = new MessageUtil();
-//		    		message.sendSms(phoneNumber, letterCode);
+
+		    		MessageUtil message = new MessageUtil();
+		    		message.sendSms(phoneNumber, letterCode);
 	    			
 	    			alarmRepository.insertAlarm((int) clubMembers.get(i).get("user_id"), letterId);	
 	    		}
@@ -95,8 +96,8 @@ public class AlarmScheduler {
 	    	alarms.stream().forEach(a -> {
 	    		String letterCode = (String) a.get("letter_code");
 	    		String phoneNumber = (String) a.get("phone_number");
-//	    		MessageUtil message = new MessageUtil();
-//	    		message.sendSms(phoneNumber, letterCode);
+	    		MessageUtil message = new MessageUtil();
+	    		message.sendSms(phoneNumber, letterCode);
 	    	});
 	    	
 		} else logger.info("Empty");
