@@ -1,10 +1,12 @@
 package com.caterpie.timeletter.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import com.caterpie.timeletter.dto.LetterDto;
+import com.caterpie.timeletter.dto.LetterInfoDto;
 import com.caterpie.timeletter.entity.Letter;
 import com.caterpie.timeletter.entity.User;
 
@@ -16,7 +18,7 @@ public interface LetterService {
 	/* R :: 레터 조회 */
 	long countLetter();
 	Optional<Letter> retrieveLetter(String letterCode);
-	Map<String,Letter> getAllLetters(User user);
+	List<LetterInfoDto> getAllLetters(User user);
 	
 	/* R :: 영상 조회 */
 	File retrieveFile(int letterId);

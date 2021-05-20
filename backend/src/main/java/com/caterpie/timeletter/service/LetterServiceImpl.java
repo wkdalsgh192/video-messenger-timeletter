@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.caterpie.timeletter.dto.LetterDto;
+import com.caterpie.timeletter.dto.LetterInfoDto;
 import com.caterpie.timeletter.entity.Letter;
 import com.caterpie.timeletter.entity.Target;
 import com.caterpie.timeletter.entity.User;
@@ -100,7 +101,7 @@ public class LetterServiceImpl implements LetterService {
 	}
 	
 	@Override
-	public Map<String,Letter> getAllLetters(User user) {
+	public List<LetterInfoDto> getAllLetters(User user) {
 		
 		// 유저 휴대폰 번호 가지고 오기
 		String phoneNumber = user.getPhoneNumber();
@@ -117,13 +118,25 @@ public class LetterServiceImpl implements LetterService {
 		
 		// 해당 레터의 소유자 id를 가지고 유저 정보 찾기
 		// 둘을 매핑하여 반환?
-		Map<String, Letter> map = new HashMap<>();
+		List<LetterInfoDto> arr = new ArrayList<>();
 		letters.stream().forEach(letter -> {
 			Optional<User> opt = userRepo.findById(letter.getUserId());
-			if (opt.isPresent()) map.put(opt.get().getName(), letter);
+			if (opt.isPresent()) {
+				new LetterInfoDto();
+				LetterInfoDto letterInfo = LetterInfoDto.builder()
+									.userName(opt.get().getName())
+									.title(letter.getTitle())
+									.openDate(letter.getOpenDate())
+									.isPrivate(letter.isPrivate())
+									.isOpen(letter.isOpen())
+									.letterCode(letter.getLetterCode())
+									.build();
+				arr.add(letterInfo);
+			}
 		});
 		
-		return map;
+		
+		return arr;
 	}
 
 	@Override
