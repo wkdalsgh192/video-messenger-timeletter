@@ -9,9 +9,6 @@ import {
 } from '@material-ui/core';
 import MapDetail from "../../components/timeletter/MapDetail"
 import bgImage from 'pages/images/sky2.jpg'
-import ReactPlayer from 'react-player'
-// import sampleVideo1 from 'static/videos/sampleVideo1.mp4'
-// import sampleVideo2 from 'static/videos/sampleVideo2.mp4'
 import MapIcon from '@material-ui/icons/Map'
 import axios from 'axios';
 import { BASE_URL, TOKEN } from 'constants/index.js'

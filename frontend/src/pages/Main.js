@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React from "react";
 import SearchBar from "../components/mainpage/SearchBar";
 import img1 from "./UserPage/images/종이비행기.gif";
 import { IoIosArrowDown } from "react-icons/all";
@@ -95,10 +95,10 @@ function Main() {
               사이트 이용 방법을 확인하시려면<br/>
               좌우로 스와이프하세요
             </div>
-            <div><img src={main1} style={{width: '100%', height: '90vh'}} /></div>
-            <div><img src={main2} style={{width: '100%', height: '90vh'}} /></div>
-            <div><img src={main3} style={{width: '100%', height: '90vh'}} /></div>
-            <div><img src={main4} style={{width: '100%', height: '90vh'}} /></div>
+            <div><img src={main1} style={{width: '100%', height: '90vh'}} alt="main1" /></div>
+            <div><img src={main2} style={{width: '100%', height: '90vh'}} alt="main2" /></div>
+            <div><img src={main3} style={{width: '100%', height: '90vh'}} alt="main3" /></div>
+            <div><img src={main4} style={{width: '100%', height: '90vh'}} alt="main4" /></div>
           </Carousel>
         </div>
       </div>

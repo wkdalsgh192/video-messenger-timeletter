@@ -10,7 +10,7 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 });
 
 const GroupLetterItem = (props) => {
-  const history = useHistory();
+  // const history = useHistory();
 
   const sender = "From." + props.letter.name;
   const letterUrl = "/letter/detail/" + props.letter.letter_code;
@@ -53,7 +53,7 @@ const GroupLetterItem = (props) => {
       let distance = dDay - now;
       let d = Math.floor(distance / (1000 * 60 * 60 * 24));
       let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      // let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       let s = Math.floor((distance % (1000 * 60)) / 1000);
       let view = "";
       if (s < 10) {

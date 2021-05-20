@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL,TOKEN } from "../../constants";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { RiMailSendLine } from "react-icons/ri";
 
 const CountLetters = () => {

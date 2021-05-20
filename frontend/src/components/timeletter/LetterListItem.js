@@ -4,7 +4,6 @@ import {
   Dialog,
   Slide,
 } from '@material-ui/core'
-// import { useHistory } from 'react-router-dom'
 import FaceIcon from '@material-ui/icons/Face'
 import './css/LetterListItem.css'
 import LoadingOpen from 'components/loading/LoadingOpen'
@@ -62,7 +61,7 @@ const LetterListItem = (props) => {
 			let distance = dDay - now;
 			let d = Math.floor(distance / (1000 * 60 * 60 * 24))
 			let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-			let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+			// let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
 			let s = Math.floor((distance % (1000 * 60)) / 1000)
 			let view = ''
 			if(s < 10){
