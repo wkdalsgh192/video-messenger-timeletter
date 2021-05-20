@@ -90,9 +90,10 @@ function Main() {
         {/* 세번째 메인 */}
         <div>
           <Carousel autoPlay={false} animation="slide">
-            <div className="section section-3">
+            <div className="section section-3" style={{fontSize: '20px', paddingLeft: '20px', paddingRight: '20px'}}>
               <img src={img1}></img><br/>
-              사이트 이용 방법을 확인하시려면 좌우로 스와이프하세요
+              사이트 이용 방법을 확인하시려면<br/>
+              좌우로 스와이프하세요
             </div>
             <div><img src={main1} style={{width: '100%', height: '90vh'}} /></div>
             <div><img src={main2} style={{width: '100%', height: '90vh'}} /></div>
