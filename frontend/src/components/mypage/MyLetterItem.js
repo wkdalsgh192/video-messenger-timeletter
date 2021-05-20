@@ -19,7 +19,7 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 const MyLetterItem = (props) => {
   const history = useHistory()
   let sender = ''
-  if (props.letter.targets.length>1) {
+  if (props.letter.targets.length > 1) {
     const num = props.letter.targets.length -1
     sender = 'To.' + props.letter.targets[0].phoneNumber + " 외 "+ num;
   } else {

@@ -72,9 +72,9 @@ function Mypage() {
           </CardActions>
         </Grid>
       </Card>
-      <h3>나의 전체 레터 조회</h3>
+      <h3>내가 보낸 레터</h3>
       {/* <LetterCardlist></LetterCardlist> */}
-      <MyLetter letterList={state.letters}></MyLetter>
+      <MyLetter letterList={state.letters} phone={state.phoneNumber}></MyLetter>
       </Container>
     </div>
   )
