@@ -8,7 +8,7 @@ import {
 import FaceIcon from '@material-ui/icons/Face'
 import '../timeletter/css/LetterListItem.css'
 import LoadingOpen from 'components/loading/LoadingOpen'
-
+import "./css/MyLetterItem.css"
 
 const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,9 +17,15 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 
 const MyLetterItem = (props) => {
   // const history = useHistory()
-
-  const sender = 'To.' + props.letter.userName
-  const letterUrl = 'detail/' + props.letter.letterId
+  // console.log(props.letter);
+  let sender = ''
+  if (props.letter.targets.length>1) {
+    const num = props.letter.targets.length -1
+    sender = 'To.' + props.letter.targets[0].phoneNumber + " 외 "+ num;
+  } else {
+    sender = 'To.' + props.letter.targets[0].phoneNumber;
+  }
+  const letterUrl = 'detail/' + props.letter.letterId;
 
   // video
   const [videoOpen, setVideoOpen] = useState(false)
@@ -71,15 +77,15 @@ const MyLetterItem = (props) => {
 				if (d > 0) {
 					view = view + d + '일 '
 				}
-				if (h > 0) {
-					view = view + h + '시간 '
-				}
-				if (m > 0) {
-					view = view + m + '분 '
-				}
-        if (s > 0) {
-					view = view + s + '초'
-				}
+				// if (h > 0) {
+				// 	view = view + h + '시간 '
+				// }
+				// if (m > 0) {
+				// 	view = view + m + '분 '
+				// }
+        // if (s > 0) {
+				// 	view = view + s + '초'
+				// }
 				setCloseInfo('오픈까지 ' + view)
 			}
 		}, 1000);
@@ -115,7 +121,7 @@ const MyLetterItem = (props) => {
           <div onClick={handleClick}>
             <div className="lettercontent2">
               <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
-                <Chip variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />
+                <Chip className="mypageChip" variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />
               </div>
               <div style={{fontSize:"20px", color: '#fff'}}>{props.letter.title}</div>
               {getInfo()}

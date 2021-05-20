@@ -116,11 +116,13 @@
 }
 
 .section-3 {
-  
   background-color: black;
   color: aliceblue;
   text-align: center;
-  padding-top: 30vh;
+  padding-top: 40vh;
+  height: 90vh;
+  font-weight: bold;
+  font-size: 15px;
 }
 
 

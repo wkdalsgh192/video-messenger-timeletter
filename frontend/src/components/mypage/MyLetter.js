@@ -8,10 +8,10 @@ import MyLetterItem from "./MyLetterItem";
 // 스타일
 const useStyles = makeStyles((theme) => ({
   container: {
-    backgroundImage: `url(${bgImage})`,
-    height: "100%",
-    width: "100%",
-    paddingTop: "70px",
+    // backgroundImage: `url(${bgImage})`,
+    // height: "100%",
+    // width: "100%",
+    // paddingTop: "70px",
     paddingBottom: "700px",
     color: "#ffcc80",
   },

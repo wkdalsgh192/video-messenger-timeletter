@@ -8,11 +8,14 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  Card,
+  CardContent,
 } from '@material-ui/core'
 import GroupLetter from "components/group/GroupLetter"
 import GroupMember from 'components/group/GroupMember'
 import axios from 'axios'
 import './GroupDetail.css'
+import ScrollToTop from "components/Scroll/ScrollToTop"
 
 
 function GroupDetail(props) {
@@ -67,7 +70,9 @@ function GroupDetail(props) {
 
   return (
     <Container className="GroupDetail" style={{color:"white"}} className="grouplist" maxWidth="xs">
+      <ScrollToTop />
       <div>
+        <Typography variant="h6">그룹 상세 조회</Typography>
         <div className="GroupMember">
           <Typography className="GroupMember-title">그룹이름 : {info.clubName}</Typography>
           <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleOpen} style={{color:"white"}}>
@@ -90,6 +95,7 @@ function GroupDetail(props) {
             </DialogActions>
           </Dialog>
         </div>
+        <Typography style={{overflowWrap: 'normal'}}>{info.clubDesc}</Typography>
         <GroupMember members={info.members}></GroupMember>
       </div>
       <GroupLetter></GroupLetter>

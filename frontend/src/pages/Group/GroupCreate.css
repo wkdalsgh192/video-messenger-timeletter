@@ -7,3 +7,6 @@
   background: url("../images/sky2.jpg") repeat center;
   /* color:aliceblue */
 }
+.memberlistd .MuiButton-outlined {
+  border: unset !important;
+}

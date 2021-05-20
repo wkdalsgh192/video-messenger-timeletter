@@ -1,16 +1,6 @@
-
 import React, { useEffect, useState, useRef } from "react";
-
-// import { useDispatch, useSelector } from "react-redux";
-
-// import Paper from "@material-ui/core/Paper";
-// import InputBase from "@material-ui/core/InputBase";
-// import IconButton from "@material-ui/core/IconButton";
-// import SearchIcon from "@material-ui/icons/Search";
-
 import SearchBar from "../components/mainpage/SearchBar";
 import img1 from "./UserPage/images/종이비행기.gif";
-
 import { IoIosArrowDown } from "react-icons/all";
 import { Link } from "react-router-dom";
 import "./css/main.css";
@@ -19,18 +9,23 @@ import Grid from "@material-ui/core/Grid";
 import { BsPencil } from 'react-icons/bs'; 
 import { HiOutlineBookOpen } from 'react-icons/hi';
 import CountLetters from 'components/mainpage/CountLetters'
+import Carousel from 'react-material-ui-carousel'
+import main1 from 'static/images/main1.jpg'
+import main2 from 'static/images/main2.jpg'
+import main3 from 'static/images/main3.jpg'
+import { TOKEN } from "../constants";
+import ScrollToTop from "components/Scroll/ScrollToTop";
 
-const { logIn } = require("../_actions/user");
-const userSlice = require("../_reducers/user");
 
 function Main() {
   const scrolling = () => {
-    window.scrollTo({ top: "1300", behavior: "smooth" });
-    console.log("눌림");
+    window.scrollTo({ top: "2000", behavior: "smooth" });
+    // console.log("눌림");
   };
 
   return (
     <div className="main-wrap">
+      <ScrollToTop />
       <div className="main-html carousel-wrapper ">
         <div className="section section-1">
           {/* 별똥별 */}
@@ -64,19 +59,27 @@ function Main() {
           <div className="child"></div>
           <Grid container justify="center" alignItems="center" spacing={3}>
             <Grid item xs={5}>
-              <Link to="/signup">
+              {TOKEN ? 
+              <Link to="/letter/create">
                 <div style={{ color: "white", textAlign: "center", fontSize: "20px" }}>
                   <BsPencil />
                 </div>
                 <div style={{ color: "white", textAlign: "center", fontSize: "17px" }}>답장하기</div>
               </Link>
+              :<Link to="/login">
+                <div style={{ color: "white", textAlign: "center", fontSize: "20px" }}>
+                  <BsPencil />
+                </div>
+                <div style={{ color: "white", textAlign: "center", fontSize: "17px" }}>답장하기</div>
+              </Link>
+              }
             </Grid>
             <div className="updown"></div>
-            <Grid item xs={5}>
+            <Grid item xs={5} onClick={scrolling}>
               <div style={{ color: "white", textAlign: "center", fontSize: "20px" }}>
                 <HiOutlineBookOpen />
               </div>
-              <div style={{ color: "white", textAlign: "center", fontSize: "17px" }} onClick={scrolling}>
+              <div style={{ color: "white", textAlign: "center", fontSize: "17px" }}>
                 사이트 둘러보기
               </div>
             </Grid>
@@ -84,12 +87,17 @@ function Main() {
         </div>
 
         {/* 세번째 메인 */}
-
-        <div className="section section-3">
-          서비스 설명 페이지
-          <img src={img1}></img>
+        <div>
+          <Carousel autoPlay={false} animation="slide">
+            <div className="section section-3">
+              <img src={img1}></img><br/>
+              사이트 이용 방법을 확인하시려면 좌우로 스와이프하세요
+            </div>
+            <div><img src={main1} style={{width: '100%', height: '90vh'}} /></div>
+            <div><img src={main2} style={{width: '100%', height: '90vh'}} /></div>
+            <div><img src={main3} style={{width: '100%', height: '90vh'}} /></div>
+          </Carousel>
         </div>
-        {/* <img src={img2}></img> */}
       </div>
     </div>
   );
