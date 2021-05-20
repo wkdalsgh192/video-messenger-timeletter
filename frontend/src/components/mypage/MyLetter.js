@@ -8,7 +8,7 @@ import MyLetterItem from "./MyLetterItem";
 // 스타일
 const useStyles = makeStyles((theme) => ({
   container: {
-    minHeight: '30vh',
+    minHeight: '50vh',
     height: "100%",
     width: "100%",
     paddingBottom: "50px",
