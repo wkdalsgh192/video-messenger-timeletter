@@ -26,8 +26,8 @@ public interface AlarmRepository extends JpaRepository<Alarm, Integer> {
 	
 	@Transactional
 	@Modifying
-	@Query(value="update letter set is_private=false, is_open=true where club_id = ?;", nativeQuery=true)
-	void updateClub(int clubId);
+	@Query(value="update letter set is_private=false, is_open=true where letter_id = ?;", nativeQuery=true)
+	void updateClub(int letterId);
 	
 	@Transactional
 	@Modifying

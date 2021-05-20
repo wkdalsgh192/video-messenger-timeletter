@@ -55,7 +55,7 @@ public class AlarmScheduler {
 	    		
 	    		//오늘 오픈될 모든 레터들 비공개->공개 처리 & is_open = true
 	    		alarmRepository.updateLetter(letterId);	
-	    		
+	    		System.out.println(letterId + ",  " + alarms.get(i).get("open_date"));
 	    		//우리 서비스의 회원인 사람만 알람테이블에 삽입
 	    		if(o == null)  continue;
 	    		alarmRepository.insertAlarm((int) o, letterId);	
@@ -75,7 +75,8 @@ public class AlarmScheduler {
 	    	//클럽레터 오픈처리
 	    	Set<Letter> clubsLetters = letterRepository.findAllByIsOpenEqualsAndOpenDateEqualsAndClubIdGreaterThan(false,time,0);
 	    	clubsLetters.stream().forEach(a ->{
-	    		alarmRepository.updateClub(a.getClubId());
+	    		System.out.println(a.getLetterId() + ",  " + a.getOpenDate());
+	    		alarmRepository.updateClub(a.getLetterId());
 	    	});
 	    	
 	    	
