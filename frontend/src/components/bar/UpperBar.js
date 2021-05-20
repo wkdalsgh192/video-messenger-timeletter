@@ -77,7 +77,7 @@ export default function UpperBar() {
       }
     })
     .then(res => {
-      console.log(res)
+      // console.log(res)
       setAlarmList(res.data)
       // setAlarmOpen(!alarmOpen)
     })
@@ -97,7 +97,7 @@ export default function UpperBar() {
       }
     })
     .then(res => {
-      console.log(res)
+      // console.log(res)
       getAlarmAxios()
     })
     .catch(err => {
@@ -172,7 +172,7 @@ export default function UpperBar() {
                               <ListItemIcon>
                                 <MailOutlineOutlinedIcon />
                               </ListItemIcon>
-                              <ListItemText primary={'From. ' + alarm.name + ' / 제목 : ' + alarm.title} secondary={'오픈날짜 : ' + alarm.open_date} />
+                              <ListItemText primary={'From. ' + alarm.name} secondary={'제목 : ' + alarm.title} />
                             </ListItem>
                           // </Link>
                         )

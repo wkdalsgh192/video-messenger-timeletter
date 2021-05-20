@@ -18,10 +18,9 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 const LetterListItem = (props) => {
   // const history = useHistory()
 
-  let name = props.item.name
-  let letter = props.item.letter
+  let letter = props.letter
 
-  const sender = 'From. ' + name
+  const sender = 'From. ' + letter.userName
 
   const letterUrl = 'detail/' + letter.letterCode
 
@@ -75,9 +74,9 @@ const LetterListItem = (props) => {
 				if (d > 0) {
 					view = view + d + '일 '
 				}
-				// if (h > 0) {
-				// 	view = view + h + '시간 '
-				// }
+				if (h > 0) {
+					view = view + h + '시간 '
+				}
 				// if (m > 0) {
 				// 	view = view + m + '분 '
 				// }
@@ -103,7 +102,7 @@ const LetterListItem = (props) => {
   }
 
   return (
-    <div>
+    <div onClick={handleClick}>
       <div className="trashnone">
         <div className="night2">
           <span className="moon"></span>
@@ -116,7 +115,7 @@ const LetterListItem = (props) => {
             <li></li>
             <li></li>
           </ul>
-          <div onClick={handleClick}>
+          <div>
             <div className="lettercontent2">
               <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
                 <Chip variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />

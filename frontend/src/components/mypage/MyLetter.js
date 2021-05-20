@@ -8,11 +8,10 @@ import MyLetterItem from "./MyLetterItem";
 // 스타일
 const useStyles = makeStyles((theme) => ({
   container: {
-    // backgroundImage: `url(${bgImage})`,
-    // height: "100%",
-    // width: "100%",
-    // paddingTop: "70px",
-    paddingBottom: "700px",
+    minHeight: '30vh',
+    height: "100%",
+    width: "100%",
+    paddingBottom: "50px",
     color: "#ffcc80",
   },
 }));

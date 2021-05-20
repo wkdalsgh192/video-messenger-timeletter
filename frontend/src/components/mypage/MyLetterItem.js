@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom'
 import {
   Chip,
   Dialog,
@@ -16,8 +17,7 @@ const VideoTransition = React.forwardRef(function VideoTransition(props, ref) {
 
 
 const MyLetterItem = (props) => {
-  // const history = useHistory()
-  // console.log(props.letter);
+  const history = useHistory()
   let sender = ''
   if (props.letter.targets.length>1) {
     const num = props.letter.targets.length -1
@@ -25,7 +25,7 @@ const MyLetterItem = (props) => {
   } else {
     sender = 'To.' + props.letter.targets[0].phoneNumber;
   }
-  const letterUrl = 'detail/' + props.letter.letterId;
+  const letterUrl = '/letter/detail/' + props.letter.letterCode;
 
   // video
   const [videoOpen, setVideoOpen] = useState(false)
@@ -34,7 +34,7 @@ const MyLetterItem = (props) => {
   }
 
   const handleClick = () => {
-    if (props.letter.isOpen === true) {
+    if (props.letter.open === true) {
       setVideoOpen(true)
       // alert('레터 상세조회로 이동합니다.')
       // history.push(letterUrl)
@@ -45,6 +45,8 @@ const MyLetterItem = (props) => {
 
   const [openInfo, setOpenInfo] = useState('오픈날짜 ' + props.letter.openDate)
   const [closeInfo, setCloseInfo] = useState('')
+
+  // console.log(openInfo)
 
   
 
@@ -63,6 +65,7 @@ const MyLetterItem = (props) => {
     setInterval(function() {
 			let now = new Date() //현재 날짜 가져오기
 			let distance = dDay - now;
+      // console.log(dDay, now, distance)
 			let d = Math.floor(distance / (1000 * 60 * 60 * 24))
 			let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
 			let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
@@ -77,9 +80,9 @@ const MyLetterItem = (props) => {
 				if (d > 0) {
 					view = view + d + '일 '
 				}
-				// if (h > 0) {
-				// 	view = view + h + '시간 '
-				// }
+				if (h > 0) {
+					view = view + h + '시간 '
+				}
 				// if (m > 0) {
 				// 	view = view + m + '분 '
 				// }
@@ -97,7 +100,7 @@ const MyLetterItem = (props) => {
   // console.log(closeInfo)
 
   const getInfo = () => {
-    if (props.letter.isOpen) {
+    if (props.letter.open) {
       return <div style={{fontSize:"20px", color: '#fff'}}> {openInfo}</div>
     } else {
       return <div style={{fontSize:"20px", color: '#fff'}}> {closeInfo}</div>
@@ -105,7 +108,7 @@ const MyLetterItem = (props) => {
   }
 
   return (
-    <div>
+    <div onClick={handleClick}>
       <div className="trashnone">
         <div className="night2">
           <span className="moon"></span>
@@ -118,7 +121,7 @@ const MyLetterItem = (props) => {
             <li></li>
             <li></li>
           </ul>
-          <div onClick={handleClick}>
+          <div>
             <div className="lettercontent2">
               <div className="lettercontent" style={{marginTop:"10px", marginBottom:"10px"}}>
                 <Chip className="mypageChip" variant="outlined" size="medium" icon={<FaceIcon />} label={sender} color="primary" />

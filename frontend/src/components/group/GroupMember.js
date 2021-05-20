@@ -12,6 +12,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { Link } from 'react-router-dom';
+import swal from 'sweetalert'
+
+
 function GroupMember(props) {
   const { clubId } = useParams();
   const [isAdd, setIsAdd] = useState(false);
@@ -20,10 +23,15 @@ function GroupMember(props) {
   const [groupMembers, setGroupMembers] = useState([]);
   const [isMember, setIsMember] = useState([true]);
 
+
   const handleDelete = (userId) => {
     // alert("그룹 멤버를 삭제 하시겠습니까?");
-    setIsDelete(true);
-    setTmpUserId(userId);
+    if (props.master) {
+      setIsDelete(true);
+      setTmpUserId(userId);
+    } else {
+      swal("삭제 오류", "멤버 삭제는 그룹장만 가능합니다.", "error")
+    }
   }
 
   const addMember = () => {
@@ -37,20 +45,26 @@ function GroupMember(props) {
   const deleteOk = () => {
     console.log(tmpUserId, clubId);
     let body = { clubId: clubId, userId: tmpUserId };
-    axios.delete(BASE_URL + "club/delMember", {
-      data: body,
-      headers: {
-        Authorization: TOKEN
-      }
-    })
-    .then(res => {
-      console.log(res.data, "성공")
-      window.location.reload()
-    })
-    .catch(err => {
-      console.log(err)
-    })
-    setIsDelete(false);
+    if (props.members.length > 1) {
+      axios.delete(BASE_URL + "club/delMember", {
+        data: body,
+        headers: {
+          Authorization: TOKEN
+        }
+      })
+      .then(res => {
+        console.log(res.data, "성공")
+        window.location.reload()
+      })
+      .catch(err => {
+        console.log(err)
+        swal("멤버 삭제 불가", "그룹장은 자신을 삭제할 수 없습니다.", "error")
+      })
+      setIsDelete(false);
+    } else {
+      swal("멤버 삭제 불가", "그룹원이 1명일때는 멤버삭제를 할 수 없습니다.", "error")
+      setIsDelete(false);
+    }
   }
   const deleteNo = () => {
     setIsDelete(false);
@@ -98,20 +112,29 @@ function GroupMember(props) {
         key={groupMember.user_id}
         style={{ marginTop: "10px" }}
       >
-        <Chip
-          className="member-chip"
-          size="medium"
-          label={groupMember.name}
-          onDelete={() => handleDelete(groupMember.user_id)}
-        />
+        {props.master
+          ? <Chip
+              className="member-chip"
+              size="medium"
+              label={groupMember.name}
+              onDelete={() => handleDelete(groupMember.user_id)}
+            />
+          : <Chip
+              className="member-chip"
+              size="medium"
+              label={groupMember.name}
+            />
+        }
       </div>
     ));
   };
+
   const nameChange = (target) => {
       document.getElementById("name").value = target.name;
       setTmpUserId(target.user_id);
       setGroupMembers([]);
   }
+
   const onAddMember = () => {
     let body = {
       clubId: Number(clubId),
@@ -141,13 +164,14 @@ function GroupMember(props) {
       <hr></hr>
       </div>
   ));
+
   const memberDeleteModal = (
     <Dialog
-    open={isDelete}
-    onClose={handleClose}
-    aria-labelledby="alert-dialog-title"
-    aria-describedby="alert-dialog-description"
-  >
+      open={isDelete}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
     <DialogTitle id="alert-dialog-title">{"멤버를 삭제하시겠습니까?"}</DialogTitle>
     <DialogActions>
       <Button onClick={deleteNo} color="primary" style={{fontWeight:"bold"}}>
@@ -192,9 +216,12 @@ function GroupMember(props) {
   return (
     <div className="member">
       {member}
-      <div className="item" style={{ marginTop: "10px" }}>
-        <Chip className="member-chip" label="+" onClick={addMember}/>
-      </div>
+      {props.master 
+        ? <div className="item" style={{ marginTop: "10px" }}>
+            <Chip className="member-chip" label="+" onClick={addMember}/>
+          </div>
+        : null 
+      }
       {isDelete ? memberDeleteModal : null}
       {isAdd ? memberModal : null}
     </div>

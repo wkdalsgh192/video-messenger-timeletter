@@ -20,6 +20,8 @@ import { useDispatch } from "react-redux";
 import { mypage } from "_actions/user";
 import MyLetter from "../../components/mypage/MyLetter";
 import ScrollToTop from "components/Scroll/ScrollToTop";
+import userImg from 'static/images/userImg.png'
+
 function Mypage() {
   const dispatch = useDispatch();
   const [state, setstate] = useState([])
@@ -40,20 +42,20 @@ function Mypage() {
         <div className="shooting_starts"></div>
       </div>
       <Container  maxWidth="xs" className="">
-      <h2>mypage</h2>
+      <h2>마이페이지</h2>
       <Card style={{marginTop:"50px"}}>
       
           {/* <CardMedia image="/static/images/cards/live-from-space.jpg" title="Live from space album cover" /> */}
           <div>
             <CardContent>
-              <div className="myimg imgpop"></div>
+              <div className="myimg imgpop"><img src={userImg} alt="userImg" style={{height: '100%', width: '100%'}} /></div>
               <Typography component="h5" variant="h5">
                 {state.name}
               </Typography>
               <Typography component="h5" variant="h5">
                 {state.email}
               </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
+              <Typography variant="subtitle1" color="textSecondary" style={{marginLeft: '20px'}}>
                 {state.phoneNumber}
               </Typography>
             </CardContent>
