@@ -106,24 +106,27 @@
 
 ###  Frontend
 
-| Name                                                         | Description                                                  |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [`@gsap`](https://greensock.com/docs/v2/NPMUsage)            | Professional-grade animation for the modern web              |
-| [`@lodash`](https://lodash.com/)                             | The Lodash library exported as Node.js modules.              |
-| [`@get-youtube-id`](https://github.com/jmorrell/get-youtube-id) | Parse a youtube url returning the video ID                   |
-| [`@vue-youtube`](https://github.com/anteriovieira/vue-youtube#readme) | Wrapper of [YouTube IFrame](https://developers.google.com/youtube/iframe_api_reference?hl=ko) Player API (YIPA) |
-| [`@vue-lottie`](https://github.com/chenqingspring/vue-lottie#readme) | Lottie Animation View for Vue                                |
-| [`@lottie-web`](https://github.com/airbnb/lottie-web#readme) | Lottie for Web, Android, iOS, React Native, and Windows      |
-| [`@sweetalert2`](https://sweetalert2.github.io/)             | A beautiful, responsive, customizable, accessible (WAI-ARIA) replacement for JavaScript's popup boxes. Zero dependencies. |
-| [`@vue-audio-recorder`](https://github.com/grishkovelli/vue-audio-recorder#readme) | Audio recorder for Vue.js. It allows to create, play, download and store records on a server |
-| [`@vue-cookies`](https://github.com/cmp-cc/vue-cookies#readme) | A simple Vue.js plugin for handling browser cookies          |
-| [`@vuedraggable`](https://github.com/SortableJS/Vue.Draggable#readme) | allowing drag-and-drop and synchronization with view model array. |
-| ---Basic---                                                  |                                                              |
-| [`@axios`](https://github.com/axios/axios)                   | Promise based HTTP client for the browser and node.js        |
-| [`@vuetify`](https://vuetifyjs.com/en/)                      | Vue Material Component Framework                             |
-| [`@vue-router`](https://github.com/vuejs/vue-router#readme)  | vue-router 3.0 which works only with Vue 2.0                 |
-| [`@vuex`](https://github.com/vuejs/vuex#readme)              | Vuex is a state management pattern + library for Vue.js applications |
-| [`@vuex-persistedstate`](https://github.com/)                | Promise based HTTP client for the browser and node.js        |
+| Name                        | Description                                                  |
+| --------------------------- | ------------------------------------------------------------ |
+| "@material-ui/core"         | React components  for faster and simpler web development. Build your own design system, or  start with Material Design |
+| "@material-ui/icons"        | This package provides the Google Material  icons packaged as a set of React components. |
+| "@material-ui/lab"          | This package hosts the incubator  components that are not yet ready to move to core. |
+| "@reduxjs/toolkit"          | This package hosts the incubator  components that are not yet ready to move to core. |
+| "@testing-library/jest-dom" | Custom jest matchers to test the  state of the DOM           |
+| "@testing-library/react"    | Simple and complete React DOM  testing utilities that encourage good testing practices. |
+| "antd"                      | An enterprise-class UI design  language and React UI library. |
+| "axios"                     | Promise based HTTP client for  the browser and node.js       |
+| "gsap"                      | GSAP is a robust JavaScript  toolset that turns developers into animation superheroes |
+| "howler"                    | howler.js is an audio library  for the modern web            |
+| "moment"                    | A JavaScript date library for  parsing, validating, manipulating, and formatting dates. |
+| "node-sass"                 | Node-sass is a library that  provides binding for Node.js to LibSass, the C version of the popular  stylesheet preprocessor, Sass. |
+| "react-device-detect"       | Detect device, and render view  according to the detected device type. |
+| "react-dom"                 | This package serves as the entry  point to the DOM and server renderers for React |
+| "react-scripts"             | This package includes scripts  and configuration used by Create React App.     Please refer to its documentation: |
+| "react-howler"              | A React.js wrapper for howler.js  (audio player).            |
+| "sweetalert"                | A beautiful replacement for  JavaScript's "alert"            |
+
+
 
 ### Backend
 
