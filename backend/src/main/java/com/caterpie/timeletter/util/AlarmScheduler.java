@@ -39,8 +39,7 @@ public class AlarmScheduler {
 //	@Scheduled(cron = "0 1 0 * * *")	//매일 00시01분 실행
 //	@Scheduled(cron = "0/10 * * * * *")	//10초에 한번씩 실행
 //	@Scheduled(cron = "0 0/1 * * * *") //1분에 한번씩 실행
-//  @Scheduled(cron = "0 0 5 * * *") //매일 오후 2시에 실행(시연때 사용)
-    @Scheduled(cron = "0 8 16 * * *")
+    @Scheduled(cron = "0 30 4 * * *") //매일 오후 2시에 실행(시연때 사용)
     public void cronJob() {
     	logger.info("scheduled");
     	
@@ -59,12 +58,14 @@ public class AlarmScheduler {
 	    		int letterId = (int) alarms.get(i).get("letter_id");
 	    		int clubId = (int) alarms.get(i).get("club_id");
 	    		
-	    		//우리 서비스의 회원인 사람만 알람테이블에 삽입
-	    		if(userId == null || clubId > 0)  continue;
-	    		alarmRepository.insertAlarm((int) userId, letterId);	
-	    		
+	    		//클럽레터인 경우 스킵
+	    		if(clubId > 0)  continue;
 	    		//오늘 오픈될 모든 레터들 비공개->공개 처리 & is_open = true
 	    		alarmRepository.updateLetter(letterId);	
+	    		
+	    		//우리 서비스의 회원인 사람만 알람테이블에 삽입
+	    		if(userId == null)  continue;
+	    		alarmRepository.insertAlarm((int) userId, letterId);
 	    	}
 	    	
 	    	
