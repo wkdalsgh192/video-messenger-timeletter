@@ -94,7 +94,7 @@ const MapCreate = (props) => {
         id="map" 
         style={{width: '80%', height: '85%', marginLeft: "auto", marginRight: "auto", borderRadius:"10px"}}
         onClick={() => {
-          if (lat === NaN || lng === NaN) {
+          if (isNaN(lat) || isNaN(lng)) {
             props.onChangeLat(0)
             props.onChangeLng(0)
           } else {
