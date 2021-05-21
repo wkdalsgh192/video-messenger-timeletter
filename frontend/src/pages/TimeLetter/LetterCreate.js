@@ -446,11 +446,11 @@ const LetterCreate = () => {
         })
         .catch(err => {
           console.log(err)
-          swal()
         })
       })
       .catch(err => {
         console.log(err)
+        swal("오류", "safari 브라우저에서는 지도를 사용할 수 없습니다. 장소를 삭제해주세요", 'error')
       })
     } else {
       // 그룹에게
