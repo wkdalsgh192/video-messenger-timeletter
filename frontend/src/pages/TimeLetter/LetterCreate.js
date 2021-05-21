@@ -247,12 +247,12 @@ const LetterCreate = () => {
     setMapOpen(false)
   }
   const handleMapSave = () => {
-    if (selectLat == NaN) {
+    if (isNaN(selectLat)) {
       setLat(0)
     } else {
       setLat(selectLat)
     }
-    if (selectLng == NaN) {
+    if (isNaN(selectLng)) {
       setLng(0)
     } else {
       setLng(selectLng)
@@ -397,10 +397,10 @@ const LetterCreate = () => {
 
 
     // NaN 처리
-    if (lat == NaN) {
+    if (isNaN(lat)) {
       setLat(0)
     }
-    if (lng == NaN) {
+    if (isNaN(lng)) {
       setLng(0)
     }
 
