@@ -38,8 +38,8 @@ public class AlarmScheduler {
 
 //	@Scheduled(cron = "0 1 0 * * *")	//매일 00시01분 실행
 //	@Scheduled(cron = "0/10 * * * * *")	//10초에 한번씩 실행
-//	@Scheduled(cron = "0 0/1 * * * *") //1분에 한번씩 실행
-    @Scheduled(cron = "0 30 4 * * *") //매일 오후 2시에 실행(시연때 사용)
+//  @Scheduled(cron = "0 30 4 * * *") //매일 오후 2시에 실행(시연때 사용)
+	@Scheduled(cron = "0 0/3 * * * *") //1분에 한번씩 실행
     public void cronJob() {
     	logger.info("scheduled");
     	
