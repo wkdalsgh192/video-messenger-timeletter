@@ -1,7 +1,9 @@
 .main-wrap {
-  width: 100%;
-  max-width: 360px;
-  min-height: 640px;
+  width: 100vw;
+  height: 100vh;
+  max-width: 412px;
+  margin-left: auto;
+  margin-right: auto;
   /* box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19); */ /* fallback for old browsers */
 }
 
@@ -9,9 +11,20 @@
   /* padding-top: 200px; */
   width: 100%;
   height: 100%;
-  position: absolute;
+  /* position: absolute; */
   /* background:rgba(40,57,101,.9); */
 }
+
+.carousel-wrapper {
+  /* overflow-y: scroll; */
+  scroll-snap-type: y mandatory;
+}
+
+/* 세로선 */
+.updown { border: 0.1px solid white;
+   width: 0.1px;
+    height: 50px; }
+
 
 
 /* 통통 튀는 */
@@ -58,10 +71,12 @@
   text-align: center;
 }
 
-.section {
+.carousel-wrapper .section {
+  scroll-snap-align : start;
   width: 100%;
-  height: 640px;
+  height: 100vh;
 }
+
 .section-1 {
   /* color:aliceblue; */
   margin-top: -15px;
@@ -75,7 +90,7 @@
   ),
   url("../images/sky2.jpg") repeat center;
   background-size: cover;
-  background-size: 400px 640px;
+  background-size: 100vw 100vh;
   width: 100%;
   /* background-color: black; */
   text-align: center;
@@ -84,34 +99,31 @@
 .arrowstyle {
   color:white;
   position: absolute;
-  top: 500px;
+  top: 80%;
   width: 100%;
   height: 100%;
   bottom: 30px;
   font-size: 1.3rem;
 }
 .section-2 {
-  background-color: rgb(47, 7, 85);
+  scroll-snap-align : start;
+  background: rgb(20,12,59);
+  background: linear-gradient(360deg, rgba(20,12,59,1) 0%, rgba(55,9,113,1) 35%, rgba(66,10,74,1) 100%);
   width: 100%;
   position: relative;
-  padding: 200px 20px 20px 20px;
+  padding: 30vh 20px 20px 20px;
+  
 }
 
 .section-3 {
   background-color: black;
   color: aliceblue;
   text-align: center;
-  padding-top: 200px;
+  padding-top: 40vh;
+  height: 90vh;
+  font-weight: bold;
+  font-size: 15px;
 }
 
-/* 시계위치 */
-
-.clockmid {
-  position: absolute;
-  top:100px;
-  left: 70px;
-
-
-}
 
 

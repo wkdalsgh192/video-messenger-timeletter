@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import bgImage from 'pages/images/sky2.jpg'
 
 const { kakao } = window
 
@@ -65,8 +66,10 @@ const MapCreate = (props) => {
       marker.setPosition(latlng);
 
       // 위경도를 갱신
-      setLat(latlng.getLat())
-      setLng(latlng.getLng())
+      if (latlng.getLat() !== NaN) {
+        setLat(latlng.getLat())
+        setLng(latlng.getLng())
+      }
     })
   }
 
@@ -81,15 +84,23 @@ const MapCreate = (props) => {
   }, [lat])
 
   return (
-    <div style={{width: '80%', height: '80%', marginLeft: "auto", marginRight: "auto"}}>
-      <div>- 위도 : {lat}</div>
-      <div>- 경도 : {lng}</div>
-      <div 
+    <div style={{width: '100%', height: '100%', backgroundImage: `url(${bgImage})`, paddingTop: '60px'}}>
+      <div style={{width: '80%', marginLeft: 'auto', marginRight: 'auto'}}>
+        <div style={{color: 'white'}}>- 위도 : {lat}</div>
+        <div style={{color: 'white'}}>- 경도 : {lng}</div>
+      </div>
+      
+      <div
         id="map" 
-        style={{width: '100%', height: '100%'}}
+        style={{width: '80%', height: '85%', marginLeft: "auto", marginRight: "auto", borderRadius:"10px"}}
         onClick={() => {
-          props.onChangeLat(lat)
-          props.onChangeLng(lng)
+          if (isNaN(lat) || isNaN(lng)) {
+            props.onChangeLat(0)
+            props.onChangeLng(0)
+          } else {
+            props.onChangeLat(lat)
+            props.onChangeLng(lng)
+          }
         }}
       ></div>
     </div>

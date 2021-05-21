@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 	
-	
 	@Override
 	public void insertUser(JoinDto joinDto) {
 		if (userRepo.findOneWithAuthoritiesByEmail(joinDto.getEmail()).orElse(null) != null) {
@@ -47,7 +46,7 @@ public class UserServiceImpl implements UserService {
 		User user = User.builder()
 				.email(joinDto.getEmail())
 				.password(passwordEncoder.encode(joinDto.getPassword()))
-				.phone(joinDto.getPhone())
+				.phoneNumber(joinDto.getPhoneNumber())
 				.name(joinDto.getName())
 				.activated(true)
 				.authorities(Collections.singleton(authority))
@@ -81,14 +80,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
     @Transactional(readOnly = true)
-    public Optional<User> getAllUserWithAuthorities() {
+    public Optional<User> getCurrentUserWithAuthorities() {
         return SecurityUtil
         		.getCurrentUsername().flatMap(userRepo::findOneWithAuthoritiesByEmail);
-    }
-	
-	@Override
-	public User getUser(String email) {
-		return userRepo.findByEmail(email);
 	}
-	
+
+	@Override
+	public Optional<User> getUserById(int userId) {
+		return userRepo.findById(userId);
+	}
 }

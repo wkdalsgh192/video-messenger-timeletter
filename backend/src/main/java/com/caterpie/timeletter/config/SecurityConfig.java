@@ -47,10 +47,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers( 
                         "/error", "/v2/api-docs", "/swagger-resources/**",
-                        "/configuration/security", "/swagger-ui.html",
+                        "/configuration/security", "/swagger-ui/**",
                         "/webjars/**", "/swagger/**", "/configuration/ui"
+			,"/videos"
                 );
     }
+    
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
@@ -58,11 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		     	// token을 사용하는 방식이기 때문에 csrf를 disable합니다.
 		        .csrf().disable()
 		        
-        		.formLogin()
-        		.usernameParameter("email")
-        		.passwordParameter("password")
-        		
-        		.and()
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .exceptionHandling()
@@ -76,14 +73,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/timeletter/**").permitAll()
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/club/**").permitAll()
                 .antMatchers("/letter/**").permitAll()
-                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
+    
     }
+    
 }

@@ -23,7 +23,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web-services'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	
@@ -32,10 +31,9 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	
 	// Swagger 2 && Swagger UI
-	implementation('io.springfox:springfox-swagger2:2.9.2')
-	implementation('io.springfox:springfox-swagger-ui:2.9.2')
-	implementation("io.swagger:swagger-annotations:1.5.21")
-	implementation("io.swagger:swagger-models:1.5.21")
+	implementation "io.springfox:springfox-boot-starter:3.0.0"
+	implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.1.4'
+	implementation group: 'io.swagger.core.v3', name: 'swagger-models', version: '2.1.4'
 	
 	// Spring Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -51,6 +49,12 @@ dependencies {
 	compileOnly 'io.jsonwebtoken:jjwt-api:0.11.2'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	
+	// sms
+	implementation 'net.nurigo:javaSDK:2.2'
+	
+	// codec
+	implementation 'ws.schild:jave-all-deps:3.1.1'
 }
 
 test {

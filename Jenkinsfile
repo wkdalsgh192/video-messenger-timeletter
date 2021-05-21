@@ -44,11 +44,13 @@ pipeline {
                     docker rmi $(docker images -f "dangling=true" -q)' 
                 sh 'docker run -d --name latest_backend \
                     -p 8080:8080 \
+                    -v /home/ubuntu/videos:/videos \
                     --network caterpie \
                     latest_backend:latest'
                 sh 'docker run -d --name latest_frontend \
                     -p 80:80 \
                     -p 443:443 \
+                    -v /home/ubuntu/videos:/videos \
                     -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/caterpie/sslkey/ \
                     --network caterpie \
                     latest_frontend:latest'

@@ -2,6 +2,7 @@ package com.caterpie.timeletter.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -21,10 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 import com.caterpie.timeletter.dto.ClubDetailDto;
 import com.caterpie.timeletter.dto.ClubDto;
 import com.caterpie.timeletter.dto.ClubJoinDto;
+import com.caterpie.timeletter.dto.ClubLettersDto;
+import com.caterpie.timeletter.dto.ClubUser;
+import com.caterpie.timeletter.dto.ClubWord;
+import com.caterpie.timeletter.dto.LetterDto;
 import com.caterpie.timeletter.entity.Club;
 import com.caterpie.timeletter.entity.ClubList;
+import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.repository.ClubRepository;
 import com.caterpie.timeletter.service.ClubService;
+import com.caterpie.timeletter.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -36,6 +43,8 @@ public class ClubController {
 	private ClubRepository clubRepository;
 	@Autowired
 	ClubService service;
+	@Autowired
+	private UserService userService;
 	
 	/**
 	 * @apiNote 클럽 생성 기능
@@ -44,8 +53,12 @@ public class ClubController {
 	@Transactional()
 	@PostMapping(path="/insert")
 	@ApiOperation(value = "클럽생성하기", notes = "클럽생성")
-	public ResponseEntity<?> insertClub(@RequestBody ClubDto clubReq) {
+	public ResponseEntity<String> insertClub(@RequestBody ClubDto clubReq) {
 		try {
+			Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElse(null));
+			if (opt == null) throw new RuntimeException("User Not Found");
+			clubReq.setMasterId(opt.get().getUserId());	//Master_id 설정
+			
 			service.insertClub(clubReq);	//클럽생성
 			
 			Club newClub = clubRepository.findByClubName(clubReq.getClubName());	//생성된 클럽
@@ -79,7 +92,7 @@ public class ClubController {
 	 */
 	@PostMapping(path="/join")
 	@ApiOperation(value = "클럽가입(초대)하기", notes = "가입 클럽하기")
-	public ResponseEntity<?> insertClub(@RequestBody ClubJoinDto joinReq) {
+	public ResponseEntity<String> insertClub(@RequestBody ClubJoinDto joinReq) {
 		try {
 			service.joinClub(joinReq.getUserId(), joinReq.getClubId());
 		}catch (Exception e) {
@@ -95,9 +108,11 @@ public class ClubController {
 	 */
 	@GetMapping("/findMyClub")
 	@ApiOperation(value = "user_id로 가입된 클럽 찾기", notes = "가입된 클럽조회")
-	public List<Club> findByUserId(@RequestParam("id") int userId) {
-		List<Integer> clubList = clubRepository.findMyClub(userId);
-		return clubRepository.findByClubIdIn(clubList);
+	public List<Map<ClubList, Object>> findByUserId() {
+		Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElse(null));
+		if (opt == null) throw new RuntimeException("User Not Found");
+		
+		return clubRepository.findClubIdIn(opt.get().getUserId());
 	}
 	
 	
@@ -119,7 +134,9 @@ public class ClubController {
 	@GetMapping("/findDetail")
 	@ApiOperation(value = "club_id로 클럽 디테일 정보 조회", notes = "클럽 디테일 페이지에서 사용될 API")
 	public ClubDetailDto findClubDetail(@RequestParam("id") int clubId) {
-		return service.findClubDetail(clubId);
+		Optional<User> opt = Optional.ofNullable(userService.getCurrentUserWithAuthorities().orElse(null));
+		if (opt == null) throw new RuntimeException("User Not Found");
+		return service.findClubDetail(clubId, opt.get().getUserId());
 	}
 	
 	
@@ -129,7 +146,7 @@ public class ClubController {
 	 */
 	@DeleteMapping("/delClub")
 	@ApiOperation(value = "club_id로 클럽 삭제", response = String.class)
-	public ResponseEntity<?> delpost(@RequestParam("id") int clubId) {
+	public ResponseEntity<String> delpost(@RequestParam("id") int clubId) {
 		try {
 			clubRepository.delAllMember(clubId);	//club_member테이블에서 club_id로 삭제
 			clubRepository.deleteById(clubId);		//club테이블에서 club_id로 삭제
@@ -146,7 +163,7 @@ public class ClubController {
 	 */
 	@DeleteMapping("/delMember")
 	@ApiOperation(value = "user_id로 멤버 삭제", notes = "클럽 디테일 페이지에서 멤버 삭제기능")
-	public ResponseEntity<?> delMember(@RequestBody ClubJoinDto delReq) {
+	public ResponseEntity<String> delMember(@RequestBody ClubJoinDto delReq) {
 		try {
 			clubRepository.deleteMember(delReq.getClubId(), delReq.getUserId());
 		}catch (Exception e) {
@@ -156,4 +173,24 @@ public class ClubController {
 	}
 	
 	
+	/**
+	 * @apiNote 클럽의 레터 조회
+	 * @return ClubLetters
+	 */
+	@GetMapping("/findLetters")
+	@ApiOperation(value = "club_id로 클럽 레터들 조회", notes = "클럽 디테일 페이지에서 레터조회 API")
+	public ClubLettersDto findLetters(@RequestParam("id") int clubId) {
+		return service.findLetters(clubId);
+	}
+	
+	
+	/**
+	 * @apiNote 글자가 포함된 유저이름,email 조회
+	 * @return ClubUser
+	 */
+	@GetMapping("/findWord")
+	@ApiOperation(value = "글자가 포함된 유저이름,email 조회", notes = "글자로 유저 조회(Keyboard On API")
+	public List<Map<ClubUser, Object>> findUserName(@RequestParam String word) {
+		return clubRepository.findUserName(word);
+	}
 }

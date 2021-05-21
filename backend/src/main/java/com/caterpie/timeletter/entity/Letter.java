@@ -1,12 +1,16 @@
 package com.caterpie.timeletter.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -25,10 +29,8 @@ public class Letter {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "letter_id", columnDefinition = "INT UNSIGNED")
+	@Column(name = "letter_id", columnDefinition = "INT")
 	private int letterId;
-//	@Column(name="club_id")
-//	private int clubId;
 	@Column(length=100,nullable=false)
 	private String title;
 	@Column(length=256,nullable=true)
@@ -37,39 +39,44 @@ public class Letter {
 	private String message;
 	@Column(length=100,nullable=false)
 	private String openDate;
-	@Column(name="lat",nullable=true)
+	@Column(name="latitude",nullable=true)
 	private BigDecimal latitude;
-	@Column(name="lng",nullable=true)
+	@Column(name="longitude",nullable=true)
 	private BigDecimal longitude;
-	@Column(length=100,nullable=false)
-	private boolean alert;
-	@Column(length=100,nullable=false)
+	@Column(name="is_private")
 	private boolean isPrivate;
-	@JsonIgnore
+	@Column(name="is_open")
 	private boolean isOpen;
+	@Column(name="user_id")
+	private int userId;
+	@Column(name="club_id")
+	private int clubId;
+	@Column(name="letter_code")
+	private String letterCode;
+
+	
+	@OneToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="letterId")
+	private List<Target> targets;
+	
 	
 	@Builder
-	public Letter(int letterId, int clubId, String title, String url, String message, String openDate, BigDecimal latitude,
-			BigDecimal longitude, boolean alert, boolean isPrivate, boolean isOpen) {
+	public Letter(int letterId, String title, String url, String message, String openDate, BigDecimal latitude,
+			BigDecimal longitude, boolean isPrivate, boolean isOpen, int userId, int clubId, String letterCode, List<Target> targets) {
 		super();
 		this.letterId = letterId;
-//		this.clubId = clubId;
 		this.title = title;
 		this.url = url;
 		this.message = message;
 		this.openDate = openDate;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.alert = alert;
 		this.isPrivate = isPrivate;
 		this.isOpen = isOpen;
+		this.userId = userId;
+		this.clubId = clubId;
+		this.letterCode = letterCode;
+		this.targets = targets;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

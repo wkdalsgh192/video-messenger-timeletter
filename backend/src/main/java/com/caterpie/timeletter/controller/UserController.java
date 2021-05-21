@@ -1,10 +1,14 @@
 package com.caterpie.timeletter.controller;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,12 +34,12 @@ import com.caterpie.timeletter.dto.UserModifyDto;
 import com.caterpie.timeletter.entity.User;
 import com.caterpie.timeletter.jwt.JwtFilter;
 import com.caterpie.timeletter.jwt.TokenProvider;
-import com.caterpie.timeletter.repository.UserRepository;
 import com.caterpie.timeletter.service.UserService;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ExampleProperty;
 
 @RestController
 @RequestMapping("/user")
@@ -44,6 +47,8 @@ public class UserController {
 	
 	private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     public UserController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.tokenProvider = tokenProvider;
@@ -54,17 +59,15 @@ public class UserController {
 	private UserService userService;
 	
 	/**
-	 * @apiNote 회원 전체 조회
+	 * @apiNote 현재 유저 정보 조회
 	 */
-	@ApiOperation(value= "Get All Users", notes="상세 조회")
+	@ApiOperation(value= "Get Current User", notes="현재 유저 정보 확인하기")
 	@GetMapping("/get")
-//	@ApiImplicitParams({
-//		@ApiImplicitParam(name="Authorization", value="authorization header", required=false, dataType="string",
-//				paramType="header")
-//	})
 	@PreAuthorize("hasAnyRole('USER','ADMIN')")
-	public ResponseEntity<User> getAllUser() throws Exception {
-		return ResponseEntity.ok(userService.getAllUserWithAuthorities().get());	
+	public ResponseEntity<?> getCurrentUser() throws Exception {
+		Optional<User> opt = userService.getCurrentUserWithAuthorities();
+		if (opt.isPresent()) return new ResponseEntity<>(opt, HttpStatus.OK);
+		else throw new Exception("Current user info does't exist");
 	}
 	
 	/**
@@ -78,21 +81,21 @@ public class UserController {
 		try {
 			userService.insertUser(joinDto);
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();	
+			return new ResponseEntity<>("Already Signed Up!", HttpStatus.BAD_REQUEST);	
 		}
 		return ResponseEntity.ok("Congrats, You are signed up!");
 	}
 	
-	/**
-	 * @apiNote 회원 정보 상세 조회
-	 * @return User
-	 */
-	@ApiOperation(value= "Get User Detail", notes="상세 조회")
-	@GetMapping("/get/{email}")
-	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-	public ResponseEntity<User> getUserInfo(@PathVariable String email) throws Exception {
-		return ResponseEntity.ok(userService.getUserWithAuthorities(email).get());	
-	}
+//	/**
+//	 * @apiNote 회원 정보 상세 조회
+//	 * @return User
+//	 */
+//	@ApiOperation(value= "Get User Detail", notes="상세 조회")
+//	@GetMapping("/get/{email}")
+//	@PreAuthorize("hasAnyRole('ADMIN','USER')")
+//	public ResponseEntity<User> getUserInfo(@PathVariable String email) throws Exception {
+//		return ResponseEntity.ok(userService.getUserWithAuthorities(email).get());	
+//	}
 	
 	
 	/**
@@ -128,10 +131,6 @@ public class UserController {
 	 * @return JWT
 	 */
 	@ApiOperation(value= "Login", notes = "로그인")
-//	@ApiImplicitParams({
-//		@ApiImplicitParam(name="Authorization", value="authorization header", required=false, dataType="string",
-//				paramType="header")
-//	})
 	@PostMapping("/login")
     public ResponseEntity<TokenDto> login(@Valid @RequestBody LoginDto loginDto) {
 		
@@ -150,9 +149,13 @@ public class UserController {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-hh-mm-ss");
+		String time = sdf.format(new Timestamp(System.currentTimeMillis()));
+		logger.info(time);
 
-        User user = userService.getUser(loginDto.getEmail());
-        return new ResponseEntity<>(new TokenDto(jwt,user.getUserId()), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }
+	
 }
 

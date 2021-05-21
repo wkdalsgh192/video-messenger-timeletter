@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
 const { kakao } = window
 
 let map = null
 
-// let mapLevel = 3
+let mapLevel = 3
 
 const MapList = (props) => {
 
   const history = useHistory()
-  // console.log(props.capsules)
 
-  const [mapLevel, setMapLevel] = useState()
 
   // *********** 왜 moveDetail이 정의되지 않았다고 나올까요??????? ****************
   const moveDetail = (id) => {
@@ -53,17 +51,18 @@ const MapList = (props) => {
     // 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다
     const positions = []
 
-    props.capsules.map((capsule) => {
+    props.letters.map((letter) => {
       positions.push({
-        id: capsule.id,
-        title: capsule.title,
-        content: '<div>' + capsule.title + '</div>',
-        latlng: new kakao.maps.LatLng(capsule.lat, capsule.lng)
+        id: letter.letterId,
+        title: letter.title,
+        content: '<div>' + letter.title + '</div>',
+        latlng: new kakao.maps.LatLng(letter.latitude, letter.longitude)
       })
     })
 
     for (let i = 0; i < positions.length; i++) {
       // 마커를 생성합니다
+      console.log('마커생성')
       const marker = new kakao.maps.Marker({
         map: map,
         position: positions[i].latlng
@@ -97,6 +96,7 @@ const MapList = (props) => {
       
       // 커스텀 오버레이에 표시할 컨텐츠 입니다
       const content = positions[i].title
+      console.log(content)
       
       // 마커 위에 커스텀오버레이를 표시합니다
       // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
 import "./css/Login.css";
-
 import { Container } from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Avatar from "@material-ui/core/Avatar";
@@ -11,10 +9,13 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-
 import { Link } from "react-router-dom";
 import axios from "axios";
 import {BASE_URL} from "../../constants";
+import ScrollToTop from "components/Scroll/ScrollToTop";
+import swal from 'sweetalert'
+
+
 function Login() {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
@@ -40,11 +41,16 @@ function Login() {
         window.location.replace("/")
       
       })
-      .catch((err)=>{console.log(err);alert('로그인 실패')})
+      .catch(err => {
+        console.log(err)
+        // alert('로그인 실패')
+        swal("로그인", "아이디 비밀번호를 확인해주세요", "error")
+      })
   };
 
   return (
     <div className="login-wrap" >
+      <ScrollToTop />
       <Paper className="papercs" style={{ marginTop: "80px" }}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -97,13 +103,9 @@ function Login() {
                             <span style={{color:"white",fontSize:"20px"}}>Login</span>
               </Button>
               <Grid container style={{ marginTop: "20px" }}>
-                <Grid item xs>
-                  <Link to="#" variant="body2">
-                  <span style={{fontWeight:"bold"}}>{"Forgot password?"}</span>
-                  </Link>
-                </Grid>
+            
                 <Grid item>
-                <Link to="/signup"><span style={{fontWeight:"bold",fontSize:"15px"}} className="sratfont">{"회원가입"}</span></Link>
+                <Link to="/signup">회원이 아니신가요? <span style={{marginLeft:"5px",fontWeight:"bold",fontSize:"15px"}} className="sratfont">{"회원가입"}</span></Link>
                 </Grid>
               </Grid>
             </form>

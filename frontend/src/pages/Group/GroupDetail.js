@@ -1,118 +1,107 @@
-import React,{useEffect, useState} from "react";
-import './GroupDetail.css';
-import GroupCapsule from '../../components/group/GroupCapsule';
-import GroupMember from '../../components/group/GroupMember';
-import { Container, Typography } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import LetterCardlist from "../../components/mypage/LetterCardlist";
+import React,{ useEffect, useState } from "react"
+import { BASE_URL,TOKEN } from "../../constants"
+import { useParams } from "react-router-dom"
+import { 
+  Container, 
+  Typography,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+} from '@material-ui/core'
+import GroupLetter from "components/group/GroupLetter"
+import GroupMember from 'components/group/GroupMember'
+import axios from 'axios'
+import './GroupDetail.css'
+import ScrollToTop from "components/Scroll/ScrollToTop"
 
-import './GroupDetail.css';
-import './GroupList.css';
-import axios from 'axios';
-import { BASE_URL,TOKEN } from "../../constants";
 
 function GroupDetail(props) {
-  const [value, setValue] = useState(0);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [info, setInfo] = useState({});
+  const { clubId } = useParams()
+  // console.log(clubId)
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [value, setValue] = useState(0)
+  const [info, setInfo] = useState({})
+  const [isDelete, setIsDelete] = useState(false)
+
+
+  const handleOpen = () => {
+    setIsDelete(true)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-
-  let letterform = null;
-
-  if (value===0) {
-    letterform = (
-      <div className="trashnone">
-        <LetterCardlist></LetterCardlist>
-      </div>
-    )
+    setIsDelete(false)
   }
-  else {
-    letterform = (
-    <div className="trashnone">
 
-    <LetterCardlist></LetterCardlist>
-  </div>
-    )
+  const onDeleteClub = () => {
+    axios.delete(BASE_URL + "club/delClub", {
+      params: {
+        id: clubId
+      }
+    })
+    .then(res => {
+      console.log(res)
+      window.location.replace('/group/list')
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
   useEffect(()=>{
-    let club_id = props.match.params.id;
-    axios.get(BASE_URL+"club/findDetail?id="+club_id,{"Authorization":TOKEN})
-      .then((res)=> {
-        // console.log(res.data);
-        setInfo(res.data);
-      })
-      .catch((err)=> {
-        console.log(err);
-      })
-  },[]);
+    axios.get(BASE_URL + "club/findDetail", {
+      params: {
+        id: clubId
+      },
+      headers: {
+        Authorization: TOKEN
+      }
+    })
+    .then(res => {
+      console.log(res.data)
+      setInfo(res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },[])
 
   return (
-    <Container className="GroupDetail" style={{color:"white"}} className="grouplist">
+    <Container className="GroupDetail" style={{color:"white"}} className="grouplist" maxWidth="xs">
+      <ScrollToTop />
       <div>
-        <div className="GroupMember fill">
-          <Typography className="GroupMember-title">/그룹이름/</Typography>
-          {/* <button onClick={()=>alert('멤버관리')} style={{borderRadius:"20px"}}>멤버관리</button>
-          <button onClick={()=>alert('그룹삭제')} style={{borderRadius:"20px"}}>그룹삭제</button> */}
-          <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} style={{color:"white"}}>
-        그룹설정
-      </Button>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>멤버추가</MenuItem>
-        <MenuItem onClick={handleClose}>그룹삭제</MenuItem>
-      </Menu>
-
+        <Typography variant="h6">그룹 상세 조회</Typography>
+        <div className="GroupMember">
+          <Typography className="GroupMember-title">{info.clubName}</Typography>
+          {info.master 
+            ? <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleOpen} style={{color:"white"}}>
+                그룹삭제
+              </Button>
+            : null
+          }
+          <Dialog
+            open={isDelete}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">"이 그룹을 삭제하시겠습니까?"</DialogTitle>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary" style={{fontWeight:"bold"}}>
+                취소
+              </Button>
+              <Button onClick={onDeleteClub} color="primary" style={{fontWeight:"bold"}}>
+                확인
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
-        <GroupMember members={info.members}></GroupMember>
-
+        <Typography style={{overflowWrap: 'normal'}}>{info.clubDesc}</Typography>
+        <GroupMember members={info.members} master={info.master}></GroupMember>
       </div>
-  
-  <Tabs
-    value={value}
-    indicatorColor="primary"
-    onChange={handleChange}
-    aria-label="disabled tabs example"
-    style={{marginBottom:"15px", color:"bisque"}}
-  >
-    <Tab label="오픈된 레터" />
-    <Tab label="비오픈된 레터" />
-  </Tabs>
-  {letterform}
-{/* 
-      <div>
-        <Typography>오픈된 캡슐</Typography>
-        <GroupCapsule></GroupCapsule>
-      </div>
-      <div>
-        <Typography>비오픈 캡슐</Typography>
-        <GroupCapsule></GroupCapsule>
-      </div> */}
+      <GroupLetter></GroupLetter>
     </Container>
-  );
+  )
 }
 
-export default GroupDetail;
+export default GroupDetail
