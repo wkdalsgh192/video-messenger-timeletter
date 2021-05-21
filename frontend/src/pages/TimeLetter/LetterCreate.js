@@ -247,8 +247,16 @@ const LetterCreate = () => {
     setMapOpen(false)
   }
   const handleMapSave = () => {
-    setLat(selectLat)
-    setLng(selectLng)
+    if (selectLat == NaN) {
+      setLat(0)
+    } else {
+      setLat(selectLat)
+    }
+    if (selectLng == NaN) {
+      setLng(0)
+    } else {
+      setLng(selectLng)
+    }
     setSelectLat(null)
     setSelectLng(null)
     setMapOpen(false)
@@ -385,6 +393,15 @@ const LetterCreate = () => {
 
     for (let pair of formData.entries()) {
       console.log(pair[0] + ', ' + pair[1])
+    }
+
+
+    // NaN 처리
+    if (lat == NaN) {
+      setLat(0)
+    }
+    if (lng == NaN) {
+      setLng(0)
     }
 
     // json axios를 먼저보내고 성공하면 file axios 보내기
