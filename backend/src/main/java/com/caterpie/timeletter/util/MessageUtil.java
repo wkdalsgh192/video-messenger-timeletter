@@ -22,7 +22,7 @@ public class MessageUtil {
         params.put("to", phoneNumber);
         params.put("from", "01047539502");
         params.put("type", "LMS");
-        params.put("text", "[TimeLetter] ssafy1님께서 보낸 타임레터가 도착하였습니다. 접속하기 >> http://timeletter.co.kr/letter/detail/"+letterCode);
+        params.put("text", "[TimeLetter] 구미 5조 캐터피 님께서 보낸 타임레터가 도착하였습니다. 접속하기 >> http://timeletter.co.kr/letter/detail/"+letterCode);
         params.put("app_version", "test app 1.2");
 
         try {
