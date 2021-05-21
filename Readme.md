@@ -8,7 +8,15 @@
 
 ![로고-removebg-preview](Readme.assets/로고-removebg-preview.png)
 
+> [메인 Page](Readme.assets/메인.gif)
 
+> [레터 생성 페이지](Readme.assets/레터생성.gif)
+
+> [조회 페이지](Readme.assets/레터조회.gif)
+
+> [그룹 페이지](Readme.assets/그룹.gif) 
+
+> [마이 페이지](Readme.assets/마이페이지.gif)
 
 ------
 
@@ -24,9 +32,29 @@
 
 ## 🏓 Features
 
-- [**컨텐츠 업로드**]
-- [**오픈 조건 설정**]
-- [**캡슐 위치 조회**]
+1. 레터 생성기능
+   * 영상 업로드
+     * 휴대폰에서 촬영한 영상 및 앨범에 저장된 영상 업로드
+   * 오픈 조건 설정
+     * 오픈할 날짜 지정
+   * 추억의 장소 저장
+     * kakao map을 통해 기억하고 싶은 장소 저장
+2. 레터 조회
+   * 레터 생성 시 레터 식별자로 사용되는 고유 토큰을 발급
+   * 오픈/비오픈 레터를 구별하여 본인에게 생성된 레터 제공
+
+3. 그룹 기능
+   * 멤버 추가
+     * 이름으로 멤버 검색
+4. 알림 기능
+   * 서버에서 분 단위로 레터 확인 후 알림 전송
+   * 사이트 내부 알림
+     * 알림 버튼으로 조회
+   * 문자 메시지
+     * 오픈 날짜에 문자 메시지 발송
+5. 모바일 호환
+   * ios, andriod, windows 간의 호환 가능
+
 - [**알림 기능**]
 
 ## 🌏 Browser Support
@@ -68,9 +96,7 @@
 
 **Entitiy Relationship Diagram**
 
-![erd](docs/assets/erd.png)
-
-
+![img](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F21e51bed-8de9-46a4-a7c4-f278352e09f7%2FPJT_20210512_30_32.png?table=block&id=90f8629a-e566-457e-a83a-6b0b877eaa09&spaceId=1054213e-5131-43e9-b111-6fa0fef4ef77&width=3070&userId=07f12d2f-890c-4ab6-8cbb-953665ee5e6d&cache=v2)
 
 **Sequence Diagrams**
 
@@ -133,15 +159,11 @@
 | Name           | Description                                                  |
 | -------------- | ------------------------------------------------------------ |
 | [`$mysql`]()   | MySQL connector                                              |
-| [`$mybatis`]() | XML 서술자나 애너테이션을 사용하여 저장 프로시저나 SQL 문으로 객체들을 연결 |
 | [`$lombok`]()  | getter, setter, toString 등의 메서드 작성 코드를 줄여주는 코드 다이어트 라이브러리 |
 | [`$jjwt`]()    | JWT 토큰 생성 및 JWT 토큰 파싱, 검증을 해주는 라이브러리     |
 | [`$json`]()    | JavaScript Object Notation; 경량(Lightweight)의 DATA-교환 형식 |
-| [`$jackson`]() | JSON Convertor(컨트롤러에서 전달한 DTO데이터를 JSON으로 변경하기 위해 사용 |
-| [`$jython`]()  | For use python in spring                                     |
-| [`$swagger`]() | REST 웹 서비스를 설계, 빌드, 문서화, 소비하는 일을 도와주는 대형 도구 생태계의 지원을 받는 오픈 소스 소프트웨어 프레임워크 |
-| [`$spotify`]() | Spotify Web api                                              |
-| [`$youtube`]() | Google api services for youtube                              |
+| [`$jackson`]() | JSON Convertor(컨트롤러에서 전달한 DTO데이터를 JSON으로 변경하기 위해 사 |
+| [`$swagger`]() | REST 웹 서비스를 설계, 빌드, 문서화, 소비하는 일을 도와주는 대형 도구 생태계의 지원을 받는 오픈 소스 소프트웨어 |
 
 
 
@@ -157,10 +179,10 @@ git clone https://lab.ssafy.com/s04-bigdata-sub3/s04p23d106.git
 
 2. 데이터베이스 준비
 
-- 'saye' 테이터베이스 생성
+- 'timeletter' 테이터베이스 생성
 
 ```
-CREATE SCHEMA `saye`;
+CREATE SCHEMA `timeletter`;
 ```
 
 -  필요한 테이블 생성
@@ -173,31 +195,40 @@ CREATE SCHEMA `saye`;
 - mysql 도메인과 아이디/비번 작성
 
 ```
-server.port=8000
-server.servlet.context-path=/saye
-
-# for social login
-spring.profiles.include=oauth
-
-## JSP
-#spring.mvc.view.prefix=/WEB-INF/views/
-#spring.mvc.view.suffix=.jsp
+server:
+	servlet:
+		context-path: /timeletter
 
 # fileupload 
-spring.servlet.multipart.enabled=true
-spring.servlet.multipart.max-file-size=20MB
-spring.servlet.multipart.max-request-size=30MB
-    
-# db
-spring.datasource.url=jdbc:mysql://{도메인주소}:3306/saye?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-spring.datasource.username={DB 계정 아이디}
-spring.datasource.password={DB 계정 비밀번호}
-mybatis.type-aliases-package=com.gokchu.saye.repository.dto
-mybatis.mapper-locations=mapper/*.xml
-mybatis.configuration.map-underscore-to-camel-case=true
+spring:
+	servlet:
+		multipart:
+			enabled:true
+			max-file-size:500MB
+			max-request-size:500MB
+	datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://k4d105.p.ssafy.io/timeletter?serverTimeZone=UTC&CharacterEncoding=UTF-8
+        username: caterpie
+        password: password
+	jpa:
+        hibernate:
+        	ddl-auto: none
+        show-sql: false
+        properties:
+        	hibernate:
+        		format_sql: true        
+       
+# jwt
+jwt:
+  header: Authorization
+  secret: dGltZWxldHRlci1pcy1hLXNsb3ctbWVzc2FuZ2VyLXBsYXRmb3JtLXNlcnZpY2VkLWJ5LXRlYW0tY2F0ZXJwaWUtc2luY2UtMjAyMS1hbGwtcmlnaHRzLXJlc2VydmVkLWF0LWNhdGVycGllCg==
+  token-validity-in-seconds: 86400
 
-
+# logging
+logging:
+  level:
+    com.caterpie: DEBUG
 ```
 
 4. [Frontend] .env 작성
@@ -206,9 +237,9 @@ mybatis.configuration.map-underscore-to-camel-case=true
 - nginx에 명시된 location을 따라갑니다
 
 ```
-VUE_APP_SERVER_URL={도메인주소}
-VUE_APP_SPRING_URL={도메인주소}/saye
-VUE_APP_DJANGO_URL={도메인주소}/recommend
+React_APP_SERVER_URL={도메인주소}
+React_APP_SPRING_URL={도메인주소}/timeletter
+React_APP_STORAGE_URL={도메인주소}/videos
 ```
 
 5. [Frontend] 모듈 다운로드
@@ -216,15 +247,15 @@ VUE_APP_DJANGO_URL={도메인주소}/recommend
 ```
 # frontend 폴더로 이동해서 다운
 cd frontend/
-yarn install
+npm install
 ```
 
 6. [Backend] (Option) Spring boot를 build(jar 파일 생성)
 
 ```
-# backend 폴더로 이동해서
-cd backend/
-mvn -B -DskipTests -f backend
+# backend 폴더로 이동해서 Spring boot jar 파일 생성
+cd backend/build/libs
+./gradlew bootJar
 ```
 
 <br />
@@ -238,7 +269,7 @@ mvn -B -DskipTests -f backend
 - 생성한 jar 파일 실행
 
 ```
-java -jar [filename].jar
+java -jar [filename].jar //timeletter.jar
 ```
 
 - 혹은 war 파일 생성하지 않고 demon으로 로컬에서 실행하고 싶다면 STS와 같은 IDEA에서 Spring boot Run을 실행하거나 아래 명령어를 통해 실행
@@ -275,15 +306,16 @@ Docker와 Jenkins를 이용해 CI/CD 구축하였습니다:
 3. 필요한 이미지를 docker hub를 통해 설치
    1. Jenkins
    2. MySQL
-4. Jenkins와 Gitlab repository 연동
-5. MySQL 컨테이너에 `saye` DB 스키마 생성
-6. Nginx 설정 (frontend/nginx 폴더의 homepage.conf)
-7. frontend, backend 폴더 안에 dockerfile 작성
-8. 프로젝트 root 위치에 Jenkins 파일 작성
+4. docker-compose.yml 작성(services - `jenkins`, `db`, `frontend`  network: `caterpie`)
+5. Jenkins와 Gitlab repository 연동
+6. MySQL 컨테이너에 `timeletter` DB 스키마 생성
+7. Nginx 설정 (frontend/nginx 폴더의 default.conf)
+8. frontend, backend 폴더 안에 dockerfile 작성
+9. 프로젝트 root 위치에 Jenkins 파일 작성
    1. Build and Test 과정
    2. Build (frontend, backend)
    3. Run (컨테이너 실행)
-9. `docker ps` 를 통해 frontend, backend, django 컨테이너가 실행되는 것을 확인 (Jenkins, MySQL 포함)
+10. `docker ps` 를 통해 frontend, backend, django 컨테이너가 실행되는 것을 확인 (Jenkins, MySQL 포함)
 
 <br/>
 
