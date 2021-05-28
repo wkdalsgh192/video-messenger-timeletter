@@ -60,12 +60,15 @@ public class UserController {
 	
 	/**
 	 * @apiNote 현재 유저 정보 조회
+     * @return user entity
 	 */
 	@ApiOperation(value= "Get Current User", notes="현재 유저 정보 확인하기")
 	@GetMapping("/get")
 	@PreAuthorize("hasAnyRole('USER','ADMIN')")
 	public ResponseEntity<?> getCurrentUser() throws Exception {
+        // 현재 유저의 권한을 인증하고, 자신의 이메일을 이용해 정보를 찾는다.
 		Optional<User> opt = userService.getCurrentUserWithAuthorities();
+        // 객체 유효성 검사 후 리턴
 		if (opt.isPresent()) return new ResponseEntity<>(opt, HttpStatus.OK);
 		else throw new Exception("Current user info does't exist");
 	}
@@ -78,7 +81,9 @@ public class UserController {
 	@ApiOperation(value = "Insert User Info", notes = "회원가입")
 	@PostMapping("/join")
 	public ResponseEntity<?> createUser(@RequestBody JoinDto joinDto) {
-		try {
+		// try-catch를 사용한 에러 처리.
+        try {
+            // 중복된 유저의 경우 에러 발생.
 			userService.insertUser(joinDto);
 		} catch (Exception e) {
 			return new ResponseEntity<>("Already Signed Up!", HttpStatus.BAD_REQUEST);	
@@ -86,25 +91,13 @@ public class UserController {
 		return ResponseEntity.ok("Congrats, You are signed up!");
 	}
 	
-//	/**
-//	 * @apiNote 회원 정보 상세 조회
-//	 * @return User
-//	 */
-//	@ApiOperation(value= "Get User Detail", notes="상세 조회")
-//	@GetMapping("/get/{email}")
-//	@PreAuthorize("hasAnyRole('ADMIN','USER')")
-//	public ResponseEntity<User> getUserInfo(@PathVariable String email) throws Exception {
-//		return ResponseEntity.ok(userService.getUserWithAuthorities(email).get());	
-//	}
-	
-	
 	/**
 	 * @apiNote 회원 정보 수정(비밀번호 수정)
 	 */
 	@ApiOperation(value= "Update User Info", notes="회원 정보 수정")
 	@PutMapping("/update")
 	public ResponseEntity<String> updateUser(@RequestBody UserModifyDto modReq) {
-		try {
+        try {
 			userService.updateUser(modReq);
 		} catch (Exception e) {
 			return new ResponseEntity<String>("회원 정보를 수정할 수 없습니다.", HttpStatus.NO_CONTENT);
@@ -128,7 +121,7 @@ public class UserController {
 	
 	/**
 	 * @apiNote 로그인
-	 * @return JWT
+	 * @return JWT Dto
 	 */
 	@ApiOperation(value= "Login", notes = "로그인")
 	@PostMapping("/login")
@@ -147,12 +140,9 @@ public class UserController {
         // 또, authentication을 기반으로 jwt 토큰을 생성한다.
         String jwt = tokenProvider.createToken(authentication);
 
+        // HttpHeader에 토큰 정보를 저장하여 보낸다.
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-hh-mm-ss");
-		String time = sdf.format(new Timestamp(System.currentTimeMillis()));
-		logger.info(time);
 
         return new ResponseEntity<>(new TokenDto(jwt), httpHeaders, HttpStatus.OK);
     }

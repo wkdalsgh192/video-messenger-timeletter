@@ -16,21 +16,29 @@ public class SecurityUtil {
    }
 
    public static Optional<String> getCurrentUsername() {
-      final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // Security Context에서 Authentication 정보 가져오기
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    
+        // 인증 정보가 아무 것도 없는 경우 리턴
+        if (authentication == null) {
+            logger.debug("Security Context에 인증 정보가 없습니다.");
+            return Optional.empty();
+        }
 
-      if (authentication == null) {
-         logger.debug("Security Context에 인증 정보가 없습니다.");
-         return Optional.empty();
-      }
 
-      String username = null;
-      if (authentication.getPrincipal() instanceof UserDetails) {
-         UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-         username = springSecurityUser.getUsername();
-      } else if (authentication.getPrincipal() instanceof String) {
-         username = (String) authentication.getPrincipal();
-      }
+        String username = null;
+        // 인증 객체에 있는 principal이 UserDetails 인스턴스 형태인 경우
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            // UserDetails 엔티티 형태로 가져오기
+            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+            // 그 중 유저 이름 가져오기
+            username = springSecurityUser.getUsername();
+        // 스트링 형태인 경우
+        } else if (authentication.getPrincipal() instanceof String) {
+            username = (String) authentication.getPrincipal();
+        }
 
-      return Optional.ofNullable(username);
+        // 반환
+        return Optional.ofNullable(username);
    }
 }

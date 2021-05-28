@@ -34,15 +34,19 @@ public class UserServiceImpl implements UserService {
     }
 	
 	@Override
+    // 회원 가입 서비스 로직
 	public void insertUser(JoinDto joinDto) {
+        // 주어진 이메일을 사용하여 중복 여부 확인 -> 중복된 경우 예외 발생
 		if (userRepo.findOneWithAuthoritiesByEmail(joinDto.getEmail()).orElse(null) != null) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다.");
         }
 		
+        // 유저 권한 설정
 		Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
                 .build();
 		
+        // 유저 Builder를 사용해 필요한 컬럼 값 설정
 		User user = User.builder()
 				.email(joinDto.getEmail())
 				.password(passwordEncoder.encode(joinDto.getPassword()))
@@ -52,7 +56,7 @@ public class UserServiceImpl implements UserService {
 				.authorities(Collections.singleton(authority))
 				.build();
 		
-
+        // 유저 정보 저장
 		userRepo.save(user);
 		logger.debug("user를 저장하였습니다.");
 	}
@@ -60,14 +64,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(UserModifyDto modReq) {
 		
-//		int userId = modReq.getUserId();
-////		String salt = SaltSHA256.generateSalt();
-//		String password = SaltSHA256.getEncrypt(modReq.getPassword(), salt);
-//		userRepo.updateUser(modReq.getName(), password, salt, modReq.getPhone(), userId);
-		
 	}
 	
 	@Override
+    // 유저 테이블에 저장된 id(primary key)를 이용해 유저 정보 삭제
 	public void deleteUser(int userId) {
 		userRepo.deleteById(userId);
 	}
@@ -80,12 +80,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
     @Transactional(readOnly = true)
+    // 현재 유저의 정보와 권한 가져오는 서비스 로직
     public Optional<User> getCurrentUserWithAuthorities() {
+        // security util에서 jwt 토큰과 일치하는 인증 정보 확인 -> 유저 정보 가져오기
         return SecurityUtil
         		.getCurrentUsername().flatMap(userRepo::findOneWithAuthoritiesByEmail);
 	}
 
 	@Override
+    // 유저 테이블에 저장된 id(primary key)를 이용해 유저 정보 찾기
 	public Optional<User> getUserById(int userId) {
 		return userRepo.findById(userId);
 	}
