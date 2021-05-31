@@ -41,7 +41,7 @@ public class LetterServiceImpl implements LetterService {
 	@Override
 	public int createLetter(LetterDto letterDto, int userId){
 		
-		// user_has_letter에 업데이트
+		// Letter 테이블 생성
 		Letter letter = Letter.builder()
 				.title(letterDto.getTitle())
 				.message(letterDto.getMessage())
@@ -57,15 +57,20 @@ public class LetterServiceImpl implements LetterService {
 		
 		int letterId = -1;
 		try {
+            // 레터 저장 -> letterId 생성.
 			Letter result = letterRepo.save(letter);
 			letterId = result.getLetterId();
 			
 			User user = userRepo.findById(userId).get();
-			List<Letter> letters = user.getLetters();
+
+            // SPRING JPA를 이용해 유저가 보낸 레터를 리스트로 가져오기
+            List<Letter> letters = user.getLetters();
+            // 현제 레터 추가 후 유저 엔티티에 업데이트
 			letters.add(letter);
-			user.setLetters(letters);
+            user.setLetters(letters);
 			userRepo.save(user);
-						
+			
+            // 레터 엔티티의 설정에서 필요한 값을 가져와 관계 테이블에 넣어주기
 			List<String> list = letterDto.getPhoneNumber();
 			if (list.isEmpty()) list.add(user.getPhoneNumber());
 			list.stream().forEach(s -> {
@@ -83,7 +88,8 @@ public class LetterServiceImpl implements LetterService {
 
 	}
 
-	@Override
+    
+	@Override // 영상의 url을 레터에 담아주는 과정
 	public void saveFile(int letterId, String url) throws Exception {
 		
 		Letter letter = letterRepo.findById(letterId).get();
@@ -95,16 +101,17 @@ public class LetterServiceImpl implements LetterService {
 
 	@Override
 	public Optional<Letter> retrieveLetter(String letterCode) {
-		// 유저 아이디 확인
+		// 임의의 문자열을 이용해 레터를 찾아내는 로직
 		return letterRepo.findByLetterCode(letterCode);
 
 	}
 	
-	@Override
+	@Override // 해당 유저가 받게 될 모든 레터 정보를 가져오기
 	public List<LetterInfoDto> getAllLetters(User user) {
 		
 		// 유저 휴대폰 번호 가지고 오기
 		String phoneNumber = user.getPhoneNumber();
+
 		// target table과 letter 테이블을 조인해서 새로운 테이블 생성
 		// 해당 테이블에서 유저 휴대폰 번호와 일치하는 정보 가지고 오기
 		Iterator<Target> iter = targetRepo.findAllByPhoneNumber(phoneNumber).iterator();
@@ -117,7 +124,7 @@ public class LetterServiceImpl implements LetterService {
 		}
 		
 		// 해당 레터의 소유자 id를 가지고 유저 정보 찾기
-		// 둘을 매핑하여 반환?
+        // 레터에 저장된 유저 id값을 이용해 레터 정보 DTO 생성
 		List<LetterInfoDto> arr = new ArrayList<>();
 		letters.stream().forEach(letter -> {
 			Optional<User> opt = userRepo.findById(letter.getUserId());

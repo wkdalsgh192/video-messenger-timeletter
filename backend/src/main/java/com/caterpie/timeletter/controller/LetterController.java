@@ -102,13 +102,17 @@ public class LetterController {
 		try {
 			// 도착하는 곳의 url 주소
 			String path = "/videos/"+letterId+"/";
-//			String path = "C:\\Users\\multicampus\\Desktop\\test\\"+letterId+"/";
+            // 백엔드 도커 컨테이너 안 도커 볼륨 주소로 저장
 			String url = path+origin.getOriginalFilename();
 			File file = new File(url);
+            // URL 상 letterid로 된 부모 디렉토리가 없을 경우 디렉토리 생성
 			if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+            // 파일을 저장
 			origin.transferTo(new File(url));
 			
+            // iOS에서 촬영된 영상은 h265 HEVC 코덱을 사용하므로 h264로 인코딩을 해주어야한다.
 			if (os) {
+                // 인코더 유틸을 사용하여 인코딩 진행
 				EncoderUtil encoder = new EncoderUtil();
 				url = encoder.encode(origin, path);
 			}
@@ -116,6 +120,7 @@ public class LetterController {
 			letterService.saveFile(letterId, url);
 		} catch (Exception e) {
 			logger.error("Error occurs!!",e);
+            // 파일 저장에 문제가 생기는 경우 cascade로 letter 삭제
 			letterService.deleteLetter(letterId);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 			
