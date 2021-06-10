@@ -13,11 +13,11 @@ public class RandomStringUtil {
 	public String rand() {
 		Random random = new Random();
 		
-		String res = random.ints(LEFT_LIMIT,RIGHT_LIMIT+1)
-						.filter(i -> (i<=57 || i>=65) && (i<=90||i>=97))
-						.limit(STRING_LENGTH)
-						.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-						.toString();
+		StringBuilder res = random.ints(LEFT_LIMIT,RIGHT_LIMIT+1) // 해당 범위 내 int를 계속 보낸다.
+				.filter(i -> (i<=57 || i>=65) && (i<=90||i>=97)) // a-z, A-Z 범위 안에 있는 값만 거른다.
+				.limit(STRING_LENGTH) // 주어진 길이만큼만 받는다
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append); 
+				// StringBuilder를 생성해서 캐릭터로 변환해 집어넣는다. => 왜 append가 필요한지는 추가 조사 필요.
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("MMddhhmmss");
 		String time = sdf.format(new Timestamp(System.currentTimeMillis()));
