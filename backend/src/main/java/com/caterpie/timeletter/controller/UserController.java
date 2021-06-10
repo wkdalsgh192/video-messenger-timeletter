@@ -46,14 +46,14 @@ import io.swagger.annotations.ExampleProperty;
 public class UserController {
 	
 	private final TokenProvider tokenProvider;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+	private final AuthenticationManagerBuilder authenticationManagerBuilder;
     
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    public UserController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
-        this.tokenProvider = tokenProvider;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
-    }
+	public UserController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+		this.tokenProvider = tokenProvider;
+		this.authenticationManagerBuilder = authenticationManagerBuilder;
+	}
     
 	@Autowired
 	private UserService userService;
